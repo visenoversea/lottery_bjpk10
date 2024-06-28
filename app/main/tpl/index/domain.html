@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title><!--#$WebTitle--></title>
+<link rel="icon" href="/img/logo.png">
+<style>
+    body {margin: 0;padding: 0;width: 100%;height: 100%;}
+    .content {
+        width: 475px;margin: 0 auto;
+    }
+    #iframe {
+        width: 100%;
+        height: 100vh;
+        border-top: none;
+        border-bottom: none;
+        border-left: 1px solid rgb(238 234 234);
+        border-right: 1px solid rgb(238 234 234);
+    }
+</style>
+</head>
+<body>
+<div class="content">
+    <iframe id="iframe" src="<!--#$url-->"></iframe>
+</div>
+<!--<script type="text/javascript">-->
+<!--    document.getElementById('iframe').style.height = (window.innerHeight - 25) + "px"-->
+<!--    if (window.addEventListener) {-->
+<!--        window.addEventListener("resize", function () {-->
+<!--            document.getElementById('iframe').style.height = (window.innerHeight - 25) + "px"-->
+<!--        });-->
+<!--    } else if (window.attachEvent) {-->
+<!--        window.attachEvent("onresize", function () {-->
+<!--            document.getElementById('iframe').style.height = (window.innerHeight - 25) + "px"-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
+</body>
+</html>

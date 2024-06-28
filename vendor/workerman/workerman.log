@@ -1,0 +1,44 @@
+2024-05-19 02:51:50 pid:5016 Workerman[/var/www/quantify_test/workerman/gateway.php] stop 
+2024-05-19 02:51:50 pid:5016 Workerman[/var/www/quantify_test/workerman/gateway.php] not run
+2024-05-19 02:51:52 pid:5018 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-05-22 07:52:44 pid:2040354 Workerman[gateway.php] start in DAEMON mode
+2024-05-22 07:52:44 pid:2040354 Workerman[gateway.php] already running
+2024-05-22 07:52:52 pid:2040447 Workerman[gateway.php] stop 
+2024-05-22 07:52:52 pid:2040447 Workerman[gateway.php] is stopping ...
+2024-05-22 07:52:52 pid:5020 Workerman[gateway.php] stopping ...
+2024-05-22 07:52:52 pid:5020 Workerman[gateway.php] has been stopped
+2024-05-22 07:52:52 pid:2040447 Workerman[gateway.php] stop success
+2024-05-22 07:52:54 pid:2040490 Workerman[/var/www/quantify_test/workerman/gateway.php] stop 
+2024-05-22 07:52:54 pid:2040490 Workerman[/var/www/quantify_test/workerman/gateway.php] not run
+2024-05-22 07:52:54 pid:2040492 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-05-22 07:53:35 pid:2040867 Workerman[gateway.php] start in DAEMON mode
+2024-05-22 07:54:01 pid:2041123 Workerman[gateway.php] restart 
+2024-05-22 07:54:01 pid:2041123 Workerman[gateway.php] is stopping ...
+2024-05-22 07:54:01 pid:2041123 Workerman[gateway.php] stop success
+2024-05-22 07:57:47 pid:2042532 Workerman[/var/www/quantify_test/workerman/gateway.php] stop 
+2024-05-22 07:57:47 pid:2042532 Workerman[/var/www/quantify_test/workerman/gateway.php] not run
+2024-05-22 07:57:47 pid:2042534 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-05-22 07:58:11 pid:2042794 Workerman[gateway.php] restart 
+2024-05-22 07:58:11 pid:2042794 Workerman[gateway.php] is stopping ...
+2024-05-22 07:58:11 pid:2042537 Workerman[gateway.php] stopping ...
+2024-05-22 07:58:11 pid:2042537 Workerman[gateway.php] has been stopped
+2024-05-22 07:58:11 pid:2042794 Workerman[gateway.php] stop success
+2024-05-22 18:24:01 pid:2315521 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-05-22 18:24:01 pid:2315521 Workerman[/var/www/quantify_test/workerman/gateway.php] already running
+2024-05-30 11:19:18 pid:3292058 Workerman[gateway.php] stop 
+2024-05-30 11:19:18 pid:3292058 Workerman[gateway.php] is stopping ...
+2024-05-31 02:19:18 pid:2042796 Workerman[gateway.php] stopping ...
+2024-05-31 02:19:18 pid:2042796 Workerman[gateway.php] has been stopped
+2024-05-30 11:19:18 pid:3292058 Workerman[gateway.php] stop success
+2024-05-30 11:19:18 pid:3292061 Workerman[/var/www/quantify_test/workerman/gateway.php] stop 
+2024-05-30 11:19:18 pid:3292061 Workerman[/var/www/quantify_test/workerman/gateway.php] not run
+2024-05-30 11:19:18 pid:3292097 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-05-30 13:11:12 pid:3292099 Workerman[gateway.php] stopping ...
+2024-05-30 13:11:12 pid:3292099 Workerman[gateway.php] stopping ...
+2024-05-30 13:11:12 pid:3292099 Workerman[gateway.php] has been stopped
+2024-05-30 13:11:13 pid:3340653 Workerman[/var/www/quantify_test/workerman/gateway.php] stop 
+2024-05-30 13:11:13 pid:3340653 Workerman[/var/www/quantify_test/workerman/gateway.php] not run
+2024-05-30 13:11:13 pid:3340655 Workerman[/var/www/quantify_test/workerman/gateway.php] start in DAEMON mode
+2024-06-28 05:45:35 pid:48 Workerman[/www/quantify_cf/quantify/workerman/gateway.php] stop 
+2024-06-28 05:45:35 pid:48 Workerman[/www/quantify_cf/quantify/workerman/gateway.php] not run
+2024-06-28 05:45:35 pid:49 Workerman[/www/quantify_cf/quantify/workerman/gateway.php] start in DAEMON mode

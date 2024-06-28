@@ -1,0 +1,4 @@
+2024-05-30 11:19:18 : stream_socket_client(): unable to connect to tcp://127.0.0.1:2301 (Connection refused)
+2024-05-30 13:11:13 : stream_socket_client(): unable to connect to tcp://127.0.0.1:1236 (Connection refused)
+2024-06-25 08:18:05 : stream_socket_client(): unable to connect to tcp://localhost:6379 (Connection refused)
+2024-06-28 05:45:35 : stream_socket_client(): unable to connect to tcp://172.18.0.3:6379 (Connection refused)
