@@ -22,18 +22,17 @@ class lottery_group_model extends Model
             ->order('sort DESC,id ASC')->limit(-1)->select();
         $lottery_played_model = lottery_played_model::getInstance();
         $GlobalService=GlobalService::getInstance();
-        foreach ($list as $k => $v) {
+        foreach ($list as &$v) {
             $v['name'] = $GlobalService->translate($v['name']);
             $lotteryPlayedList = $lottery_played_model->where(['lottery_id' => $lottery_id, 'lottery_group_id' => $v['id'], 'status' => 1])
                 ->order('sort DESC,id ASC')->limit(-1)->select();
             foreach ($lotteryPlayedList as $key=>$val){
                 if(!is_numeric($val['name'])){
-                    $val['name'] = $GlobalService->translate($val['name']);
+                    $val['name'] = $GlobalService->translate($v['name'].'-'.$val['name']);
                 }
                 $lotteryPlayedList[$key] = $val;
             }
             $v['lotteryPlayedList'] = $lotteryPlayedList;
-            $list[$k] = $v;
         }
         return $list;
     }

@@ -40,7 +40,7 @@ class LotteryService
         foreach ($lotteryList as $lottery) {
             $lastLotteryData = $lottery_data_model->where([
                 'lottery_id' => $lottery['id'],
-                'open_time' => ['>=' => SYS_TIME - 86400]
+                'open_time' => ['>=' => time() - 86400]
             ])->order('open_time DESC')->getOne();
             if ($lastLotteryData) {
                 if ($lastLotteryData['open_time'] >= $today + 86400) {
@@ -61,7 +61,7 @@ class LotteryService
     //发送信息
     public function sendLotteryMsg()
     {
-        echo "sendLotteryMsg: ".date('Y-m-d H:i:s', time()) . '<br/>';
+        echo "sendLotteryMsg: ".date('Y-m-d H:i:s', time()) . PHP_EOL;
         $lottery_model = lottery_model::getInstance();
         $lotteryList = $lottery_model->where(['status' => 1])->select();
         $WebSocketService = WebSocketService::getInstance();
@@ -70,19 +70,20 @@ class LotteryService
         foreach ($lotteryList as $lottery) {
             //获得下一期期号 判断封盘
             $res = call_user_func('\\service\\lottery\\' . $lottery['class_name'] . '::getNextExpect', $lottery);
-            if ($res['code'] != 1) {
-                continue;
-            }
+//            if ($res['code'] != 1) {
+//                continue;
+//            }
             $lotteryRoomList = $lottery_room_model->where(['lottery_id'=>$lottery['id'],'status' => 1])->select();
+
             $next = $res['next'];
-            $intervalTime = $next['open_time'] - SYS_TIME;
+            $intervalTime = $next['open_time'] - time();
             if ($intervalTime == $lottery['interval_time']) {
                 //新的一期
                 foreach ($lotteryRoomList as $lotteryRoom) {
                     $WebSocketService->lotteryRoom($lotteryRoom['id'], [
                         'type' => 2,
                         'openExpect' => $next['open_expect'],
-                        'time' => SYS_TIME
+                        'time' => time()
                     ]);
                 }
             } else if ($intervalTime <= $lottery['stop_time']) {
@@ -94,7 +95,7 @@ class LotteryService
                         $WebSocketService->lotteryRoom($lotteryRoom['id'], [
                             'type' => 3,
                             'openExpect' => $next['open_expect'],
-                            'time' => SYS_TIME
+                            'time' => time()
                         ]);
                     }
                 }
@@ -107,6 +108,7 @@ class LotteryService
                 $lotteryPlayedList = $lottery_played_model->field('id')
                     ->where(['lottery_room_id' => $lotteryRoom['id'], 'status' => 1])
                     ->select();
+
                 $key = array_rand($lotteryPlayedList);
                 $lotteryPlayed = $lotteryPlayedList[$key];
                 if ($lotteryRoom['min'] < 200) {
@@ -129,7 +131,6 @@ class LotteryService
                     'openExpect' => $next['open_expect'],
                     'time' => time()
                 ];
-                echo date('Y-m-d H:i:s', time()) . '<br/>';
                 $WebSocketService->lotteryRoom($lotteryRoom['id'],$data);
             }
         }
@@ -144,13 +145,14 @@ class LotteryService
         $set = $redis->getDirect($bingKey);
         if($set) return'';
         $redis->setDirect($bingKey, time(),30);
-
+        echo time();
         $user_bet_model = user_bet_model::getInstance();
         $userBetList = $user_bet_model->field('ub.*,ld.open_code AS openCode')->alias('ub')
-            ->join('lottery_data ld', 'ld.lottery_id=ub.lottery_id AND ld.open_expect=ub.open_expect AND ld.open_time<' . SYS_TIME)
+            ->join('lottery_data ld', 'ld.lottery_id=ub.lottery_id AND ld.open_expect=ub.open_expect AND ld.open_time<' . time())
             ->where(['ub.status' => 2])
             ->limit(30)
             ->select();
+        var_dump($userBetList);
         if (!$userBetList) {
             echo '没有需要派奖的订单';
             $redis->del($bingKey);
@@ -205,7 +207,7 @@ class LotteryService
             'lottery_id' => $lottery['id'],
             'open_expect' => $next['open_expect'],
             'set_status' => 0,
-            'open_time' => ['>' => SYS_TIME + 1]
+            'open_time' => ['>' => time() + 1]
         ])->getOne();
         if (!$lotteryData) {
             echo '开奖已设置不用重复修改';

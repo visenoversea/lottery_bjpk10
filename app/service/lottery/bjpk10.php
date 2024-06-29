@@ -6,6 +6,7 @@
 
 namespace service\lottery;
 
+use asura\Illuminate\DB;
 use model\lottery_group_model;
 use model\lottery_played_model;
 
@@ -136,7 +137,7 @@ class bjpk10
             $data[] = [
                 'lottery_id' => $lottery['id'],
                 'open_expect' => $open_expect,
-                'open_code' => mt_rand(0, 9) . ',' . mt_rand(0, 9) . ',' . mt_rand(0, 9),
+                'open_code' => self::getRandomOpenCode(),
                 'open_time' => $open_time,
                 'create_time' => $open_time,
                 'modify_time' => $open_time,
@@ -244,5 +245,43 @@ class bjpk10
             }
         }
         return ['code' => 1, 'winStatus' => $winStatus];
+    }
+
+    public static function getRandomOpenCode(){
+        $range = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
+        shuffle($range);
+        return join(',', $range);
+    }
+
+    public static function genLotteryPlayed(){
+        $ranks = ['冠亚和','冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
+        $plays = ['大','小','单','双','龙','虎'];
+        $odds = 1.98;
+//        $odds = [
+//            '大'=>1.98,
+//            '小',
+//            '单',
+//            '双',
+//            '龙',
+//            '虎'
+//        ];
+        $lotteryIds = [4,5,6];
+        DB::table('lottery_group')->where('lottery_id',4)->get()->each(function($item) use($plays){
+            $datas = [];
+            foreach ($plays as $play){
+                $data = [];
+                $data['lottery_id'] = 4;
+                $data['lottery_group_id'] = $item->id;
+                $data['lottery_room_id'] = 41;
+                $data['name'] = $play;
+                $data['odds'] = 1.98;
+                $data['status'] = 1;
+                array_push($datas,$data);
+            }
+            DB::table('lottery_played')->insert($datas);
+        });
+
+
+
     }
 }
