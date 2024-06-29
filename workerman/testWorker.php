@@ -28,8 +28,12 @@ asura\Loader::init();
 //\Workerman\Worker::$logFile = __DIR__.'/../data/log/workerServer-'.$time.'.log';
 //\Workerman\Worker::log('test');
 
+//service\lottery\bjpk10::resultQDxds('亚军','大');exit;
+//service\lottery\bjpk10::genLotteryPlayedDwd();exit;
+exit;
 $lotteryService = \service\LotteryService::getInstance();
-$lotteryService->lotteryData();
-$lotteryService->lotteryRisk();
-$lotteryService->paijiang();
+
+//$lotteryService->lotteryData();
+//$lotteryService->lotteryRisk();
+$lotteryService->paijiang();exit;
 $lotteryService->sendLotteryMsg();

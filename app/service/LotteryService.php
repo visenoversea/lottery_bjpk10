@@ -145,14 +145,13 @@ class LotteryService
         $set = $redis->getDirect($bingKey);
         if($set) return'';
         $redis->setDirect($bingKey, time(),30);
-        echo time();
         $user_bet_model = user_bet_model::getInstance();
         $userBetList = $user_bet_model->field('ub.*,ld.open_code AS openCode')->alias('ub')
             ->join('lottery_data ld', 'ld.lottery_id=ub.lottery_id AND ld.open_expect=ub.open_expect AND ld.open_time<' . time())
             ->where(['ub.status' => 2])
             ->limit(30)
             ->select();
-        var_dump($userBetList);
+//        print_r($userBetList);exit;
         if (!$userBetList) {
             echo '没有需要派奖的订单';
             $redis->del($bingKey);
@@ -168,7 +167,7 @@ class LotteryService
             $dbh = $user_bet_model->begin();
             try {
                 foreach ($userBetItemList as $userBetItem) {
-                    $res = call_user_func($userBetItem['fn'], $userBetItem['bet_no'], $openCode);
+                    $res = call_user_func($userBetItem['fn'], $userBetItem, $openCode);
                     if ($res['winStatus'] == 1) {
                         $winAmount = round($userBetItem['bet_amount'] * $userBetItem['odds'], 2);
                         if ($winAmount > 0) {

@@ -27,9 +27,9 @@ class lottery_group_model extends Model
             $lotteryPlayedList = $lottery_played_model->where(['lottery_id' => $lottery_id, 'lottery_group_id' => $v['id'], 'status' => 1])
                 ->order('sort DESC,id ASC')->limit(-1)->select();
             foreach ($lotteryPlayedList as $key=>$val){
-                if(!is_numeric($val['name'])){
+//                if(!is_numeric($val['name'])){
                     $val['name'] = $GlobalService->translate($v['name'].'-'.$val['name']);
-                }
+//                }
                 $lotteryPlayedList[$key] = $val;
             }
             $v['lotteryPlayedList'] = $lotteryPlayedList;

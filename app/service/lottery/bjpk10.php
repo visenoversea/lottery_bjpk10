@@ -12,6 +12,8 @@ use model\lottery_played_model;
 
 class bjpk10
 {
+    private static $groups = ['冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
+
     //玩法玩法组数据生成
     public static function lotteryPlayer($lottery_id,$lottery_room_id)
     {
@@ -180,13 +182,7 @@ class bjpk10
         return ['code' => 1, 'msg' => '成功', 'next' => $next];
     }
 
-    /**
-     * 总和
-     * @param string $betNo     下注号码
-     * @param array $open_code 开奖号码
-     * @return array
-     */
-    public static function zh(string $betNo, array $open_code): array
+    public static function zhold(string $betNo, array $open_code): array
     {
         //0-未中奖 1-已中将 2-中奖一半(平局或赔率等有变化的特殊情况)
         $winStatus = 0;
@@ -247,6 +243,88 @@ class bjpk10
         return ['code' => 1, 'winStatus' => $winStatus];
     }
 
+    /**
+     * 总和
+     * @param string $betNo     下注号码
+     * @param array $open_code 开奖号码
+     * @return array
+     */
+    public static function zh(array $userBetItem, array $open_code): array
+    {
+
+        $betNo = $userBetItem['bet_no'];
+        $lotteryGroup = $userBetItem['lottery_group_name'];
+        //0-未中奖 1-已中将 2-中奖一半(平局或赔率等有变化的特殊情况)
+        $winStatus = 0;
+        //中奖号码
+        if (is_numeric($betNo)) {//定位胆
+            $winStatus = self::resultQDwd($open_code,$lotteryGroup,$betNo);
+        }else if(in_array($betNo,['龙','虎'])){
+            //TODO:龙虎斗玩法
+            $winStatus = self::resultQLhd($open_code,$lotteryGroup,$betNo);
+        } else {
+            $winStatus = self::resultQDxds($open_code,$lotteryGroup,$betNo);
+        }
+        return ['code' => 1, 'winStatus' => $winStatus];
+    }
+
+    //大小单双
+    public static function resultQDxds($openCode,$lotteryGroup,$betNo) {
+        $isWin = 0;
+        $compDefine = [
+            '大' => function ($v) {return in_array($v, [6, 7, 8, 9, 10]) ? true : false;},
+            '小' => function ($v) {return in_array($v, [1, 2, 3, 4, 5]) ? true : false;},
+            '单' => function ($v) {return in_array($v, [1, 3, 5, 7, 9]) ? true : false;},
+            '双' => function ($v) {return in_array($v, [2, 4, 6, 8, 10]) ? true : false;},
+        ];
+
+        $getText = function ($v) use ($compDefine) {
+            $texts = [];
+            foreach ($compDefine as $key => $func) {
+                if ($func($v)) {
+                    $texts[] = $key;
+                }
+            }
+            return $texts;
+        };
+
+        $num = array_search($lotteryGroup,self::$groups);
+        if(!$num) return false;
+        $localNum = $openCode[$num];
+        $texts = $getText($localNum);
+        $compFunc = $compDefine[$betNo];
+        if ($compFunc($localNum) && in_array($betNo, $texts)) {
+            $isWin = true;
+        }
+        return $isWin;
+    }
+
+    //定位胆
+    public static function resultQDwd($openCode,$lotteryGroup,$betNo) {
+        $num = array_search($lotteryGroup,self::$groups);
+        if(!$num) return false;
+        $localNum = $openCode[$num];
+         return $localNum == $betNo;
+    }
+
+    // 龙虎斗
+    public static function resultQLhd($openCode,$lotteryGroup,$betNo) {
+        $index = array_search($lotteryGroup,self::$groups);
+        if(!$index) return false;
+        $localNum = $openCode[$index];
+        $compareIndex = 9 - $index;
+        $compareNum = $openCode[$compareIndex];
+        $compDefine = [
+            '龙' => function ($v1, $v2) {return $v1 > $v2 ? true : false;},
+            '虎' => function ($v1, $v2) {return $v1 < $v2 ? true : false;},
+        ];
+        $compFunc = $compDefine[$betNo];
+        if ($compFunc($localNum, $compareNum)) {
+            return true;
+        }
+        return false;
+    }
+
     public static function getRandomOpenCode(){
         $range = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10'];
         shuffle($range);
@@ -281,7 +359,38 @@ class bjpk10
             DB::table('lottery_played')->insert($datas);
         });
 
+    }
 
+
+    public static function genLotteryPlayedDwd(){
+        $ranks = ['冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
+        $plays = ['01','02','03','04','05','06','07','08','09','10'];
+        $odds = 9.93;
+//        $odds = [
+//            '大'=>1.98,
+//            '小',
+//            '单',
+//            '双',
+//            '龙',
+//            '虎'
+//        ];
+        $lotteryIds = [4,5,6];
+        DB::table('lottery_group')->where('lottery_id',4)->get()->each(function($item) use($plays){
+            $datas = [];
+            foreach ($plays as $play){
+                $data = [];
+                $data['lottery_id'] = 4;
+                $data['lottery_group_id'] = $item->id;
+                $data['lottery_room_id'] = 41;
+                $data['name'] = $play;
+                $data['odds'] = 9.93;
+                $data['status'] = 1;
+                array_push($datas,$data);
+            }
+            DB::table('lottery_played')->insert($datas);
+        });
 
     }
+
+
 }
