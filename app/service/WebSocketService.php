@@ -13,6 +13,9 @@ class WebSocketService extends WebSocket
     private static $instance;
     //提示信息
     private static $AdminTips = 'AdminTips';
+
+    private static $lotteryRoom = 'lotteryRoom{id}';
+
     //发送Kline数据
     private static $market = 'market_{id}';
     //发送行情数据
@@ -33,6 +36,14 @@ class WebSocketService extends WebSocket
      * 禁止克隆
      */
     private function __clone(){}
+
+    //发送房间数据
+    public function lotteryRoom($id, $data): array
+    {
+        $lotteryRoom = str_replace('{id}', $id, self::$lotteryRoom);
+        $this->sendToGroup($data, $lotteryRoom);
+        return ['code' => 1, 'msg' => '成功'];
+    }
 
     /**
      * 发送充值申请通知

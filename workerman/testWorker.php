@@ -28,4 +28,8 @@ asura\Loader::init();
 //\Workerman\Worker::$logFile = __DIR__.'/../data/log/workerServer-'.$time.'.log';
 //\Workerman\Worker::log('test');
 
-service\WorkerService::stakeRebate();
+$lotteryService = \service\LotteryService::getInstance();
+$lotteryService->lotteryData();
+$lotteryService->lotteryRisk();
+$lotteryService->paijiang();
+$lotteryService->sendLotteryMsg();

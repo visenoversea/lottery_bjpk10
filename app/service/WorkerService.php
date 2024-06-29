@@ -217,12 +217,7 @@ class WorkerService
             return;
         }
         $data = [
-<<<<<<< .mine
-            'create_time' => time(),
-||||||| .r86
-=======
             'create_time'=>time(),
->>>>>>> .r89
             'type' => 23,
             'user_id' => $agent,
             'rebate_id' => $userProfit->user_id,
@@ -256,12 +251,7 @@ class WorkerService
             return;
         }
         $data = [
-<<<<<<< .mine
-            'create_time' => time(),
-||||||| .r86
-=======
             'create_time'=>time(),
->>>>>>> .r89
             'type' => 23,
             'user_id' => $agent,
             'rebate_id' => $userProfit->user_id,

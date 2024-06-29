@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link id="linkicon" rel="icon" href="./img/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,viewport-fit=cover">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover"> -->
+    <title>-</title>
+    <style>
+      .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    
+      .loading .loading-icon {
+        width: 21.333333vw;
+        height: 21.333333vw;
+        border-radius: 50%;
+        border: 2.133333vw solid rgba(255, 255, 255, 0.5);
+        border-top-color: #FF2742;
+        animation: spin 1s infinite linear;
+      }
+      
+      .loading .loading-text {
+        font-size: 5.866667vw;
+        font-weight: bold;
+        padding-top: 5.333333vw;
+        color: #FF2742;
+        text-align:center;
+      }
+    
+      @keyframes spin {
+        from {
+        transform: rotate(0deg);
+        }
+        to {
+        transform: rotate(360deg);
+        }
+      }
+      </style>
+    <script type="module" crossorigin src="./app/index.2bac5790.js"></script>
+    <link rel="modulepreload" crossorigin href="./app/main.70d4fcf2.js">
+    <link rel="stylesheet" href="./app/main.a1223e30.css">
+    <link rel="stylesheet" href="./app/index.e92656c9.css">
+  </head>
+  <body>
+	<div class="loading" id="app-loading"><div class="loading-icon"></div><div class="loading-text">Loading...</div></div>
+    <div id="app"></div>
+    
+  </body>
+</html>

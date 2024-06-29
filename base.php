@@ -4,7 +4,7 @@ const ASURA_VERSION = '11.0.1';
 //设置时区
 //const TIME_ZONE = 'Asia/Shanghai';
 //const TIME_ZONE = 'America/New_York';
-const TIME_ZONE = 'America/New_York';
+const TIME_ZONE = 'PRC';
 date_default_timezone_set(TIME_ZONE);//美国德州时间
 //系统路径分隔符
 const DS = DIRECTORY_SEPARATOR;

@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-const TIME_ZONE = 'America/Los_Angeles';
-date_default_timezone_set(TIME_ZONE);//美国德州时间
+const TIME_ZONE = 'PRC';
+date_default_timezone_set(TIME_ZONE);
 const DS = DIRECTORY_SEPARATOR;
 //系统请求时间(秒)
 define('SYS_TIME', $_SERVER['REQUEST_TIME']);
@@ -28,27 +28,36 @@ asura\Loader::init();
 //\Workerman\Worker::log('test');
 
 $worker = new \Workerman\Worker();
-$worker->count = 2;
-$worker->name = 'good job';
+$worker->count = 3;
+$worker->name = 'lottery jobs';
 
 //service\WorkerService::stakeProfit();
-//exit;
 $worker->onWorkerStart = function ($worker) {
+    $lotteryService = \service\LotteryService::getInstance();
 
     $proccId = 0;
     if ($worker->id === $proccId) {
-        $interval = 60;
-        \Workerman\Lib\Timer::add($interval, function () {
-            service\WorkerService::stakeProfit();
+        $interval = 60 * 5;
+        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
+            $lotteryService->lotteryData();
         });
 
     }
 
     $proccId++;
     if ($worker->id === $proccId) {
-        $interval = 60;
-        \Workerman\Lib\Timer::add($interval, function () {
-            service\WorkerService::stakeRebate();
+        $interval = 5;
+        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
+            $lotteryService->paijiang();
+        });
+
+    }
+
+    $proccId++;
+    if ($worker->id === $proccId) {
+        $interval = 5;
+        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
+            $lotteryService->sendLotteryMsg();
         });
 
     }

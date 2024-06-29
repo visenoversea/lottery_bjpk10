@@ -12,7 +12,7 @@ if (!extension_loaded('posix')) {
 }
 ini_set('display_errors', 'on');
 //设置时区
-date_default_timezone_set('America/New_York');
+date_default_timezone_set('PRC');
 //系统路径分隔符
 const DS = DIRECTORY_SEPARATOR;
 //根目录路径

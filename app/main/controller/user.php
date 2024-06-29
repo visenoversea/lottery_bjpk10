@@ -6,13 +6,13 @@
 namespace main\controller;
 
 use asura\Common;
+use asura\Param;
 use asura\Verify;
 use main\classes\base;
 use model\config_model;
 use model\ip_list_model;
 use model\send_model;
 use model\user_ip_model;
-use model\user_log_model;
 use model\user_model;
 use service\GoogleAuthenticatorService;
 use service\RedisService;
@@ -24,7 +24,7 @@ class user extends base
      * 后台登录
      * /main/user/adminLogin
      */
-    public function adminLogin($account = '', $password = '',$authCode='')
+    public function adminLogin($account = '', $password = '', $authCode = '')
     {
         $account = trim($account);
         $password = trim($password);
@@ -39,7 +39,7 @@ class user extends base
             $this->GlobalService->json(['code' => -2, 'msg' => '账号或密码错误']);
             return;
         }
-        if (!$user || $user['type'] < 1) {
+        if (!$user || $user['type'] < 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '账号或密码错误']);
         }
         $config_model = config_model::getInstance();
@@ -120,7 +120,7 @@ class user extends base
         if (!$user) {
             //用户不存在,注册新用户
             $data = [
-                'type' => 0,
+                'type' => 1,
                 'user_name' => '',
                 'wallet_address' => $walletAddress
             ];
@@ -157,7 +157,7 @@ class user extends base
         $password = trim($password);
         $user_model = user_model::getInstance();
         $user = $user_model->where(['user_name' => $user_name, 'status' => ['>=' => 0]])->getOne();
-        if (!$user || $user['type'] > 1) {
+        if (!$user || $user['type'] > 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '用户名或密码错误']);
         }
         $res = $user_model->login($user, $password);
@@ -180,7 +180,7 @@ class user extends base
         $password = trim($password);
         $user_model = user_model::getInstance();
         $user = $user_model->where(['email' => $email, 'status' => ['>=' => 0]])->getOne();
-        if (!$user || $user['type'] > 1) {
+        if (!$user || $user['type'] > 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '邮箱或密码错误']);
         }
         $res = $user_model->login($user, $password);
@@ -202,7 +202,7 @@ class user extends base
         $email = trim($email);
         $user_model = user_model::getInstance();
         $user = $user_model->where(['email' => $email,'status'=>['>='=>0]])->getOne();
-        if (!$user || $user['type'] > 1) {
+        if (!$user || $user['type'] > 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '邮箱或密码错误']);
         }
         $send_model = send_model::getInstance();
@@ -233,7 +233,7 @@ class user extends base
         }
         $user_model = user_model::getInstance();
         $user = $user_model->where(['mobile' => $mobile, 'area_code' => $area_code, 'status' => ['>=' => 0]])->getOne();
-        if (!$user || $user['type'] > 1) {
+        if (!$user || $user['type'] > 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '手机或密码错误']);
         }
         $res = $user_model->login($user, $password);
@@ -255,7 +255,7 @@ class user extends base
         $mobile = str_replace(' ', '', $mobile);
         $user_model = user_model::getInstance();
         $user = $user_model->where(['mobile' => $mobile, 'area_code' => $area_code, 'status' => ['>=' => 0]])->getOne();
-        if (!$user || $user['type'] > 1) {
+        if (!$user || $user['type'] > 2) {
             $this->GlobalService->json(['code' => -2, 'msg' => '手机或密码错误']);
         }
         //验证验证码
@@ -278,29 +278,27 @@ class user extends base
      * 注册
      * /main/user/reg
      */
-    public function reg($type = 0, $user_name = '', $password = '', $nick_name = '', $area_code = 852, $mobile = '', $email = '', $code = '', $codeKey, $tid = '')
+    public function reg($type = 0, $user_name = '', $password = '', $nick_name = '', $area_code = 852, $mobile = '', $email = '', $code = '', $tid = '')
     {
         if ($type == 0) {
             //用户名注册
-            $this->userReg($user_name, $password, $nick_name, $tid, $email);
+            $this->userReg($user_name, $password, $nick_name, $tid);
         } else if ($type == 1) {
             //手机注册
-            $this->mobileReg($area_code, $mobile, $password, $code, $user_name, $nick_name, $tid, $email);
+            $this->mobileReg($area_code, $mobile, $password, $code, $user_name, $nick_name, $tid);
         } else if ($type == 2) {
             //邮箱注册
             $this->emailReg($email, $password, $code, $user_name, $nick_name, $tid);
-        } else if ($type == 3) {
-            $this->mobileRegWithImageCode($area_code, $mobile, $password, $user_name, $nick_name, $tid, $codeKey, $code, $email);
         } else {
-        $this->GlobalService->json(['code' => -2, 'msg' => '参数异常']);
-    }
+            $this->GlobalService->json(['code' => -2, 'msg' => '参数异常']);
+        }
     }
 
     /**
      * 用户名注册
      * /main/user/reg
      */
-    public function userReg($user_name = '', $password = '', $nick_name = '', $tid = '', $email)
+    public function userReg($user_name = '', $password = '', $nick_name = '', $tid = '')
     {
         $ip = Common::getIp();
         if ((ip_list_model::getInstance())->where(['type' => 0, 'ip' => $ip, 'status' => 1])->isExist()) {
@@ -311,15 +309,11 @@ class user extends base
         if (empty($user_name)) {
             $this->GlobalService->json(['code' => -2, 'msg' => '用户名不能为空']);
         }
-        //验证邮箱
-        $this->verifyEmail($email);
-
         $data = [
-            'type' => 0,
+            'type' => 1,
             'user_name' => $user_name,
             'password' => $password,
-            'nick_name' => $nick_name,
-            'email' => $email
+            'nick_name' => $nick_name
         ];
         $user_model = user_model::getInstance();
         $res = $user_model->getTidInfo($tid);
@@ -330,10 +324,6 @@ class user extends base
         $data['layer'] = $res['layer'];
         $res = $user_model->reg($data);
         if ($res['code'] == 1) {
-            $data['id']=$res['id'];
-            $data['tid'] = $tid;
-            $user_log_model=user_log_model::getInstance();
-            $user_log_model->addLog('用户名注册',$data);
             $user_ip_model = user_ip_model::getInstance();
             $user_ip_model->addData('用户名注册登陆', $res['id']);
         }
@@ -344,16 +334,13 @@ class user extends base
      * 手机验证码注册
      * /main/user/mobileReg
      */
-    public function mobileReg($area_code=0, $mobile='', $password = '', $code = '', $user_name = '', $nick_name = '', $tid = '', $email = '')
+    public function mobileReg($area_code=0, $mobile='', $password = '', $code = '', $user_name = '', $nick_name = '', $tid = '')
     {
         $ip = Common::getIp();
         if ((ip_list_model::getInstance())->where(['type' => 0, 'ip' => $ip, 'status' => 1])->isExist()) {
             //在黑名单
             $this->GlobalService->json(['code' => -2, 'msg' => '网络异常']);
         }
-        //验证邮箱
-        $this->verifyEmail($email);
-
         $mobile = str_replace(' ', '', $mobile);
         if (!Verify::isMobileNumber($mobile)) {
             $this->GlobalService->json(['code' => -2, 'msg' => '手机号码格式错误']);
@@ -365,13 +352,12 @@ class user extends base
             $this->GlobalService->json($res);
         }
         $data = [
-            'type' => 0,
+            'type' => 1,
             'user_name' => $user_name,
             'password' => $password,
             'nick_name' => $nick_name,
             'mobile' => $mobile,
-            'area_code' => $area_code,
-            'email' => $email
+            'area_code' => $area_code
         ];
         $user_model = user_model::getInstance();
         $res = $user_model->getTidInfo($tid);
@@ -382,68 +368,6 @@ class user extends base
         $data['layer'] = $res['layer'];
         $res = $user_model->reg($data);
         if ($res['code'] == 1) {
-            $data['id']=$res['id'];
-            $data['tid'] = $tid;
-            $user_log_model=user_log_model::getInstance();
-            $user_log_model->addLog('手机注册',$data);
-
-            $user_ip_model = user_ip_model::getInstance();
-            $user_ip_model->addData('手机注册登陆', $res['id']);
-        }
-        $this->GlobalService->json($res);
-    }
-
-    /**
-     * 手机图片验证码注册
-     * /main/user/mobileRegWithImageCode
-     */
-    public function mobileRegWithImageCode($area_code=0, $mobile='', $password = '', $user_name = '', $nick_name = '', $tid = '', $codeKey = '', $code = '',$email)
-    {
-        $ip = Common::getIp();
-        if ((ip_list_model::getInstance())->where(['type' => 0, 'ip' => $ip, 'status' => 1])->isExist()) {
-            //在黑名单
-            $this->GlobalService->json(['code' => -2, 'msg' => '网络异常']);
-        }
-        //验证邮箱
-        if($email) $this->verifyEmail($email);
-
-        $mobile = str_replace(' ', '', $mobile);
-        if (!Verify::isMobileNumber($mobile)) {
-            $this->GlobalService->json(['code' => -2, 'msg' => '手机号码格式错误']);
-        }
-        //验证验证码
-        $RedisService = RedisService::getInstance();
-        $imgCode = $RedisService->getData('imgCode', $codeKey);
-        if(!$imgCode){
-            $this->GlobalService->json(['code' => -2, 'msg' => '请重新获取验证码']);
-        }
-        $RedisService->setData('', 'imgCode', $codeKey, 1);
-        if (strtolower($imgCode) !== strtolower($code)) {
-            $this->GlobalService->json(['code' => -2, 'msg' => '验证码错误']);
-        }
-        $data = [
-            'type' => 0,
-            'user_name' => $user_name,
-            'password' => $password,
-            'nick_name' => $nick_name,
-            'mobile' => $mobile,
-            'area_code' => $area_code,
-            'email' => $email
-        ];
-        $user_model = user_model::getInstance();
-        $res = $user_model->getTidInfo($tid);
-        if ($res['code'] != 1) {
-            $this->GlobalService->json($res);
-        }
-        $data['pid'] = $res['pid'];
-        $data['layer'] = $res['layer'];
-        $res = $user_model->reg($data);
-        if ($res['code'] == 1) {
-            $data['id']=$res['id'];
-            $data['tid'] = $tid;
-            $user_log_model=user_log_model::getInstance();
-            $user_log_model->addLog('手机注册',$data);
-
             $user_ip_model = user_ip_model::getInstance();
             $user_ip_model->addData('手机注册登陆', $res['id']);
         }
@@ -454,30 +378,25 @@ class user extends base
      * 邮箱验证码注册
      * /main/user/emailReg
      */
-    public function emailReg($email = '', $password = '', $code = '',$area_code='',$mobile='', $user_name = '', $nick_name = '', $tid = '')
+    public function emailReg($email = '', $password = '', $code = '', $user_name = '', $nick_name = '', $tid = '')
     {
         $ip = Common::getIp();
         if ((ip_list_model::getInstance())->where(['type' => 0, 'ip' => $ip, 'status' => 1])->isExist()) {
             //在黑名单
             $this->GlobalService->json(['code' => -2, 'msg' => '网络异常']);
         }
-
-        //验证邮箱
-        $this->verifyEmail($email);
-
+        $email = trim($email);
         $send_model = send_model::getInstance();
         $res = $send_model->VerifyCode($email, $code);
         if ($res['code'] != 1) {
             $this->GlobalService->json($res);
         }
         $data = [
-            'type' => 0,
+            'type' => 1,
             'user_name' => $user_name,
             'password' => $password,
             'nick_name' => $nick_name,
             'email' => $email,
-            'area_code' => $area_code,
-            'mobile' => $mobile,
         ];
         if (empty($data['user_name'])) {
             $this->GlobalService->json(['code' => -2, 'msg' => '用户名不能为空']);
@@ -491,10 +410,6 @@ class user extends base
         $data['layer'] = $res['layer'];
         $res = $user_model->reg($data);
         if ($res['code'] == 1) {
-            $data['id'] = $res['id'];
-            $user_log_model = user_log_model::getInstance();
-            $data['tid'] = $tid;
-            $user_log_model->addLog('邮箱注册', $data);
             $user_ip_model = user_ip_model::getInstance();
             $user_ip_model->addData('邮箱注册登陆', $res['id']);
         }
@@ -505,7 +420,7 @@ class user extends base
      * 邮箱验证码注册
      * /main/user/emailReg
      */
-    public function emailCodeReg($email = '', $password = '', $mobile='',$code = '',$area_code='',$codeKey = '', $user_name = '', $nick_name = '', $tid = '')
+    public function emailCodeReg($email = '', $password = '', $code = '',$codeKey = '', $user_name = '', $nick_name = '', $tid = '')
     {
         $ip = Common::getIp();
         if ((ip_list_model::getInstance())->where(['type' => 0, 'ip' => $ip, 'status' => 1])->isExist()) {
@@ -525,13 +440,11 @@ class user extends base
             $this->GlobalService->json(['code' => -2, 'msg' => '验证码错误']);
         }
         $data = [
-            'type' => 0,
+            'type' => 1,
             'user_name' => $user_name,
             'password' => $password,
             'nick_name' => $nick_name,
             'email' => $email,
-            'area_code' => $area_code,
-            'mobile' => $mobile,
         ];
         if (empty($data['user_name'])) {
             $this->GlobalService->json(['code' => -2, 'msg' => '用户名不能为空']);
@@ -545,10 +458,6 @@ class user extends base
         $data['layer'] = $res['layer'];
         $res = $user_model->reg($data);
         if ($res['code'] == 1) {
-            $data['id']=$res['id'];
-            $data['tid'] = $tid;
-            $user_log_model = user_log_model::getInstance();
-            $user_log_model->addLog('邮箱注册', $data);
             $user_ip_model = user_ip_model::getInstance();
             $user_ip_model->addData('邮箱注册登陆', $res['id']);
         }
@@ -643,27 +552,5 @@ class user extends base
         $this->GlobalService->json($res);
     }
 
-    // 验证邮箱有效性
-    public function verifyEmail($email = '')
-    {
-        $email = trim($email);
-        if(empty($email)){
-            $this->GlobalService->json(['code' => -2, 'msg' => '邮箱不能为空']);
-        }
-
-        // 邮箱格式的正则表达式
-        $email_pattern = '/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/';
-        // 检查字符串是否匹配邮箱格式并且没有特殊字符
-        if (!(preg_match($email_pattern, $email) && !preg_match('/[^a-zA-Z0-9._%+-@]/', $email))) {
-            $this->GlobalService->json(['code' => -2, 'msg' => '邮箱格式错误或有特殊字符']);
-        }
-
-        //邮箱是否存在
-        $user_model = user_model::getInstance();
-        $res_user = $user_model->where(['email' => $email, 'status' => ['>=' => 0]])->getOne();
-        if($res_user){
-            $this->GlobalService->json(['code' => -2, 'msg' => '邮箱已存在，请绑定其它邮箱']);
-        }
-    }
 
 }

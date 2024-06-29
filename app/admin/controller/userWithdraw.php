@@ -231,6 +231,7 @@ class userWithdraw extends base
     //XuPay支付
     public function XuPay($id)
     {
+        return '';
         $user_withdraw_model = user_withdraw_model::getInstance();
         $userWithdraw = $user_withdraw_model->where(['id' => intval($id), 'del' => 0])->getOne();
         if (!$userWithdraw) {

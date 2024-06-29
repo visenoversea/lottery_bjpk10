@@ -9,46 +9,15 @@ class lottery_model extends Model
 {
     protected static $instance;
 
-    public function spinWheel($prizes=[]) {
-        $totalRange = 0; // 总范围
-        $rangeSums = []; // 各个奖品范围之和
-
-        // 计算总范围和范围之和
-        foreach ($prizes as $prize) {
-            $totalRange += $prize['ranges'];
-            $rangeSums[] = $totalRange;
-        }
-
-        // 如果总范围为0，或者奖品列表为空，则返回空
-        if ($totalRange === 0) {
-            return [];
-        }
-
-        // 生成一个随机数
-        $randomNumber = mt_rand(1, $totalRange);
-
-        // 根据随机数确定抽中的奖品
-        $selectedPrize = [];
-        foreach ($rangeSums as $index => $rangeSum) {
-            if ($randomNumber <= $rangeSum) {
-                $selectedPrize = $prizes[$index];
-                break;
-            }
-        }
-
-        // 返回抽中的奖品
-        return $selectedPrize;
-    }
+    //表关联
+//    public function demo(): array
+//    {
+//        return $this->belongsTo(demo_model::class, 'key_id');
+//    }
 
     //数据验证
     public function checkData($data): array
     {
-        if ($data['amount'] < 0) {
-            return ['code' => -2, 'msg' => '奖励金额不能小于0'];
-        }
-        if (empty($data['title'])) {
-            return ['code' => -2, 'msg' => '奖品标题不能为空'];
-        }
         return ['code' => 1, 'msg' => '成功'];
     }
 
