@@ -28,7 +28,8 @@ class lottery_group_model extends Model
                 ->order('sort DESC,id ASC')->limit(-1)->select();
             foreach ($lotteryPlayedList as $key=>$val){
 //                if(!is_numeric($val['name'])){
-                    $val['name'] = $GlobalService->translate($v['name'].'-'.$val['name']);
+                    $val['name'] = $GlobalService->translate($val['name']);
+                    $val['name2'] = $GlobalService->translate($v['name'].'-'.$val['name']);
 //                }
                 $lotteryPlayedList[$key] = $val;
             }
