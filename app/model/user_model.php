@@ -174,9 +174,7 @@ class user_model extends Model
         //登录授权
         $data['auth'] = json_encode([$auth => SYS_TIME]);
         $data['id'] = $this->add($data);
-        //添加活期钱包,余币宝
-        $user_stake_settle_model = user_stake_settle_model::getInstance();
-        $user_stake_settle_model->add(['user_id'=>$data['id']]);
+
         if (empty($data['user_name'])) {
             $data['user_name'] = 'user_' . $data['id'];
             $this->edit(['id' => $data['id'], 'user_name' => $data['user_name']]);
