@@ -1,0 +1,9 @@
+config/*.php
+data/*
+app_vue/app/node_modules/*
+app_vue/app/dist/*
+shell/*.sh
+start/upload/*
+start/video/*
+start/audio/main.mp4
+vendor/workerman/workerman.log
