@@ -1,0 +1,33 @@
+创建项目
+yarn create vite super
+√ Add TypeScript? ... No
+√ Add JSX Support? ... No
+√ Add Vue Router for Single Page Application development? ... Yes
+√ Add Pinia for state management? ... Yes
+√ Add Vitest for Unit Testing? ... No
+√ Add an End-to-End Testing Solution? » No
+√ Add ESLint for code quality? ... Yes
+√ Add Prettier for code formatting? ... No
+
+scss预处理
+yarn add sass --dev
+element框架
+yarn add element-plus
+ajax请求
+yarn add axios
+阿里云图片
+yarn add ali-oss
+编辑器https://www.wangeditor.com/v5/
+yarn add @wangeditor/editor-for-vue@next
+进度条
+yarn add nprogress
+复制黏贴
+yarn add vue-clipboard3
+二维码
+yarn add vue-qr
+
+全屏不要了
+yarn add screenfull
+
+拖动组件-----待确认
+yarn add vuedraggable@next

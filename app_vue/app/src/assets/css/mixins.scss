@@ -1,0 +1,116 @@
+// 多行超出显示省略号
+@mixin textManyOverflow($clamp: 1) {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $clamp;
+}
+
+
+@mixin mediaMaxWidth {
+  @media (min-width: 375px) {
+    max-width: 100%;
+  }
+  @media (min-width: 500px)  {
+    border: 1px solid rgb(235, 235, 235);
+    max-width: 475px;
+  }
+  @media (min-width: 768px)  {
+    border: 1px solid rgb(235, 235, 235);
+    max-width: 475px;
+  }
+  @media (min-width: 820px) {
+    max-width: 475px;
+    border: 1px solid rgb(235, 235, 235);
+  }
+  @media (min-width: 1160px) {
+    max-width: 475px;
+    border: 1px solid rgb(235, 235, 235);
+  }
+}
+
+
+@mixin mediaFixedDomMaxWidth {
+  @media (min-width: 375px) {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @media (min-width: 500px)  {
+    max-width: 475px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @media (min-width: 768px)  {
+    max-width: 475px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @media (min-width: 820px) {
+    max-width: 475px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  @media (min-width: 1160px) {
+    max-width: 475px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+
+
+
+
+// 表情框宽度
+$EmojiWidth: 320px;
+
+// 每个表情的宽度高度
+$faceWidth: 32px;
+$faceHeight: 32px;
+
+// 一行多少个表情
+$rowNum: 9;
+
+@mixin sprint($xNum, $yNum) {
+  background: url("../img/emoji_sprite.png");
+  display: inline-block;
+  width: $faceWidth;
+  height: $faceHeight;
+  background-position: ($faceWidth * -($xNum % $rowNum)) ($faceHeight * $yNum) !important;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+// 每个表情的margin
+@mixin faceItemMargin() {
+  margin: ($EmojiWidth - ($faceWidth * $rowNum)) / ($rowNum * 2);
+}
+
+
+//文本溢出省略显示  @include textEllipsis();
+@mixin textEllipsis ($line:1) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+@if $line == 1 {
+  white-space: nowrap;
+} @else {
+  display: -webkit-box;
+  -webkit-line-clamp: $line;
+  -webkit-box-orient: vertical;
+}
+}
+
+@mixin font-dpr($font-size){
+  font-size: $font-size;
+  [data-dpr="2"] & {
+    color: red;
+      font-size: $font-size * 2;
+  }
+
+  [data-dpr="3"] & {
+    color: yellow;
+      font-size: $font-size * 3;
+  }
+}

@@ -1,0 +1,220 @@
+/*全局css */
+/************图片样式类库************/
+.g-img {
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+
+//图片自动拉伸铺满 图片会变形
+.g-img-fill {
+  @extend .g-img;
+  object-fit: fill;
+}
+
+//保持比例缩放保证图片显示全，会出现黑边，常用
+.g-img-contain {
+  @extend .g-img;
+  object-fit: contain;
+}
+
+//保持比例缩放的同时居中填充满元素框，超出部分会被裁剪掉
+.g-img-cover {
+  @extend .g-img;
+  object-fit: cover;
+}
+// 弹性布局
+.g-flex {
+  display: flex;
+}
+
+//flex-1   子元素占据剩余的空间
+.g-flex-1{
+  flex: 1;
+}
+// 主轴为垂直方向
+.g-flex-column {
+  @extend .g-flex;
+  flex-direction: column;
+}
+
+.g-flex-column-reserve {
+  @extend .g-flex;
+  flex-direction: column-reverse;
+}
+
+//子元素两端对齐
+.g-flex-space-between{
+  @extend .g-flex;
+  justify-content: space-between;
+}
+
+.g-flex-justify-start {
+  @extend .g-flex;
+  justify-content: flex-start;
+}
+
+.g-flex-justify-center {
+  @extend .g-flex;
+  justify-content: center;
+}
+
+.g-flex-justify-end {
+  @extend .g-flex;
+  justify-content: flex-end;
+}
+
+.g-flex-justify-between {
+  @extend .g-flex;
+  justify-content: space-between;
+}
+
+.g-flex-justify-around {
+  @extend .g-flex;
+  justify-content: space-around;
+}
+
+.g-flex-align-start {
+  @extend .g-flex;
+  align-items: flex-start;
+}
+
+.g-flex-align-center {
+  @extend .g-flex;
+  align-items: center;
+}
+
+.g-flex-align-end {
+  @extend .g-flex;
+  align-items: flex-end;
+}
+
+.g-flex-align-between {
+  @extend .g-flex;
+  align-items: space-between;
+}
+
+.g-flex-align-around {
+  @extend .g-flex;
+  align-items: space-around;
+}
+
+.g-flex-align-self-center {
+  @extend .g-flex;
+  align-self: center;
+}
+
+.g-flex-align-self-start {
+  @extend .g-flex;
+  align-self: flex-start;
+}
+
+.g-flex-wrap {
+  @extend .g-flex;
+  flex-wrap: wrap;
+}
+
+/************flex布局类库************/
+//小手图标
+.g-pointer{
+  cursor: pointer;
+}
+
+/************动画类库************/
+.g-fade-leave-active,
+.g-fade-enter-active {
+  transition: all .2s;
+}
+.g-fade-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.g-fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+/************动画类库************/
+
+/************基础色************/
+//蓝色
+.g-blue {
+  color: $blue;
+}
+//绿色
+.g-green {
+  color: $green;
+}
+//黄色
+.g-yellow {
+  color: $yellow;
+}
+//红色
+.g-red {
+  color: $red;
+}
+//灰色
+.g-grey {
+  color: $grey;
+}
+//紫色
+.g-purple {
+  color: $purple;
+}
+//白色
+.g-white {
+  color: $white;
+}
+//黑色
+.g-black {
+  color: $black;
+}
+
+
+/*修改滚动条样式*/
+/*
+::-webkit-scrollbar 滚动条整体部分
+::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
+::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
+::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
+::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去）
+::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处
+::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
+*/
+.g-self-scrollbar {
+  &::-webkit-scrollbar{
+    width:6px;
+    height: 50px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #bfbfbf;
+    border-radius:10px;
+  }
+  &::-webkit-scrollbar-track{
+    background: none;
+    border-radius:2px;
+  }
+  &::-webkit-scrollbar-thumb:hover{
+    background: #333;
+  }
+}
+
+
+// 三角形
+.g-chat-msg_send_arrow {
+  position: absolute;
+  top: 15px;
+  right: -6px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid #007aff;
+}
+
+// 三角形
+.g-chat-msg_receive_arrow {
+  position: absolute;
+  top: 15px;
+  left: -6px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid #f0f0f0;
+}

@@ -1,0 +1,363 @@
+/* color palette from <https://github.com/vuejs/theme> */
+:root {
+  --g-white: #ffffff;
+  --g-white-soft: #f8f8f8;
+  --g-white-mute: #f2f2f2;
+
+  --g-black: #181818;
+  --g-black-soft: #222222;
+  --g-black-mute: #282828;
+
+  --g-blue: #409EFF;
+  //蒂芙尼蓝
+  --g-blue-tiffany: #81D8D0;
+  //蒂芙尼绿
+  --g-green-tiffany: #009788;
+
+  --g-green: #67C23A;
+  --g-yellow: #E6A23C;
+  --g-red: #F56C6C;
+
+  --g-pink: #fcd3d3;
+
+  --g-grey: #909399;
+  --g-purple: #cd00c8;
+
+  --g-indigo: #2c3e50;
+
+  //--g-divider-light-1: rgba(60, 60, 60, 0.29);
+  //--g-divider-light-2: rgba(60, 60, 60, 0.12);
+  //--g-divider-dark-1: rgba(84, 84, 84, 0.65);
+  //--g-divider-dark-2: rgba(84, 84, 84, 0.48);
+  //
+  //--g-text-light-1: var(--g-indigo);
+  //--g-text-light-2: rgba(60, 60, 60, 0.66);
+  //--g-text-dark-1: var(--g-white);
+  //--g-text-dark-2: rgba(235, 235, 235, 0.64);
+}
+
+/* semantic color variables for this project */
+:root {
+  //--color-background: var(--g-white);
+  //--color-background-soft: var(--g-white-soft);
+  //--color-background-mute: var(--g-white-mute);
+  //
+  //--color-border: var(--g-divider-light-2);
+  //--color-border-hover: var(--g-divider-light-1);
+  //
+  //--color-heading: var(--g-text-light-1);
+  //--color-text: var(--g-text-light-1);
+  //--section-gap: 160px;
+
+  --g-menu-bg: #222D32;
+  --g-menu-title-bg: #222D32;
+  --g-menu-title-color: #110808;
+  --g-menu-text: #BFCBD9;
+  --g-menu-text-active-color: #3499AD;
+  --g-menu-text-active-bg: #1A2226;
+
+  //$menuTitleColor: #110808; //菜单头部标题颜色
+  //$menuTitleBg: #222D32; //菜单头部背景色
+  //$menuBg: #222D32; //菜单背景色
+  //$menuText: #BFCBD9; //菜单字体颜色
+  //$menuActiveText: #3499AD; //菜单选中字体颜色
+  //$menuActiveBg: #1A2226; //菜单选中背景颜色
+}
+
+//修改ele主题
+:root {
+  --el-menu-bg-color:#001529;
+  --el-menu-text-color: var(--g-white-mute);
+  --el-menu-active-color: var(--g-white);
+  --el-menu-active-bg-color:var(--g-green-tiffany);
+
+  --el-menu-hover-text-color: var(--g-white);
+  --el-menu-hover-bg-color: var(--g-green-tiffany);
+  --el-menu-border-color:var(--el-menu-bg-color);
+
+}
+
+.el-card {
+  --el-card-padding: 12px;
+}
+
+.el-dialog {
+  --el-dialog-padding-primary: 20px;
+}
+
+/*@media (prefers-color-scheme: dark) {*/
+/*  :root {*/
+/*    --color-background: var(--g-black);*/
+/*    --color-background-soft: var(--g-black-soft);*/
+/*    --color-background-mute: var(--g-black-mute);*/
+
+/*    --color-border: var(--g-divider-dark-2);*/
+/*    --color-border-hover: var(--g-divider-dark-1);*/
+
+/*    --color-heading: var(--g-text-dark-1);*/
+/*    --color-text: var(--g-text-dark-2);*/
+/*  }*/
+/*}*/
+
+body {
+  color: var(--color-text);
+  background: var(--color-background);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/************router-view 动画类库************/
+.g-fade-leave-active,
+.g-fade-enter-active {
+  transition: all .2s;
+}
+.g-fade-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.g-fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+/************图片样式类库************/
+.g-img {
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+
+//图片自动拉伸铺满 图片会变形
+  .g-img-fill {
+    @extend .g-img;
+    object-fit: fill;
+  }
+
+//保持比例缩放保证图片显示全，会出现黑边，常用
+  .g-img-contain {
+    @extend .g-img;
+    object-fit: contain;
+  }
+
+//保持比例缩放的同时居中填充满元素框，超出部分会被裁剪掉
+  .g-img-cover {
+    @extend .g-img;
+    object-fit: cover;
+  }
+// 弹性布局
+   .g-flex {
+     display: flex;
+   }
+
+//flex-1 子元素占据剩余的空间
+  .g-flex-1{
+    flex: 1;
+  }
+
+//主轴为垂直方向
+  .g-flex-column {
+    @extend .g-flex;
+    flex-direction: column;
+  }
+
+//列上下反转
+  .g-flex-column-reserve {
+    @extend .g-flex;
+    flex-direction: column-reverse;
+  }
+/************主轴对其方式************/
+//默认值。项目位于容器的开头。
+  .g-flex-justify-start {
+    @extend .g-flex;
+    justify-content: flex-start;
+  }
+
+//项目位于容器的中心。
+  .g-flex-justify-center {
+    @extend .g-flex;
+    justify-content: center;
+  }
+
+//项目位于容器的结尾。
+  .g-flex-justify-end {
+    @extend .g-flex;
+    justify-content: flex-end;
+  }
+
+//项目位于各行之间留有空白的容器内。两端对齐
+  .g-flex-justify-between {
+    @extend .g-flex;
+    justify-content: space-between;
+  }
+
+//项目位于各行之前、之间、之后都留有空白的容器内。 每个项目两侧的间隔相等
+  .g-flex-justify-around {
+    @extend .g-flex;
+    justify-content: space-around;
+  }
+/************主轴对其方式************/
+
+/************纵轴对其方式************/
+//元素位于容器的开头
+  .g-flex-align-start {
+    @extend .g-flex;
+    align-items: flex-start;
+  }
+//元素位于容器的中心
+  .g-flex-align-center {
+    @extend .g-flex;
+    align-items: center;
+  }
+//元素位于容器的结尾
+  .g-flex-align-end {
+    @extend .g-flex;
+    align-items: flex-end;
+  }
+/************纵轴对其方式************/
+
+.g-flex-align-self-center {
+  @extend .g-flex;
+  align-self: center;
+}
+
+.g-flex-align-self-start {
+  @extend .g-flex;
+  align-self: flex-start;
+}
+
+//单行或者多行
+  .g-flex-wrap {
+    @extend .g-flex;
+    flex-wrap: wrap;
+  }
+
+/************flex布局类库************/
+//小手图标
+  .g-pointer{
+    cursor: pointer;
+  }
+
+/************动画类库************/
+.g-fade-leave-active,
+.g-fade-enter-active {
+  transition: all .2s;
+}
+.g-fade-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+.g-fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+/************动画类库************/
+/************基础色************/
+//蓝色
+  .g-blue {
+    color: var(--g-blue);
+  }
+//绿色
+  .g-green {
+    color: var(--g-green);
+  }
+
+  .g-green-tiffany {
+    color: var(--g-green-tiffany);
+  }
+
+  .g-blue-tiffany {
+    color: var(--g-blue-tiffany);
+  }
+
+//黄色
+  .g-yellow {
+    color: var(--g-yellow);
+  }
+//红色
+  .g-red {
+    color: var(--g-red);
+  }
+//灰色
+  .g-grey {
+    color: var(--g-grey);
+  }
+//紫色
+  .g-purple {
+    color: var(--g-purple);
+  }
+//白色
+  .g-white {
+    color: var(--g-white);
+  }
+//黑色
+  .g-black {
+    color: var(--g-black);
+  }
+
+
+.g-bg-pink {
+  background-color: var(--g-pink);
+}
+
+.g-p5 {
+  padding: 5px;
+}
+
+.g-pt5 {
+  padding-top: 5px;
+}
+.g-w25 {
+  width: 25%;
+}
+
+.g-w50 {
+  width: 50%;
+}
+
+.g-w75 {
+  width: 75%;
+}
+/************基础色************/
+
+/*修改滚动条样式*/
+/*
+::-webkit-scrollbar 滚动条整体部分
+::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
+::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
+::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
+::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去）
+::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处
+::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
+*/
+/*修改滚动条样式*/
+/*
+::-webkit-scrollbar 滚动条整体部分
+::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
+::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
+::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
+::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去）
+::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处
+::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
+*/
+.g-self-scrollbar {
+  &::-webkit-scrollbar{
+    width: 1px!important;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(234, 236, 239)!important;
+    border-radius:4px!important;
+  }
+  &::-webkit-scrollbar-track {
+    // background-color: #101621!important;
+    border-radius:4px!important;
+  }
+  &::-webkit-scrollbar-thumb:hover{
+    background: #bac1cf!important;
+  }
+}

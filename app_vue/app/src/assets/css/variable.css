@@ -1,0 +1,90 @@
+:root {
+  --g-blue: #0f59f5;
+
+  /* 绿色 */
+  --g-green: #03AD90;
+
+  /* 黄色 */
+  --g-yellow: #E6A23C;
+
+  /* 红色 */
+  --g-red: #E55554;
+
+  /* 灰色 */
+  --g-grey: #8e9097;
+
+  /* 灰色 */
+  --g-less-grey: #868c9a;
+
+  /* 紫色 */
+  --g-purple: #cd00c8;
+
+  /* 白色 */
+  --g-white: #ffffff;
+
+  /* 黑色 */
+  --g-black: #000000;
+
+  --g-less-black: #333;
+
+  /* 主题色 */
+  --g-main_color: #FF2742;
+
+  /* 主题背景色 */
+  --g-main_bgColor: #f3f3f3;
+
+  /* footer底部背景色 */
+
+  --g-footer_bgColor: #f9f9f9;
+
+  /* footer字体颜色 */
+  --g-footer_textColor: #a1a1a1;
+
+  /* 行情 历史 设置 active 颜色 */
+  --g-footer_tab_activeColor: #007AFF;
+
+  /* 上涨 */
+  --g-up_color: #00b08c;
+
+  /* 下跌 */
+  --g-down_color:#df294a; 
+
+  /*  MA5的字体颜色 */
+  --g-ma5_font_color: #D6C863;
+
+  /* MA10的字体颜色 */
+  --g-ma10_font_color: #16AC90;
+
+  /* MA30的字体颜色 */
+  --g-ma20_font_color: #A995D4;
+
+  /* 暗黑色最浅色主背景色 */
+  --g-theme_most_less_dark_bgColor: #2C3442;
+
+  /* 暗黑色浅色主背景色 */
+  --g-theme_less_dark_bgColor: #1F2B42;
+
+  /* 暗黑色主背景色 */
+  --g-theme_dark_bgColor: #162030;
+
+  /*  暗黑色 深色背景 */
+  --g-theme_more_dark_bgColor: #0C1723;
+
+  /* 暗黑色 不太浅色字体颜色 */
+  --g-theme_dark_less_white_color: #8796A5;
+
+  /* 暗黑色 白色字体颜色 */
+  --g-theme_dark_white_color: #AFB2C5;
+
+  /* 暗黑色 浅白色字体颜色 */
+  --g-theme_dark_more_white_color: #D3D3D3;
+
+  /* 暗黑色 最白色字体颜色 */
+  --g-theme_dark_most_white_color: #fff;
+
+  --g-macd_font_color: #22ab94;
+
+  --g-dif_font_color: #2196f3;
+
+  --g-dea_font_color: #ff6d00;
+}

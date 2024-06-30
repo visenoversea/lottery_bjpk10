@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link id="linkicon" rel="icon" href="/img/logo.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,viewport-fit=cover">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover"> -->
+    <title>-</title>
+    <style>
+      .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    
+      .loading .loading-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 8px solid rgba(255, 255, 255, 0.5);
+        border-top-color: #FF2742;
+        animation: spin 1s infinite linear;
+      }
+      
+      .loading .loading-text {
+        font-size: 22px;
+        font-weight: bold;
+        padding-top: 20px;
+        color: #FF2742;
+        text-align:center;
+      }
+    
+      @keyframes spin {
+        from {
+        transform: rotate(0deg);
+        }
+        to {
+        transform: rotate(360deg);
+        }
+      }
+      </style>
+  </head>
+  <body>
+	<div class="loading" id="app-loading"><div class="loading-icon"></div><div class="loading-text">Loading...</div></div>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

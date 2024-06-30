@@ -1,0 +1,15 @@
+{
+	"code": 1,
+	"msg": "ok",
+	"data": {
+		"webTitle": "鼎福中彩",
+		"logo": "/img/logo.png",
+		"ios": "/app.mobileconfig",
+		"apk": "/dfzc.apk",
+		"mobileprovision": "/xr.mobileprovision",
+		"version": "1.1.0",
+		"time": "2021-10-01"
+	}
+}
+
+
