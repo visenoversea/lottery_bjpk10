@@ -1,1 +1,0 @@
-import{ad as r,aw as a,o as n,d as s,H as c}from"./index.de11b688.js";const l=a({beforeRouteEnter(t,e,o){console.log("from.query",e.query),console.log("from.fullPath",e.fullPath),o(()=>{c.replace({path:e.fullPath,query:e.query})})}});function u(t,e,o,f,p,d){return n(),s("div")}const h=r(l,[["render",u]]);export{h as default};
