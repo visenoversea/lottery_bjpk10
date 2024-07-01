@@ -34,7 +34,8 @@ class LotteryService
     {
 
         $lottery_model = lottery_model::getInstance();
-        $lotteryList = $lottery_model->where(['type' => 0, 'status' => ['>=' => 0]])->select();
+//        $lotteryList = $lottery_model->where(['type' => 0, 'status' => ['>=' => 0]])->select();
+        $lotteryList = $lottery_model->where(['type' => 0, 'status' => ['>=' => 0],'id'=>7])->select();
         $lottery_data_model = lottery_data_model::getInstance();
         $today = strtotime('today');
         foreach ($lotteryList as $lottery) {

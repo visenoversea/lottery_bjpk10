@@ -117,6 +117,7 @@ KRvNLkT5F4siR74KyKAL5NWEDZxQsmTgrOKWl7ILnaBKd0Eeg0Hb17M59vcyfUbj
     //创建订单
     public function createOrder($user_id): array
     {
+        return [];
         $url = $this->BaseUrl . '/api/recharge';
         $domain_model = domain_model::getInstance();
         $domainUrl = $domain_model->getUrl(7);
@@ -144,6 +145,7 @@ KRvNLkT5F4siR74KyKAL5NWEDZxQsmTgrOKWl7ILnaBKd0Eeg0Hb17M59vcyfUbj
 
     public function withdrawal($id, $userId, $orderNo, $amount, $channelType, $address): array
     {
+        return [];
         if (!in_array($channelType, ['TRC20', 'ERC20','ETH','TRX'])) {
             return ['code' => -2, 'msg' => '操作失败,当前链类型只支持TRC20,ERC20,ETH,TRX'];
         }

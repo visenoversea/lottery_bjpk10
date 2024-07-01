@@ -10,94 +10,32 @@ use asura\Illuminate\DB;
 use model\lottery_group_model;
 use model\lottery_played_model;
 
-class bjpk10
+class xglhc
 {
-    private static $groups = ['冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
-
+    private static $b49 = ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49'];
     //玩法玩法组数据生成
-    public static function lotteryPlayer($lottery_id,$lottery_room_id)
-    {
-        //彩种id
-        $lottery_group_model = lottery_group_model::getInstance();
-        $lottery_played_model = lottery_played_model::getInstance();
-        $list = [
-            [
-                'name' => '大小单双',
-                'fn' => 'zh',
-                'lotteryPlayedList' => [
-                    ['name' => '大', 'odds' => 1.98],
-                    ['name' => '小', 'odds' => 1.98],
-                    ['name' => '单', 'odds' => 1.98],
-                    ['name' => '双', 'odds' => 1.98],
-                    ['name' => '大单', 'odds' => 3.8],
-                    ['name' => '小单', 'odds' => 3.8],
-                    ['name' => '大双', 'odds' => 3.8],
-                    ['name' => '小双', 'odds' => 3.8],
-                ]
-            ],
-            [
-                'name' => '数字',
-                'fn' => 'zh',
-                'lotteryPlayedList' => [
-                    ['name' => '0', 'odds' => 188],
-                    ['name' => '1', 'odds' => 100],
-                    ['name' => '2', 'odds' => 20],
-                    ['name' => '3', 'odds' => 19],
-                    ['name' => '4', 'odds' => 18],
-                    ['name' => '5', 'odds' => 17],
-                    ['name' => '6', 'odds' => 16],
-                    ['name' => '7', 'odds' => 15],
-                    ['name' => '8', 'odds' => 14],
-                    ['name' => '9', 'odds' => 14],
-                    ['name' => '10', 'odds' => 13],
-                    ['name' => '11', 'odds' => 13],
-                    ['name' => '12', 'odds' => 12],
-                    ['name' => '13', 'odds' => 11],
-                    ['name' => '14', 'odds' => 11],
-                    ['name' => '15', 'odds' => 12],
-                    ['name' => '16', 'odds' => 13],
-                    ['name' => '17', 'odds' => 13],
-                    ['name' => '18', 'odds' => 14],
-                    ['name' => '19', 'odds' => 14],
-                    ['name' => '20', 'odds' => 15],
-                    ['name' => '21', 'odds' => 16],
-                    ['name' => '22', 'odds' => 17],
-                    ['name' => '23', 'odds' => 18],
-                    ['name' => '24', 'odds' => 19],
-                    ['name' => '25', 'odds' => 20],
-                    ['name' => '26', 'odds' => 100],
-                    ['name' => '27', 'odds' => 188],
-                ]
-            ],
-            [
-                'name' => '特殊投法',
-                'fn' => 'zh',
-                'lotteryPlayedList' => [
-                    ['name' => '豹子', 'odds' => 40],
-                    ['name' => '顺子', 'odds' => 9],
-                    ['name' => '对子', 'odds' => 3],
-                ]
-            ],
-        ];
-        foreach ($list as $v) {
-            $lottery_group_id = $lottery_group_model->add([
-                'lottery_id' => $lottery_id,
-                'lottery_room_id' => $lottery_room_id,
-                'name' => $v['name'],
-                'fn' => $v['fn'],
-                'status' => 1
-            ]);
-            foreach ($v['lotteryPlayedList'] as $val) {
-                $lottery_played_model->add([
-                    'lottery_id' => $lottery_id,
-                    'lottery_group_id' => $lottery_group_id,
-                    'lottery_room_id' => $lottery_room_id,
-                    'name' => $val['name'],
-                    'odds' => $val['odds'],
-                    'status' => 1
-                ]);
+
+
+    public static function genLotteryPlayed(){
+        $ranks = ['冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
+        $plays = ['01','02','03','04','05','06','07','08','09','10'];
+        $odds = 48;
+
+        DB::table('lottery_group')->where('lottery_id',4)->get()->each(function($item) use($plays){
+            $datas = [];
+            foreach ($plays as $play){
+                $data = [];
+                $data['lottery_id'] = 4;
+                $data['lottery_group_id'] = $item->id;
+                $data['lottery_room_id'] = 41;
+                $data['name'] = $play;
+                $data['odds'] = 9.93;
+                $data['status'] = 1;
+                array_push($datas,$data);
             }
-        }
+            DB::table('lottery_played')->insert($datas);
+        });
+
     }
 
     /**
@@ -108,45 +46,49 @@ class bjpk10
      */
     public static function createData($lottery, array $lastLotteryData = [], $endTime = SYS_TIME): array
     {
-        if ($lastLotteryData) {
-            $open_time = $lastLotteryData['open_time'];
-            $open_expect = $lastLotteryData['open_expect'];
-        } else {
-            $open_time = strtotime('today');
-            if ($lottery['interval_time'] < 90) {
-                $open_expect = date('Ymd0000');
-            } else {
-                $open_expect = date('Ymd000');
-            }
-        }
         $data = [];
-        while (($open_time + $lottery['interval_time']) <= $endTime) {
-            //开奖时间当天0点的时间戳
-            $open_day = strtotime(date('Ymd', $open_time));
-            if ($open_time == $open_day) {
-                //第一期
-                $open_time = $open_day + $lottery['interval_time'];
-                if ($lottery['interval_time'] < 90) {
-                    $open_expect = date('Ymd0001', $open_time);
-                } else {
-                    $open_expect = date('Ymd001', $open_time);
-                }
+        if ($lastLotteryData) {
+            $perDate = date("Y-m-d", $lastLotteryData['open_time']);
+            $weekday = date('l', strtotime($perDate));
+            if ($weekday == 'Saturday') {
+                $intervalTime = 86400 * 4 - 9900;
             } else {
-                $open_time += $lottery['interval_time'];
-                //下期开奖期号
-                $open_expect++;
+                $intervalTime = 86400 * 3 - 9900;
             }
+            $nextDateTime = strtotime($perDate) + $intervalTime;
             $data[] = [
                 'lottery_id' => $lottery['id'],
-                'open_expect' => $open_expect,
-                'open_code' => self::getRandomOpenCode(),
-                'open_time' => $open_time,
-                'create_time' => $open_time,
-                'modify_time' => $open_time,
+                'open_expect' => $lastLotteryData['open_expect'] + 1,
+                'open_code' => '',
+                'open_time' => $nextDateTime,
+                'create_time' => time(),
+                'modify_time' => 0,
             ];
+            return ['code' => 1, 'msg' => '成功', 'data' => $data];
+        } else {
+            //开彩网测试接口，只能拉最近10条
+            $historyResUrl = 'https://kclm.site/api/trial/drawResult?code=hk6&format=json';
+            $historyRes = file_get_contents($historyResUrl);
+            $history = json_decode($historyRes, true);
+            if (!$history || !is_array($history)) return [];
+            $history = array_reverse($history);
+            foreach ($history as $row) {
+                $data[] = [
+                    'lottery_id' => $lottery['id'],
+                    'open_expect' => '20' . $row['issue'],
+                    'open_code' => $row['drawResult'],
+                    'open_time' => $row['drawTime'],
+                    'create_time' => time(),
+                    'modify_time' => $row['drawTime'],
+                ];
+            }
+
+            return ['code' => 1, 'msg' => '成功', 'data' => $data];
         }
-        return ['code' => 1, 'msg' => '成功', 'data' => $data];
+
     }
+
+
 
     /**
      * 获取下一期数据
@@ -155,13 +97,14 @@ class bjpk10
      */
     public static function getNextExpect(array $lottery = []): array
     {
+
         if ($lottery['type'] == 1) {
             //官方彩
             return ['code' => 1, 'msg' => '成功', 'next' => (object)[]];
         }
         $today = strtotime('today');
         //今日凌晨与当前时间差秒数
-        $s = (time() - $today);
+        $s = (SYS_TIME - $today);
         if ($s == 0) {
             $nums = 1;
         } else {
@@ -331,7 +274,7 @@ class bjpk10
         return join(',', $range);
     }
 
-    public static function genLotteryPlayed(){
+    public static function genLotteryPlayeds(){
         $ranks = ['冠亚和','冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
         $plays = ['大','小','单','双','龙','虎'];
         $odds = 1.98;
@@ -362,35 +305,6 @@ class bjpk10
     }
 
 
-    public static function genLotteryPlayedDwd(){
-        $ranks = ['冠军','亚军','季军','第四名','第五名','第六名','第七名','第八名','第九名','第十名'];
-        $plays = ['01','02','03','04','05','06','07','08','09','10'];
-        $odds = 9.93;
-//        $odds = [
-//            '大'=>1.98,
-//            '小',
-//            '单',
-//            '双',
-//            '龙',
-//            '虎'
-//        ];
-        $lotteryIds = [4,5,6];
-        DB::table('lottery_group')->where('lottery_id',4)->get()->each(function($item) use($plays){
-            $datas = [];
-            foreach ($plays as $play){
-                $data = [];
-                $data['lottery_id'] = 4;
-                $data['lottery_group_id'] = $item->id;
-                $data['lottery_room_id'] = 41;
-                $data['name'] = $play;
-                $data['odds'] = 9.93;
-                $data['status'] = 1;
-                array_push($datas,$data);
-            }
-            DB::table('lottery_played')->insert($datas);
-        });
-
-    }
 
 
 }

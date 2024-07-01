@@ -2,7 +2,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-const TIME_ZONE = 'America/Los_Angeles';
+//const TIME_ZONE = 'America/Los_Angeles';
+const TIME_ZONE = 'PRC';
 date_default_timezone_set(TIME_ZONE);//美国德州时间
 const DS = DIRECTORY_SEPARATOR;
 //系统请求时间(秒)
@@ -30,10 +31,11 @@ asura\Loader::init();
 
 //service\lottery\bjpk10::resultQDxds('亚军','大');exit;
 //service\lottery\bjpk10::genLotteryPlayedDwd();exit;
-exit;
 $lotteryService = \service\LotteryService::getInstance();
 
-//$lotteryService->lotteryData();
+$lotteryService->lotteryData();exit;
 //$lotteryService->lotteryRisk();
-$lotteryService->paijiang();exit;
-$lotteryService->sendLotteryMsg();
+//$lotteryService->paijiang();exit;
+//$lotteryService->sendLotteryMsg();
+//service\lottery\xglhc::createData(1,[],12);exit;
+
