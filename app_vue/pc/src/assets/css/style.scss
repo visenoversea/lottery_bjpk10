@@ -1,0 +1,473 @@
+/*全局css */
+
+
+//在iOS中出现滚动卡顿问题(橡皮筋效果)
+.g-ios-scrolling {
+  -webkit-overflow-scrolling: touch; 
+}
+
+/************图片样式类库************/
+.g-img {
+  width: 100%;
+  height: 100%;
+  vertical-align: top;
+}
+
+//图片自动拉伸铺满 图片会变形
+.g-img-fill {
+  @extend .g-img;
+  object-fit: fill;
+}
+
+//保持比例缩放保证图片显示全，会出现黑边，常用
+.g-img-contain {
+  @extend .g-img;
+  object-fit: contain;
+}
+
+//保持比例缩放的同时居中填充满元素框，超出部分会被裁剪掉
+.g-img-cover {
+  @extend .g-img;
+  object-fit: cover;
+}
+// 弹性布局
+.g-flex {
+  display: flex;
+}
+
+//flex-1   子元素占据剩余的空间
+.g-flex-1{
+  flex: 1;
+}
+// 主轴为垂直方向
+.g-flex-column {
+  @extend .g-flex;
+  flex-direction: column;
+}
+
+.g-flex-column-reserve {
+  @extend .g-flex;
+  flex-direction: column-reverse;
+}
+
+//子元素两端对齐
+.g-flex-space-between {
+  @extend .g-flex;
+  justify-content: space-between;
+}
+
+.g-flex-justify-start {
+  @extend .g-flex;
+  justify-content: flex-start;
+}
+
+.g-flex-justify-center {
+  @extend .g-flex;
+  justify-content: center;
+}
+
+.g-flex-justify-end {
+  @extend .g-flex;
+  justify-content: flex-end;
+}
+
+.g-flex-justify-between {
+  @extend .g-flex;
+  justify-content: space-between;
+}
+
+.g-flex-justify-around {
+  @extend .g-flex;
+  justify-content: space-around;
+}
+
+.g-flex-align-start {
+  @extend .g-flex;
+  align-items: flex-start;
+}
+
+.g-flex-align-center {
+  @extend .g-flex;
+  align-items: center;
+}
+
+.g-flex-align-end {
+  @extend .g-flex;
+  align-items: flex-end;
+}
+
+.g-flex-align-between {
+  @extend .g-flex;
+  align-items: space-between;
+}
+
+.g-flex-align-around {
+  @extend .g-flex;
+  align-items: space-around;
+}
+
+.g-flex-align-self-center {
+  @extend .g-flex;
+  align-self: center;
+}
+
+.g-flex-align-self-start {
+  @extend .g-flex;
+  align-self: flex-start;
+}
+
+.g-flex-wrap {
+  @extend .g-flex;
+  flex-wrap: wrap;
+}
+
+/************flex布局类库************/
+//小手图标
+.g-pointer{
+  cursor: pointer;
+}
+
+/************基础色************/
+//蓝色
+.g-blue {
+  color: var(--g-blue)!important;
+}
+//绿色
+.g-green {
+  color: var(--g-green)!important;
+}
+//黄色
+.g-yellow {
+  color: var(--g-yellow)!important;
+}
+//红色
+.g-red {
+  color: var(--g-red)!important;
+}
+//灰色
+.g-grey {
+  color: var(--g-grey)!important;
+}
+//紫色
+.g-purple {
+  color: var(--g-purple)!important;
+}
+//白色
+.g-white {
+  color: var(--g-white)!important;
+}
+//黑色
+.g-black {
+  color: var(--g-black)!important;
+}
+
+.g-in {
+  color: #00b08c!important;
+}
+
+.g-out {
+  color: #df294a!important;
+}
+
+.g-up {
+  color: var(--g-up_color)!important;
+}
+
+.g-0 {
+  color: #8798a5;
+}
+
+.g-down {
+  color: var(--g-down_color)!important;
+}
+
+.g-bg-up {
+  color: var(--g-white);
+  background-color: var(--g-up_color)!important;
+}
+
+.g-bg-zero {
+  background-color: #8798a5!important;
+  color: var(--g-less-black)!important;
+}
+
+.g-bg-down {
+  color: var(--g-white);
+  background-color: var(--g-down_color)!important;
+}
+
+.g-pop-duo-btn {
+  background: var(--g-up_color)!important;
+  color: #fff;
+}
+
+.g-bg-font-color-up {
+  background-color: #eaf8f3!important;
+  color: #2ebd85!important;
+}
+
+.g-bg-font-color-zero {
+  background-color: #8798a5!important;
+  color: var(--g-white)!important;
+}
+
+
+.g-bg-font-color-down {
+  background-color: #fcecef!important;
+  color: var(--g-down_color)!important;
+}
+
+.g-pop-kong-btn {
+  background: var(--g-down_color)!important;
+  color: #fff;
+}
+
+.g-duo-color {
+  color: var(--g-up_color)!important;
+}
+.g-kong-color {
+  color: var(--g-down_color)!important;
+}
+
+
+
+/*修改滚动条样式*/
+/*
+::-webkit-scrollbar 滚动条整体部分
+::-webkit-scrollbar-thumb  滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）
+::-webkit-scrollbar-track  滚动条的轨道（里面装有Thumb）
+::-webkit-scrollbar-button 滚动条的轨道的两端按钮，允许通过点击微调小方块的位置。
+::-webkit-scrollbar-track-piece 内层轨道，滚动条中间部分（除去）
+::-webkit-scrollbar-corner 边角，即两个滚动条的交汇处
+::-webkit-resizer 两个滚动条的交汇处上用于通过拖动调整元素大小的小控件
+*/
+.g-self-scrollbar {
+  &::-webkit-scrollbar{
+    width:6px;
+    height: 50px;
+  }
+  &::-webkit-scrollbar-thumb{
+    background: #bfbfbf;
+    border-radius:10px;
+  }
+  &::-webkit-scrollbar-track{
+    background: none;
+    border-radius:2px;
+  }
+  &::-webkit-scrollbar-thumb:hover{
+    background: #333;
+  }
+}
+
+// 三角形
+.g-send-arrow {
+  position: absolute;
+  top: 15px;
+  right: -6px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 6px solid #007aff;
+}
+
+// 三角形
+.g-arrow {
+  position: absolute;
+  top: 15px;
+  left: -6px;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-right: 6px solid #f0f0f0;
+}
+
+
+@keyframes changeDotColor1 {
+  0% {
+    background: #FDC6D2;
+  }
+  25% {
+      background: #FA859F;
+  }
+  50% {
+      background: #F9436b;
+  }
+  75% {
+      background: #FA859F;
+  }
+  100% {
+      background: #FDC6D2;
+  }
+}
+
+@keyframes changeDotColor2 {
+  0% {
+    background:#FA859F;
+  }
+  25% {
+    background: #F9436b;
+  }
+  50% {
+    background:#FDC6D2;
+  }
+  75% {
+    background: #F9436b;
+  }
+  100% {
+    background: #FA859F;
+  }
+}
+
+@keyframes changeDotColor3 { 
+  0% {
+    background: #F9436b;
+  }
+  25% {
+    background:#FDC6D2;
+  }
+  50% {
+    background: #FA859F;
+  }
+  75% {
+    background:#FDC6D2;
+  }
+  100% {
+    background:#F9436b;
+  }
+}
+
+
+.g-lineheight {
+  line-height: 22px!important;
+}
+
+.g-lineheight30 {
+  line-height: 30px!important;
+}
+
+.g-lineheight40 {
+  line-height: 40px!important;
+}
+
+.g-fsize12 {
+  @extend .g-lineheight;
+  font-size: 12px!important;
+}
+
+.g-fsize13 {
+  @extend .g-lineheight;
+  font-size: 13px!important;
+}
+
+.g-fsize14 {
+  @extend .g-lineheight;
+  font-size: 14px!important;
+}
+
+.g-fsize15 {
+  @extend .g-lineheight;
+  font-size: 15px!important;
+}
+
+.g-fsize16 {
+  @extend .g-lineheight;
+  font-size: 16px!important;
+}
+
+.g-fsize17 {
+  @extend .g-lineheight;
+  font-size: 17px!important;
+}
+
+.g-fsize18 {
+  @extend .g-lineheight;
+  font-size: 18px!important;
+}
+
+.g-fsize20 {
+  @extend .g-lineheight;
+  font-size: 20px!important;
+}
+
+
+.g-fsize22 {
+  @extend .g-lineheight;
+  font-size: 22px!important;
+}
+
+.g-fsize30 {
+  @extend .g-lineheight;
+  font-size: 30px!important;
+}
+
+.g-fsize32 {
+  @extend .g-lineheight;
+  font-size: 32px!important;
+}
+
+
+.g-fsize40 {
+  @extend .g-lineheight;
+  font-size: 40px!important;
+}
+
+.g-padright5 {
+  padding-right: 5px!important;
+}
+
+.g-padright10 {
+  padding-right: 10px!important;
+}
+
+.g-padright15 {
+  padding-right: 15px!important;
+}
+
+.g-padleft0 {
+  padding-left: 0px!important;
+}
+
+.g-padleft5 {
+  padding-left: 5px!important;
+}
+
+.g-padleft10 {
+  padding-left: 10px!important;
+}
+
+.g-padleft15 {
+  padding-left: 15px!important;
+}
+
+.g-padleft130 {
+  padding-left: 130px!important;
+}
+
+.g-padtop10 {
+  padding-top: 10px!important;
+}
+
+.g-padtop20 {
+  padding-top: 20px!important;
+}
+
+.g-padtop30 {
+  padding-top: 30px!important;
+}
+
+.g-martop30 {
+  padding-top: 30px!important;
+}
+
+
+.g-font-red {
+  color: var(--g-main_color)!important;
+}
+
+.g-font-bold {
+  font-weight: bold!important;
+}
+
+.g-font-weight-medium {
+  font-family: Poppins-Medium!important;
+}
+
+

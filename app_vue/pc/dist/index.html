@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <link id="linkicon" rel="icon" href="/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no,viewport-fit=cover">
+    <!-- <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0,viewport-fit=cover"> -->
+    <title>-</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4089472_pek8mvhsfvq.css">
+    <style>
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .loading-screen {
+        position: fixed;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background: #fff;
+        z-index: 1;
+      }
+
+      .spinning-s,
+      .spinning-ring {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        left: 50%;
+        top: 50%;
+        margin: -100px 0 0 -100px;
+        background-image: url('img/logo.png');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .spinning-ring {
+        /* #071a52 */
+        background-image: url('img/logo.png');
+        animation-name: spin;
+        animation-duration: 2500ms;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+      }
+      @media screen and (max-width: 864px) {
+        .spinning-s,
+        .spinning-ring {
+          width: 100px;
+          height: 100px;
+          margin: -50px 0 0 -50px;
+        }
+        .bodyfixed {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          height: 0vh;
+          overflow: hidden;
+        }
+      }
+    </style>
+    <script type="module" crossorigin src="./index/index.1312342d.js"></script>
+    <link rel="stylesheet" href="./index/index.cd8383d4.css">
+  </head>
+  <body>
+    <div class="loading-screen" id="app-loading">
+      <div class="spinning-ring"></div>
+      <div class="spinning-s"></div>
+    </div>
+    <div id="app"></div>
+    
+    <script language="javascript">
+</script>
+  </body>
+</html>
