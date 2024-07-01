@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import postcsspxtoviewport from 'postcss-px-to-viewport'
-const url = 'https://www.bhjsyl.vip/'
+const url = 'https://cryptfi2-app.facaige.dev/'
 // https://vitejs.dev/config/
 export default defineConfig({
   base: './', //开发或生产环境服务的公共基础路径 index.html 引用css js的方式
