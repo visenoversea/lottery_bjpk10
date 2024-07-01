@@ -124,9 +124,9 @@ class userBet extends base
             ->hasWhere('userBet',$userBetWhere)
             ->order('id DESC')->limit($limit, $page)->getListInfo();
         $user_model = user_model::getInstance();
-        foreach ($data['list'] as $k => $v) {
+        foreach ($data['list'] as &$v) {
             $v['agentList'] = $user_model->getAgentList($v['user']['pid']);
-            $data['list'][$k] = $v;
+            $v['bet_no'] = $v['lottery_group_name'] . "({$v['bet_no']})";
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $data['list'], 'total' => $data['total']]);
     }

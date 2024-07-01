@@ -13,13 +13,14 @@ class lotteryData extends base
 {
     public function getList($lottery_id='',$open_expect='',$page = 1, $limit = 15)
     {
-        $where = ['status' => 1, 'open_time' => ['>' => SYS_TIME]];
+        $where = ['status' => 1, 'open_time' => ['>' => time() + 60*5*4]];
         if ($open_expect !== '') {
             $where['open_expect'] = ['LIKE' => '%' . $open_expect . '%'];
         }
         if($lottery_id!==''){
             $where['lottery_id'] = intval($lottery_id);
         }
+        $where['lottery_id'] = 4;
         $lottery_data_model = lottery_data_model::getInstance();
         $data = $lottery_data_model->with(['lottery'=>'id,name'])
             ->where($where)
@@ -47,6 +48,7 @@ class lotteryData extends base
         if($lottery_id!==''){
             $where['lottery_id'] = intval($lottery_id);
         }
+        $where['lottery_id'] = 4;
         $lottery_data_model = lottery_data_model::getInstance();
         $data = $lottery_data_model->with(['lottery'=>'id,name,class_name'])
             ->where($where)
