@@ -6,6 +6,7 @@
 namespace main\controller;
 
 use main\classes\base;
+use asura\Illuminate\DB;
 use model\lottery_data_model;
 use model\lottery_group_model;
 use model\lottery_model;
@@ -40,6 +41,36 @@ class lottery extends base
         $info['banner'] = json_decode($info['banner'], true);
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $info]);
     }
+
+    public function rooms()
+    {
+        $info = [
+            ['id'=>1,'name'=>'初级厅'],
+            ['id'=>2,'name'=>'中级厅'],
+            ['id'=>3,'name'=>'高级厅'],
+        ];
+        foreach ($info as &$v) {
+            $v['name'] = $this->GlobalService->translate($v['name']);
+        }
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $info]);
+    }
+
+    public function roomGroup($id){
+
+        if(!in_array($id,[1,2,3])){
+            $this->GlobalService->json(['code' => -2, 'msg' => '获取失败,参数错误', 'info' => []]);
+        }
+        $roomInfo = DB::table('lottery_room as lr')->leftJoin('lottery as l','lr.lottery_id','=','l.id')
+            ->where('level',$id)
+            ->where('lr.status',1)
+            ->get(['lr.*','l.name as lottery_name','l.icon as lottery_icon','l.interval_time','stop_time'])
+            ->toArray();
+        foreach ($roomInfo ?? [] as &$v) {
+            $v->lottery_name = $this->GlobalService->translate($v->lottery_name);
+        }
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $roomInfo]);
+    }
+
 
     //获取房间详情
     public function getRoomInfo($id)
