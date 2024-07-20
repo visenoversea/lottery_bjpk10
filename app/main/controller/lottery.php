@@ -62,7 +62,7 @@ class lottery extends base
         }
         $roomInfo = DB::table('lottery_room as lr')->leftJoin('lottery as l','lr.lottery_id','=','l.id')
             ->where('level',$id)
-            ->where('lr.status',1)
+            ->where('lr.status','>=',1)
             ->get(['lr.*','l.name as lottery_name','l.icon as lottery_icon','l.interval_time','stop_time'])
             ->toArray();
         foreach ($roomInfo ?? [] as &$v) {
