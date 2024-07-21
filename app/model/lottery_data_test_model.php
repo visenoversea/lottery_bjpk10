@@ -1,23 +1,29 @@
 <?php
-//用户金额账变
+//
 
 namespace model;
 
 use asura\db\Model;
-use service\GlobalService;
 
-class user_amount_model extends Model
+class lottery_data_test_model extends Model
 {
     protected static $instance;
 
-    protected function getSuffix(): string
+    //表关联
+    public function lottery(): array
     {
-        return GlobalService::getInstance()->getSuffix();
+        return $this->belongsTo(lottery_model::class, 'lottery_id');
     }
 
-    public function user(): array
+    public function beachAddData($lotteryDataList): bool
     {
-        return $this->belongsTo(user_model::class, 'user_id');
+        return $this->insertListData($lotteryDataList);
+    }
+
+    //数据验证
+    public function checkData($data): array
+    {
+        return ['code' => 1, 'msg' => '成功'];
     }
 
     //获取单条数据
@@ -30,12 +36,7 @@ class user_amount_model extends Model
     //新增
     public function add(array $data = []): int
     {
-        if (!isset($data['create_time'])) {
-            $data['create_time'] = time();
-        }
-        if (!isset($data['modify_time'])) {
-            $data['modify_time'] = time();
-        }
+        $data['create_time'] = $data['modify_time'] = SYS_TIME;
         return $this->insert($data);
     }
 
@@ -53,15 +54,17 @@ class user_amount_model extends Model
     /**
      * 删除
      * @param $id
+     * @param array $where
      * @return array
      */
-    public function delById($id): array
+    public function delById($id, array $where = []): array
     {
-        $data = $this->where(['id' => intval($id)])->getOne();
+        $where['id'] = intval($id);
+        $data = $this->where($where)->getOne();
         if (!$data) {
             return ['code' => -2, 'msg' => '未找到数据'];
         }
-        $res = $this->edit(['id' => $data['id'], 'status' => -1]);
+        $res = $this->edit(['status' => -1], $where);
         if ($res) {
             /*********添加日志*********/
             (user_log_model::getInstance())->addLog('数据删除', ['model' => get_class($this), 'data' => $data]);
@@ -70,11 +73,6 @@ class user_amount_model extends Model
         } else {
             return ['code' => -2, 'msg' => '删除失败'];
         }
-    }
-
-    public function delData($where)
-    {
-        return $this->where($where)->del();
     }
 
 }

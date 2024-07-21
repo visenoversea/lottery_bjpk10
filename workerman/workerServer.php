@@ -34,7 +34,7 @@ $worker->name = 'lottery jobs';
 //service\WorkerService::stakeProfit();
 $worker->onWorkerStart = function ($worker) {
     $lotteryService = \service\LotteryService::getInstance();
-
+    $lotteryService->lotteryData();
     $proccId = 0;
     if ($worker->id === $proccId) {
         $interval = 60 * 5;
@@ -46,21 +46,30 @@ $worker->onWorkerStart = function ($worker) {
 
     $proccId++;
     if ($worker->id === $proccId) {
-        $interval = 5;
+        $interval = 10;
         \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
-            $lotteryService->paijiang();
+            $lotteryService->lotterySettle();
         });
-
     }
 
     $proccId++;
     if ($worker->id === $proccId) {
-        $interval = 5;
+        $interval = 31;
         \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
-            $lotteryService->sendLotteryMsg();
+            $lottery = DB::table('lottery')->where('id', 4)->take(1)->first();
+            $kaicai = new service\SpiderService();
+            $kaicai->getHistory($lottery);
         });
-
     }
+
+//    $proccId++;
+//    if ($worker->id === $proccId) {
+//        $interval = 5;
+//        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
+//            $lotteryService->sendLotteryMsg();
+//        });
+//
+//    }
 
 };
 \Workerman\Worker::runAll();

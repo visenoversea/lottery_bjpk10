@@ -20,7 +20,7 @@ class lotteryData extends base
         if($lottery_id!==''){
             $where['lottery_id'] = intval($lottery_id);
         }
-        $where['lottery_id'] = 4;
+        $where['lottery_id'] = ['IN'=>'8'];
         $lottery_data_model = lottery_data_model::getInstance();
         $data = $lottery_data_model->with(['lottery'=>'id,name'])
             ->where($where)

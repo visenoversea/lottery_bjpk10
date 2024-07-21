@@ -46,6 +46,8 @@ class xglhc
      */
     public static function createData($lottery, array $lastLotteryData = [], $endTime = SYS_TIME): array
     {
+        //2，4，6/日开奖一期，北京时间晚上9.15分停止下注，9.30分开奖，05,18,36,09,40,21,13 6个平码，1个特码，不重复
+        //开彩网，https://kclm.xyz/api/trial/drawResult?code=hk6&format=json&token=abiao888&rows=20
         $data = [];
         if ($lastLotteryData) {
             $perDate = date("Y-m-d", $lastLotteryData['open_time']);

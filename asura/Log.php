@@ -24,8 +24,10 @@ class Log
      */
     public static function logException($e, string $name = '',$other='')
     {
+        $host = $_SERVER['HTTP_HOST'] ?? $_SERVER['PWD'];
+        $uri = $_SERVER['REQUEST_URI'] ?? $_SERVER['SCRIPT_NAME'];
         $data = [
-            'request_url' => $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+            'request_url' => $host . $uri,
             'msg' => '|MSG-' . $e->getMessage() . '|CLASS-' . get_class($e),
             'file' => $e->getFile(),
             'line' => $e->getLine(),

@@ -19,7 +19,13 @@ class userMining extends base
     //获取统计接口
     public function getTotalInfo()
     {
-        $info = [];
+        $info = [
+            'orderAmount'=>0.00,
+            'orderNums'=>0.00,
+            'totalProfitAmount'=>0.00,
+        ];
+        return $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $info]);
+            $info = [];
         //托管资金
         $user = $this->GlobalService->getUser();
         $user_mining_model = user_mining_model::getInstance();

@@ -13,6 +13,7 @@ use model\user_bet_item_model;
 use model\user_bet_model;
 use model\user_model;
 use Exception;
+use service\RedisService;
 use service\WebSocketService;
 
 class userBet extends base
@@ -58,6 +59,10 @@ class userBet extends base
     public function add($id = 0, $openExpect = '', $betList = [])
     {
         $user = $this->GlobalService->getUser();
+        $RedisService = RedisService::getInstance();
+        $lockKey = 'lotteryBet:'.$user['id'];
+        $set = $RedisService->setnx($lockKey,1,3);
+        if(!$set) $this->GlobalService->json(['code' => -2, 'msg' => '投注过快，请勿重复下单']);
         if (in_array($user['status'], [3, 4])) {
             $this->GlobalService->json(['code' => -2, 'msg' => '状态异常,无法下单，请联系客服']);
         }
@@ -71,11 +76,13 @@ class userBet extends base
             $this->GlobalService->json(['code' => -2, 'msg' => '房间不存在']);
         }
         if ($lotteryRoom['status'] != 1) {
+            $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '房间已关闭,无法下注']);
         }
         $lottery = $lotteryRoom['lottery'];
         unset($lotteryRoom['lottery']);
         if ($lottery['status'] != 1) {
+            $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '未开盘,无法下注']);
         }
         //获得下一期期号
@@ -85,9 +92,11 @@ class userBet extends base
         }
         $next = $res['next'];
         if ($openExpect != $next['open_expect']) {
+            $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '下注期号已结束,无法下注']);
         }
         if (($next['open_time'] - SYS_TIME) <= $lottery['stop_time']) {
+            $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '已封盘，无法下注']);
         }
         $lottery_played_model = lottery_played_model::getInstance();
@@ -144,6 +153,7 @@ class userBet extends base
             ];
         }
         if ($user['balance'] < $userBet['bet_amount']) {
+            $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '余额不足']);
         }
         $user_bet_model = user_bet_model::getInstance();
@@ -158,6 +168,7 @@ class userBet extends base
                 $res = $user_model->changeBalance($userBet['user_id'], -$v['bet_amount'], $userBet['open_expect'], '下注', 4, $v['id']);
                 if ($res['user']['balance'] < 0) {
                     $dbh->rollBack();
+                    $RedisService->del($lockKey);
                     $this->GlobalService->json(['code' => -2, 'msg' => '余额不足']);
                 }
                 $water_amount = $res['user']['water_amount'] - $v['bet_amount'];
@@ -173,9 +184,11 @@ class userBet extends base
             $this->GlobalService->json(['code' => 1, 'msg' => '下注成功!']);
         } catch (Exception $e) {
             $dbh->rollBack();
+            $RedisService->del($lockKey);
             Log::logException($e, 'userBet');
             $this->GlobalService->json(['code' => -2, 'msg' => '系统错误,请重试', 'err' => $e->getMessage()]);
         }
+        $RedisService->del($lockKey);
     }
 
     public function cancel($id = 0)
