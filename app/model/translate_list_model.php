@@ -90,7 +90,7 @@ class translate_list_model extends Model
                 $data['status'] = 0;
                 $data['tl_content'] = $content;
             }
-            $data['id'] = $this->add($data);
+//            $data['id'] = $this->add($data);
             return $data;
         }
     }

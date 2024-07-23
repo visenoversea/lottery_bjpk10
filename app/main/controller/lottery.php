@@ -110,6 +110,7 @@ class lottery extends base
         $lottery_data_model = lottery_data_model::getInstance();
         $lotteryDataList = $lottery_data_model
             ->where(['lottery_id' => $lottery['id'], 'open_time' => ['<' => SYS_TIME], 'status' => 1])
+            ->whereRaw("open_code != '' ")
             ->order('open_time DESC')
             ->limit(10)
             ->select();
