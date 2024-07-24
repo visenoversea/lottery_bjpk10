@@ -4,6 +4,7 @@
 namespace model;
 
 use asura\db\Model;
+use asura\Log;
 use service\GoogleTranslateService;
 
 class translate_list_model extends Model
@@ -69,28 +70,35 @@ class translate_list_model extends Model
                 return $data;
             }
         } else {
-            if ($type == 2) {
-                //图片不翻译
-                $tl_content = $content;
-            } else {
-                $GoogleTranslateService = GoogleTranslateService::getInstance();
-                $tl_content = $GoogleTranslateService->translate($content, $tl, $sl);
+            try{
+                if ($type == 2) {
+                    //图片不翻译
+                    $tl_content = $content;
+                } else {
+                    $GoogleTranslateService = GoogleTranslateService::getInstance();
+                    $tl_content = $GoogleTranslateService->translate($content, $tl, $sl);
+                }
+                //新增
+                $translate_model = translate_model::getInstance();
+                $translate_model->addData($type, $md5, $content);
+                $data = ['md5' => $md5, 'type' => $type, 'tl' => $tl];
+                if ($tl_content) {
+                    //翻译成功
+                    $data['status'] = 1;
+                    $data['tl_content'] = $tl_content;
+                } else {
+                    //翻译失败
+                    $data['err_nums'] = 1;
+                    $data['status'] = 0;
+                    $data['tl_content'] = $content;
+                }
+                $data['id'] = $this->add($data);
+            }catch (\Exception $e){
+                Log::logException($e,'translate_list_model','getInfo');
+            }catch (\Error $error){
+                Log::logException($error,'translate_list_model','getInfo');
             }
-            //新增
-            $translate_model = translate_model::getInstance();
-            $translate_model->addData($type, $md5, $content);
-            $data = ['md5' => $md5, 'type' => $type, 'tl' => $tl];
-            if ($tl_content) {
-                //翻译成功
-                $data['status'] = 1;
-                $data['tl_content'] = $tl_content;
-            } else {
-                //翻译失败
-                $data['err_nums'] = 1;
-                $data['status'] = 0;
-                $data['tl_content'] = $content;
-            }
-//            $data['id'] = $this->add($data);
+            
             return $data;
         }
     }
