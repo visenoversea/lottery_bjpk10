@@ -24,7 +24,7 @@ class lottery_group_model extends Model
         $GlobalService=GlobalService::getInstance();
         foreach ($list as &$v) {
             $v['name'] = $GlobalService->translate($v['name']);
-            $lotteryPlayedList = $lottery_played_model->where(['lottery_id' => $lottery_id, 'lottery_group_id' => $v['id'], 'status' => 1])
+            $lotteryPlayedList = $lottery_played_model->where(['lottery_id' => $lottery_id, 'lottery_group_id' => $v['id'], 'status' => 1,'lottery_room_id'=>$lottery_room_id])
                 ->order('sort DESC,id ASC')->limit(-1)->select();
             foreach ($lotteryPlayedList as $key=>$val){
 //                if(!is_numeric($val['name'])){
