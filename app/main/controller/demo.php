@@ -28,6 +28,7 @@ class demo extends base
 {
 
     public function test(){
+        echo 456456;exit;
         WorkerService::test();exit;
         DB::table('user')->orderBy('id','asc')->chunk(100, function ($records) {
 
