@@ -18,7 +18,7 @@ class lottery_group_model extends Model
 
     public function getDataInfo($lottery_id, $lottery_room_id): array
     {
-        $list = $this->where(['lottery_id' => $lottery_id, 'status' => 1])
+        $list = $this->where(['lottery_id' => $lottery_id, 'lottery_room_id' => $lottery_room_id, 'status' => 1])
             ->order('sort DESC,id ASC')->limit(-1)->select();
         $lottery_played_model = lottery_played_model::getInstance();
         $GlobalService=GlobalService::getInstance();
