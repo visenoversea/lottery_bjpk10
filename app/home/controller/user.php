@@ -10,10 +10,11 @@ use asura\Param;
 use home\classes\base;
 use model\domain_model;
 use model\send_model;
+use model\user_bet_item_model;
 use model\user_bet_model;
 use model\user_model;
 use model\user_real_model;
-
+use asura\Illuminate\DB;
 class user extends base
 {
 
@@ -50,7 +51,12 @@ class user extends base
         } else {
             $data['userReal'] = (object)[];
         }
-        //绑定提现密码状态
+
+        //今日盈亏
+//        $todayWin = 0.00;
+        $winAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('win_amount' );
+        $betAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('bet_amount' );
+        $data['todayWin'] = bcsub($winAmount,$betAmount,2);
         $data['fundPasswordStatus'] = empty($user['fund_password']) ? 0 : 1;
         $data['passwordStatus'] = empty($user['password']) ? 0 : 1;
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $data]);

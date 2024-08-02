@@ -7,6 +7,7 @@ namespace home\controller;
 
 use asura\Log;
 use home\classes\base;
+use asura\Illuminate\DB;
 use model\lottery_played_model;
 use model\lottery_room_model;
 use model\user_bet_item_model;
@@ -52,6 +53,25 @@ class userBet extends base
             $list[$k]=$v;
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功','list'=>$list]);
+    }
+
+    /**
+     * 获取列表
+     */
+    public function getInfo($id)
+    {
+        $user = $this->GlobalService->getUser();
+        $user_bet_item_model=user_bet_item_model::getInstance();
+        $userBetItem = $user_bet_item_model->field('lottery_id,lottery_group_name,bet_no,bet_amount,win_amount,odds,create_time')->where(['id' => $id, 'user_id' => $user['id']])->getOne();
+//        $userBetItem = $user_bet_item_model->where(['id' => $id, 'user_id' => $user['id']])->getOne();
+        if($userBetItem){
+            $userBetItem['lottery_group_name'] = $this->GlobalService->translate($userBetItem['lottery_group_name']);
+            $userBetItem['bet_no'] = $this->GlobalService->translate($userBetItem['bet_no']);
+        }else{
+            $this->GlobalService->json(['code' => -2, 'msg' => '记录不存在','info'=>[]]);
+        }
+        $userBetItem['lottery_name'] = DB::table('lottery')->where('id', $userBetItem['lottery_id'])->value('name');
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功','info'=>$userBetItem]);
     }
 
 
