@@ -129,6 +129,14 @@ getList()
           <span class="g-red" v-else>异常</span>
         </template>
       </el-table-column>
+      <el-table-column label="同步下注" width="80" >
+        <template #default="scope">
+          <span v-if="scope.row.is_run ===1" class="g-green">已同步</span>
+          <span v-else-if="scope.row.is_run===2" class="g-red">同步失败</span>
+          <span v-else-if="scope.row.is_run===0" class="g-purple">未同步</span>
+          <span class="g-red" v-else>异常</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="userBet.open_code" label="开奖结果" min-width="110">
       </el-table-column>
       <el-table-column label="投注号码" min-width="90" :show-overflow-tooltip="true">
