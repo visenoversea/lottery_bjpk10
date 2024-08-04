@@ -5,6 +5,7 @@
 
 namespace home\controller;
 
+use admin\controller\translate;
 use asura\Common;
 use main\classes\base;
 use asura\Illuminate\DB;
@@ -30,13 +31,18 @@ class lotteryRoom extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $list]);
     }
 
-    public function betInfo($id)
+    public function betInfo($id,$lottery_expect)
     {
+        $id = intval(trim($id));
+        $lottery_expect = intval(trim($lottery_expect));
+        if(!$id || !$lottery_expect){
+            $this->GlobalService->json(['code' => -2, 'msg' => '参数异常', 'info' => []]);
+        }
         $user = $this->GlobalService->getUser();
         $data = [];
         $data['balance'] = $user['balance'];
 
-        $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id])->sum('bet_amount');
+        $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id,'open_expect'=>$lottery_expect])->sum('bet_amount');
         $data['betAmount'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
         $todayWinAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('win_amount' );
         $todayBetAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('bet_amount' );
