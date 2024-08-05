@@ -244,6 +244,7 @@ export default {
     getTranslateList:  data => http.post('/admin/translate/getList', data),
     getTranslateInfo:  data => http.post('/admin/translate/getInfo', data),
     editTranslate:  data => http.post('/admin/translate/edit', data),
+    addLangConfigList: data => http.post('/admin/langConfigList/add', data),
     delTranslate:  data => http.post('/admin/translate/del', data),
     //获取语言配置列表
     getLangConfig: data => http.post('/admin/langConfig/getList', data),

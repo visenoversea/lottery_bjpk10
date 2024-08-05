@@ -3,7 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
-const apiUrl='https://www.paradiskr.top/'
+const apiUrl='https://cryptfi2-super.facaige.dev/'
 
 // https://vitejs.dev/config/
 export default defineConfig({
