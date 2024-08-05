@@ -33,14 +33,19 @@ class lotteryRoom extends base
 
     public function betInfo($id,$lottery_expect)
     {
+        $user = $this->GlobalService->getUser();
+
+        $data = [
+            'balance'=> $user['balance'],
+            'todayWin'=> 0.00,
+            'betAmount'=> 0.00,
+        ];
         $id = intval(trim($id));
         $lottery_expect = intval(trim($lottery_expect));
         if(!$id || !$lottery_expect){
-            $this->GlobalService->json(['code' => -2, 'msg' => '参数异常', 'info' => []]);
+//            $this->GlobalService->json(['code' => -2, 'msg' => '参数异常', 'info' => []]);
+            $this->GlobalService->json(['code' => 1, 'msg' => '参数异常', 'info' => $data]);
         }
-        $user = $this->GlobalService->getUser();
-        $data = [];
-        $data['balance'] = $user['balance'];
 
         $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id,'open_expect'=>$lottery_expect])->sum('bet_amount');
         $data['betAmount'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
