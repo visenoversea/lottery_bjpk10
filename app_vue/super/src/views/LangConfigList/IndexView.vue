@@ -4,6 +4,7 @@ import EditView from './EditView.vue'
 import api from '@/utils/api'
 import UploadButton from '@/components/UploadButton.vue'
 import {formatDate} from '@/utils/index'
+import AddView from "@/views/LangConfigList/AddView.vue";
 import {useRoute} from 'vue-router'
 import {ElMessage} from "element-plus";
 const route = useRoute()
@@ -81,6 +82,11 @@ const setK = (val) => {
 }
 //获取列表
 getList()
+//编辑
+const addShow = ref(false)
+const add = () => {
+  addShow.value = true
+}
 </script>
 <template>
   <el-card>
@@ -91,6 +97,7 @@ getList()
           <UploadButton label="导入Excel" api-url="importTranslate" :data="{langConfigId:query.lang_config_id}" />
           <el-button type="primary" @click="exportTranslate">导出Excel</el-button>
           <el-button type="success" @click="translateLangConfigList()">开始翻译</el-button>
+          <el-button type="success" @click="add()">新增</el-button>
         </div>
       </div>
     </template>
@@ -167,6 +174,7 @@ getList()
         background small
         layout="total, sizes, prev, pager, next, jumper"
     />
+    <AddView @success="getList(false)" v-model="addShow" :data="{langConfigId:query.lang_config_id}"/>
     <EditView @success="getList(false)" v-model="editShow" :data="table.row"/>
   </el-card>
 </template>
