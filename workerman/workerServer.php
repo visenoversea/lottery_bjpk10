@@ -28,7 +28,7 @@ asura\Loader::init();
 //\Workerman\Worker::log('test');
 
 $worker = new \Workerman\Worker();
-$worker->count = 3;
+$worker->count = 4;
 $worker->name = 'lottery jobs';
 
 //service\WorkerService::stakeProfit();
@@ -62,14 +62,23 @@ $worker->onWorkerStart = function ($worker) {
         });
     }
 
+    $proccId++;
+    if ($worker->id === $proccId) {
+        $interval = 20;
+        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
+            $service = new service\SpiderService();
+            $service->getUsdt2CnyRate();
+        });
+
+    }
+
 //    $proccId++;
 //    if ($worker->id === $proccId) {
-//        $interval = 5;
+//        $interval = 20;
 //        \Workerman\Lib\Timer::add($interval, function () use ($lotteryService) {
 //            $lotteryService->sendLotteryMsg();
 //        });
 //
 //    }
-
 };
 \Workerman\Worker::runAll();

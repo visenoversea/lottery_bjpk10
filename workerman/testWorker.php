@@ -28,7 +28,8 @@ asura\Loader::init();
 \Workerman\Worker::$logFile = __DIR__ . '/../data/log/workerServer.log';
 //\Workerman\Worker::$logFile = __DIR__.'/../data/log/workerServer-'.$time.'.log';
 //\Workerman\Worker::log('test');
-
+$service = new service\SpiderService();
+$service->getUsdt2CnyRate();exit;
 //$lotteryInfo = DB::table('lottery_data')->where('lottery_id',4)->where('open_expect',20240721211)->first();
 //echo json_encode($lotteryInfo);exit;
 //print_r($lotteryInfo);exit;
@@ -37,12 +38,12 @@ asura\Loader::init();
 $lotteryService = \service\LotteryService::getInstance();
 //$kaicai = new service\SpiderService();
 //$kaicai->getHistory($lottery);exit;
-$lotteryService->testLotterySettle();exit;
+//$lotteryService->testLotterySettle();exit;
 
-$kaicai = new service\KaicaiService ;
-$kaicai->getHistory($lottery);exit;
+//$kaicai = new service\KaicaiService ;
+//$kaicai->getHistory($lottery);exit;
 //service\KaicaiService::getHistory($lottery);exit;
-service\LotteryService::lotteryData();exit;
+//service\LotteryService::lotteryData();exit;
 //sgft
 service\lottery\sgft::genLotteryPlayed();
 service\lottery\sgft::genLotteryPlayedDwd();exit;

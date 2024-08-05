@@ -160,4 +160,20 @@ class SpiderService
         $res = explode(',', $opencode);
         return $res[0];
     }
+
+    public function getUsdt2CnyRate(){
+        try{
+            $response = Common::curlRequest("https://api.coinbase.com/v2/exchange-rates?currency=USDT");
+            $exchangeRates = json_decode($response, true);
+            // 获取USDT对CNY的汇率
+            $usdtToCnyRate = $exchangeRates['data']['rates']['CNY'] ?? 7.14;
+            $RedisService = RedisService::getInstance();
+            $RedisService->setDirect('usdt2cnyRate', $usdtToCnyRate);
+        }catch (\Exception $e){
+            Log::logException($e,'SpiderService','getUsdt2CnyRate');
+        }catch (\Error $error){
+            Log::logException($error,'SpiderService','getUsdt2CnyRate');
+        }
+
+    }
 }

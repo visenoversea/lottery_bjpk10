@@ -119,6 +119,7 @@ class userBet extends base
             $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '已封盘，无法下注']);
         }
+        $usdt2cnyRate = $RedisService->getDirect('usdt2cnyRate');
         $lottery_played_model = lottery_played_model::getInstance();
         $userBet = [
             'user_id' => $user['id'],
@@ -127,10 +128,13 @@ class userBet extends base
             'order_no' => 'UB' . round(microtime(true) * 1000),
             'open_expect' => $next['open_expect'],
             'bet_amount' => 0,
+            'rate_cny' => $usdt2cnyRate,
             'status' => 2
         ];
         $userBetItemList = [];
         $lotteryRoomSend = [];
+
+
         foreach ($betList as $v) {
             $lotteryPlayed = $lottery_played_model->with(['lotteryGroup' => 'id,name,fn,status'])
                 ->where(['id' => $v['id'], 'status' => 1])
@@ -155,6 +159,7 @@ class userBet extends base
                 'fn' => '\\service\\lottery\\' . $lottery['class_name'] . '::'.$lotteryPlayed['lotteryGroup']['fn'],
                 'bet_no' => $lotteryPlayed['name'],
                 'bet_amount' => $betAmount,
+                'rate_cny' => $usdt2cnyRate,
                 'odds' => $lotteryPlayed['odds'],
             ];
             $userBet['bet_amount'] += $betAmount;
