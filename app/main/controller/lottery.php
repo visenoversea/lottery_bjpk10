@@ -107,6 +107,7 @@ class lottery extends base
         if (!$lottery) {
             $this->GlobalService->json(['code' => -2, 'msg' => '彩种不存在']);
         }
+        $lottery['name'] = $this->GlobalService->translate($lottery['name']);
         //获取最新一期
         $lottery_data_model = lottery_data_model::getInstance();
         $lotteryDataList = $lottery_data_model
