@@ -84,6 +84,7 @@ class lottery extends base
         }
         $info['quickList'] = explode('|', $info['quick_list']);
         $info['lottery']['description'] = $this->GlobalService->translate($info['lottery']['description'],1);
+        $info['lottery']['name'] = $this->GlobalService->translate($info['lottery']['name']);
         $info['name'] = $this->GlobalService->translate($info['name']);
         $lottery_group_model = lottery_group_model::getInstance();
         $info['lotteryGroupList'] = $lottery_group_model->getDataInfo($info['lottery_id'], $info['id']);
