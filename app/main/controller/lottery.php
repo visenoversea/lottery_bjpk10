@@ -67,7 +67,7 @@ class lottery extends base
             ->toArray();
         foreach ($roomInfo ?? [] as &$v) {
             $v->lottery_name = $this->GlobalService->translate($v->lottery_name);
-            $v->lottery_name = $this->GlobalService->translate($v->name);
+            $v->name = $this->GlobalService->translate($v->name);
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $roomInfo]);
     }
