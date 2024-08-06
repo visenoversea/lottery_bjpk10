@@ -5,6 +5,7 @@
 
 namespace main\controller;
 
+use Common;
 use main\classes\base;
 use model\user_bet_item_model;
 use model\user_bet_model;
@@ -82,6 +83,19 @@ class userBet extends base
             ->hasWhere('userBet', $where_user_bet)
             ->order('id DESC')->getListInfo();
     
+            
+        if (!empty($user_bet_items['list'])) {
+            foreach ($user_bet_items['list'] as $k => $v) {
+                
+                $integer_bet_amount = intval($v['bet_amount'] * $v['rate_cny']);
+        
+                // 将整数部分格式化为两位小数
+                $formatted_bet_amount = number_format($integer_bet_amount, 2, '.', '');                
+                // 更新原始数组中的 bet_amount
+                $v['bet_amount'] = $formatted_bet_amount;
+                $user_bet_items['list'][$k] = $v;
+            }            
+        }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $user_bet_items['list'], 'count' => $user_bet_items['total']]);
     }
 
