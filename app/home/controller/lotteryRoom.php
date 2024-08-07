@@ -49,8 +49,16 @@ class lotteryRoom extends base
 
         $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id,'open_expect'=>$lottery_expect])->sum('bet_amount');
         $data['betAmount'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
-        $todayWinAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('win_amount' );
-        $todayBetAmount = DB::table('user_bet_item')->where('user_id',$user['id'])->where('create_time','>=',strtotime('today'))->sum('bet_amount' );
+        $todayWinAmount = DB::table('user_bet_item as ubi')->leftJoin('user_bet as ub','ubi.user_bet_id','=','ub.id')
+            ->where('ub.status',1)
+            ->where('ubi.user_id',$user['id'])
+            ->where('ubi.create_time','>=',strtotime('today'))
+            ->sum('ubi.win_amount' );
+
+        $todayBetAmount = DB::table('user_bet_item as ubi')->leftJoin('user_bet as ub','ubi.user_bet_id','=','ub.id')
+            ->where('ubi.user_id',$user['id'])
+            ->where('ubi.create_time','>=',strtotime('today'))
+            ->sum('ubi.bet_amount' );
         $data['todayWin'] = bcsub($todayWinAmount,$todayBetAmount,2);
 
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $data]);
