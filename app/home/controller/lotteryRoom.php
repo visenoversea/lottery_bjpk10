@@ -52,7 +52,7 @@ class lotteryRoom extends base
         $todayWinAmount = DB::table('user_bet_item')
             ->where('user_id',$user['id'])
             ->where('create_time','>=',strtotime('today'))
-            ->sum('ubi.win_amount' );
+            ->sum('win_amount' );
 
         $todayBetAmount = DB::table('user_bet_item as ubi')->leftJoin('user_bet as ub','ubi.user_bet_id','=','ub.id')
             ->where('ub.status',1)
