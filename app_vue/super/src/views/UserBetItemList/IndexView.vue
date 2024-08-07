@@ -148,10 +148,24 @@ getList()
         <template #default="scope">
           <span class="g-blue">{{ scope.row.bet_amount }}</span>
         </template>
-      </el-table-column>
+      </el-table-column>      
       <el-table-column label="中奖金额" min-width="80" :show-overflow-tooltip="true">
         <template #default="scope">
           <span class="g-red">{{ scope.row.win_amount }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="汇率" min-width="90" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <span class="g-blue">{{ scope.row.rate_cny || '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="投注金额CNY" min-width="100" :show-overflow-tooltip="true">
+        <template #default="scope">
+          <span class="g-blue">{{ 
+            (scope.row.bet_amount && scope.row.rate_cny) 
+              ? Math.floor(scope.row.bet_amount * scope.row.rate_cny) 
+              : '-' 
+          }}</span>
         </template>
       </el-table-column>
       <el-table-column label="赔率" min-width="80">
