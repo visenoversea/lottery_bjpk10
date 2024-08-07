@@ -82,17 +82,12 @@ class userBet extends base
             ->where($where_user_bet_item)
             ->hasWhere('userBet', $where_user_bet)
             ->order('id DESC')->getListInfo();
-    
-            
-        if (!empty($user_bet_items['list'])) {
-            foreach ($user_bet_items['list'] as $k => $v) {
-                
-                $integer_bet_amount = intval($v['bet_amount'] * $v['rate_cny']);
         
-                // 将整数部分格式化为两位小数
-                $formatted_bet_amount = number_format($integer_bet_amount, 2, '.', '');                
-                // 更新原始数组中的 bet_amount
-                $v['bet_amount'] = $formatted_bet_amount;
+        if (!empty($user_bet_items['list'])) {
+            foreach ($user_bet_items['list'] as $k => $v) { 
+
+                $integer_bet_amount = intval($v['bet_amount'] * $v['rate_cny']);                  
+                $v['bet_amount'] = $integer_bet_amount;
                 $user_bet_items['list'][$k] = $v;
             }            
         }
