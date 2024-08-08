@@ -63,11 +63,12 @@ class lottery extends base
         $roomInfo = DB::table('lottery_room as lr')->leftJoin('lottery as l','lr.lottery_id','=','l.id')
             ->where('level',$id)
             ->where('lr.status','>=',1)
-            ->get(['lr.*','l.name as lottery_name','l.icon as lottery_icon','l.interval_time','stop_time'])
+            ->get(['lr.*','l.name as lottery_name','l.icon as lottery_icon','l.interval_time','stop_time','l.description'])
             ->toArray();
         foreach ($roomInfo ?? [] as &$v) {
             $v->lottery_name = $this->GlobalService->translate($v->lottery_name);
             $v->name = $this->GlobalService->translate($v->name);
+            $v->description = $this->GlobalService->translate($v->description);
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $roomInfo]);
     }
