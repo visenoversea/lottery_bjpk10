@@ -117,7 +117,7 @@ UgMHI7Bk7g17b5s=
         return [];
         $url = $this->BaseUrl . '/api/recharge';
         $domain_model = domain_model::getInstance();
-        $domainUrl = $domain_model->getUrl(7);
+        $domainUrl = $domain_model->getUrl();
         $data = [
             'merchantId' => $this->merchantNo,
             'notifyUrl' => $domainUrl . '/main/userRecharge/XuPay',
@@ -150,7 +150,7 @@ UgMHI7Bk7g17b5s=
         //$channelType='TRC20';//TRX,TRC20,ETH,ERC20,BNB,BEP20,DOGE
         $url = $this->BaseUrl . '/api/withdraw';
         $domain_model = domain_model::getInstance();
-        $domainUrl = $domain_model->getUrl(7);
+        $domainUrl = $domain_model->getUrl();
         $data = [
             'merchantId' => $this->merchantNo,
             'channelType' => $channelType,
