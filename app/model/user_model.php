@@ -325,7 +325,7 @@ class user_model extends Model
         //推广码验证
         if (!empty($tid)) {
             $agent = $this->where(['tid' => $tid, 'type' => ['<' => 10], 'status' => ['>' => 0]])->getOne();
-            if ($agent && $agent['type'] == 2) {
+            if ($agent && $agent['type'] == 0) {
                 //模拟盘
                 $data = explode('_', $agent['user_name']);
                 $agent = $this->where(['id' => intval($data[1]), 'type' => ['<' => 10], 'status' => ['>' => 0]])->getOne();
