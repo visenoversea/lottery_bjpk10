@@ -280,5 +280,28 @@ class userBet extends base
         }
     }
 
+    public function history($limit = 20, $page = 1){
+        $user = $this->GlobalService->getUser();
+
+        $total = DB::table('user_bet_item')->where('user_id',$user['id'])->count();
+        $list = DB::table('user_bet_item as ubi')
+            ->leftJoin('user_bet as ub', 'ubi.user_bet_id', '=', 'ub.id')
+            ->leftJoin('lottery as l', 'ubi.lottery_id', '=', 'l.id')
+            ->selectRaw("t_ubi.id,t_ubi.user_id,t_l.name,t_ubi.lottery_group_name,t_ubi.bet_no,t_ubi.bet_amount,t_ubi.win_amount,t_ubi.odds,t_ubi.create_time,t_ub.status")
+            ->where('ubi.user_id', '=', $user['id'])
+//            ->where('ubi.status', '=', 1)
+            ->forPage($page, $limit)
+            ->orderBy('ubi.create_time', 'desc')
+            ->get()
+            ->toArray();
+        foreach ($list as &$v) {
+            $v = (array)$v;
+            $v['name'] = $this->GlobalService->translate($v['name']);
+            $v['lottery_group_name'] = $this->GlobalService->translate($v['lottery_group_name']);
+            $v['bet_no'] = $this->GlobalService->translate($v['bet_no']);
+            $v['statusDesc'] = $v['status'] == 1 ? '已开奖' : '待开奖';
+        }
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功','list'=>$list,'total'=>$total]);
+    }
 
 }
