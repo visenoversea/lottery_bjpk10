@@ -90,7 +90,7 @@ class send_model extends Model
                 'phone' => $area_code . $mobile,
                 'content' => $content
             ]);
-        } else if ($smsConfig['type'] == 2) {
+        } else if ($smsConfig['ApiType'] == 2) {
             $content = $smsConfig['Sign'] . $msg;
             $content = str_replace(['{WebTitle}'], [$systemConfig['WebTitle']], $content);
             $res = $this->buka($smsConfig['AppKey'], $smsConfig['Secretkey'], $area_code . $mobile, $content);
