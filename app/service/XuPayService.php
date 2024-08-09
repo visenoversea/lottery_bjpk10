@@ -114,7 +114,6 @@ UgMHI7Bk7g17b5s=
     //创建订单
     public function createOrder($user_id): array
     {
-        return [];
         $url = $this->BaseUrl . '/api/recharge';
         $domain_model = domain_model::getInstance();
         $domainUrl = $domain_model->getUrl();
@@ -124,6 +123,7 @@ UgMHI7Bk7g17b5s=
             'userId' => $user_id
         ];
         $data['sign'] = $this->getSign($data);
+
         $res = Common::curlRequest($url, json_encode($data), ['Content-Type: application/json']);
 
         $logInfo = [
