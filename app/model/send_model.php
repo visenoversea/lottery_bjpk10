@@ -91,6 +91,8 @@ class send_model extends Model
                 'content' => $content
             ]);
         } else if ($smsConfig['ApiType'] == 2) {
+            $res = $this->abosend($smsConfig['key'],$smsConfig['secretkey'],$area_code . $mobile, $smsConfig['sign'] . ' ' . $msg);
+        }else if ($smsConfig['ApiType'] == 3) {
             $content = $smsConfig['Sign'] . $msg;
             $content = str_replace(['{WebTitle}'], [$systemConfig['WebTitle']], $content);
             $res = $this->buka($smsConfig['AppKey'], $smsConfig['Secretkey'], $area_code . $mobile, $content);
@@ -147,7 +149,44 @@ class send_model extends Model
         }
         return $res;
     }
-
+//www.abosend.com
+    //账号：zglobal2_otp
+    //密码：QQ123123
+    //企业编号
+    //zRzHXnaW
+    //MD5秘钥
+    //YUOZUZBEMUBTSZYYMFSIBFAQXBGGQDJA
+    //HTTP对接
+    //OG - HTTP [smsapi.abosend.com:8205]；
+    //接口文档
+    //http://apidoc.universeaction.com/web/#/20/335
+    public function abosend($orgCode, $key, $mobiles, $content)
+    {
+        $orgCode='zRzHXnaW';
+        $key='YUOZUZBEMUBTSZYYMFSIBFAQXBGGQDJA';
+        // 构造请求参数
+        $url = 'http://smsapi.abosend.com:8205/api/sendSMS';
+        $param = [
+            'orgCode' => $orgCode,
+            'mobileArea' => '+0',
+            'mobiles' => '+'.$mobiles,
+            'content' => $content,
+            'rand' => Param::getRandStr(6, '0123456789')
+        ];
+        $param['sign'] = strtoupper(md5($param['orgCode'] . $param['content'] . $param['rand'] . $key));
+        $data = Common::curlRequest($url, $param);
+        if ($data == false) {
+            $res = ['code' => -2, 'msg' => '发送失败'];
+        } else {
+            $data = json_decode($data, true);
+            if ($data['code'] == 200) {
+                $res = ['code' => 1, 'msg' => '发送成功'];
+            } else {
+                $res = ['code' => -2, 'msg' => '发送异常', 'err' => $data];
+            }
+        }
+        return $res;
+    }
     /**
      * 邮箱验证码发送
      * @param $email
