@@ -25,7 +25,7 @@ Date.prototype.format = function (format) {
     return format
 }
 
-export const formatDate = (timestamp, format = 'yyyy-MM-dd hh:mm:ss', timeZone = '') => {
+export const formatDate = (timestamp, format = 'yyyy-MM-dd hh:mm:ss', timeZone = 'Asia/Shanghai') => {
     let dateObj;
     if (timestamp === 0) {
         return '-';

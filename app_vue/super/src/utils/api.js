@@ -4,7 +4,7 @@ export default {
     //后台登陆
     login: data => http.post('/main/user/adminLogin', data),
     //后台初始化
-    init: () => http.get('/admin/system/init'),
+    init: () => http.post('/admin/system/init'),
     //修改密码
     editPassword: data => http.post('/admin/user/editPassword',data),
     //清理系统缓存

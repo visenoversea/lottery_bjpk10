@@ -25,7 +25,8 @@ const show = computed({
 const form = reactive({
   id: 0,
   odds: '',
-  status:1
+  status:1,
+  description: ''
 })
 
 //打开
@@ -34,6 +35,7 @@ const open = () => {
   form.stop_time = props.data.stop_time
   form.risk = props.data.risk
   form.status = props.data.status
+  form.description = props.data.description
 }
 
 //确认
@@ -59,6 +61,9 @@ const confirm = async () => {
       </el-form-item>
       <el-form-item label="封盘时间">
         <el-input v-model="form.stop_time" placeholder="建议3-10"></el-input>
+      </el-form-item>
+      <el-form-item label="玩法说明">
+        <el-input type="textarea" v-model="form.description" placeholder="彩种玩法说明"></el-input>
       </el-form-item>
       <el-form-item label="状态">
         <el-select v-model="form.status">
