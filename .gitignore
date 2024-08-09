@@ -7,3 +7,4 @@ start/upload/*
 start/video/*
 start/audio/main.mp4
 vendor/workerman/workerman.log
+chatlink.html
