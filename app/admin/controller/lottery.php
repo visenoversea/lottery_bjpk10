@@ -39,7 +39,7 @@ class lottery extends base
             $this->GlobalService->json(['code' => -2, 'msg' => '杀率范围0-100']);
         }
         if($data['stop_time']>70){
-            $this->GlobalService->json(['code' => -2, 'msg' => '封盘时间不能超过10秒']);
+            $this->GlobalService->json(['code' => -2, 'msg' => '封盘时间不能超过70秒']);
         }
         $res = $lottery_model->edit($data);
         if ($res) {
