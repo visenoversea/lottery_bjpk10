@@ -29,6 +29,8 @@ export default {
   // UserAgentLayer: () => import('@/views/UserAgentLayer/IndexView.vue'),
   //资金报表
   UserReportList: () => import('@/views/UserReportList/IndexView.vue'),
+  // 用户报表
+  Userreport: () => import('@/views/Userreport/IndexView.vue'),
   //推广链接
   UserAgentLink: () => import('@/views/UserAgentLink/IndexView.vue'),
   /****************推广统计****************/
