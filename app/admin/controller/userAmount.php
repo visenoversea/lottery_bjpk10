@@ -322,7 +322,7 @@ class userAmount extends base
             if ($search_key == 'user_id') {
                 $userWhere['id'] = $search_val;
             } else if ($search_key == 'agent') {
-                $agent = DB::table('user')->where('id', $search_val)->find();
+                $agent = DB::table('user')->find($search_val);
                 if(!$agent){
                     $this->GlobalService->json(['code' => -2, 'msg' => '代理不存在', 'list' => []]);
                 }
