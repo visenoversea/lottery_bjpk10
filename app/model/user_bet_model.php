@@ -188,6 +188,19 @@ class user_bet_model extends Model
         ];
     }
 
+    public function sumUserAgentInfo($userWhere, $where = []): array
+    {
+        $where['status'] = 1;
+        $res = $this->field('SUM(bet_amount) AS betAmount,SUM(win_amount) as winAmount')
+            ->hasWhere('user', $userWhere)
+            ->where($where)
+            ->getOne();
+        return [
+            'betAmount' => $res['betAmount']?Common::formatAmount($res['betAmount'],2):'0.00',
+            'winAmount' => $res['winAmount']?Common::formatAmount($res['winAmount'],2):'0.00',
+        ];
+    }
+
     //数据验证
     public function checkData($data): array
     {

@@ -11,6 +11,7 @@ use asura\Log;
 use model\user_amount_model;
 use model\user_log_model;
 use model\user_model;
+use model\user_bet_model;
 use model\user_rebate_model;
 use model\user_recharge_model;
 use model\user_withdraw_model;
@@ -203,7 +204,8 @@ class userAmount extends base
             $start_time = strtotime($date_time[0]);
             $end_time = strtotime($date_time[1]) + 86399;
         } else {
-            $start_time = strtotime(date('Y-m-01'));
+//            $start_time = strtotime(date('Y-m-01'));
+            $start_time = strtotime('yesterday');
             $end_time = strtotime('today') + 86399;
         }
         $list = Common::timeArr($start_time, $end_time);
@@ -298,4 +300,66 @@ class userAmount extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $rows]);
     }
 
+    public function getUserReport($date_time = [],$user_id = '')
+    {
+        $userWhere = [];
+        $pid = $this->GlobalService->getPid();
+        if ($pid) {
+            $userWhere['pid'] = ['LIKE' => $pid . '%'];
+        }
+        if ($date_time) {
+            $start_time = strtotime($date_time[0]);
+            $end_time = strtotime($date_time[1]) + 86399;
+        } else {
+            $start_time = strtotime('yesterday');
+            $end_time = strtotime('today') + 86399;
+        }
+
+        if($user_id){
+            $userWhere['id'] = $user_id;
+        }
+        $list = Common::timeArr($start_time, $end_time);
+        $rows = [];
+        $count = [
+            'date' => '统计',
+            //下注金额
+            'betAmount'=>0,
+            //派奖金额
+            'winAmount'=>0,
+            //盈亏
+            'betProfit' => 0,
+            //推广人数
+            'userNums' => 0
+        ];
+        $where = ['status' => 1];
+        $userWhere['status']['>='] = 0;
+        $userWhere['`virtual`'] = 0;
+        $user_recharge_model = user_recharge_model::getInstance();
+        $user_withdraw_model = user_withdraw_model::getInstance();
+        $user_model = user_model::getInstance();
+        $user_rebate_model = user_rebate_model::getInstance();
+        $user_bet_model = user_bet_model::getInstance();
+        foreach ($list as $k => $v) {
+            $where['create_time'] = ['BETWEEN' => [$v, $v + 86399]];
+            $res = $user_bet_model->sumUserAgentInfo($userWhere,$where);
+            $betAmount = $res['betAmount'];
+            $winAmount = $res['winAmount'];
+            $betProfit = $winAmount - $betAmount;
+
+            $rows[] = [
+                'date' => $k,
+                'betAmount' => $betAmount,
+                'winAmount' => $winAmount,
+                'betProfit' => $betProfit,
+
+            ];
+            $count['betAmount'] += $betAmount;
+            $count['winAmount'] += $winAmount;
+            $count['betProfit'] += $betProfit;
+
+        }
+        $rows = array_reverse($rows);
+        $rows[] = $count;
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $rows]);
+    }
 }
