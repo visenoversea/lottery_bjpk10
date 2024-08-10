@@ -25,14 +25,15 @@ class lottery extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $data['list'], 'total' => $data['total']]);
     }
 
-    public function edit($id = 0, $risk = 100, $stop_time = 3, $status = 1)
+    public function edit($id = 0, $risk = 100, $stop_time = 3, $status = 1,$description = '')
     {
         $lottery_model = lottery_model::getInstance();
         $data = [
             'id' => intval($id),
             'risk' => intval($risk),
             'stop_time'=>intval($stop_time),
-            'status'=>$status
+            'status'=>$status,
+            'description' => $description
         ];
         if ($data['risk'] <= 0 || $data['risk'] > 100) {
             $this->GlobalService->json(['code' => -2, 'msg' => '杀率范围0-100']);
