@@ -94,6 +94,8 @@ export default {
     getUserAgentLink: data => http.post('/admin/user/getLink', data),
     //获取统计列表
     getReportList: data => http.post('/admin/userAmount/getReportList', data),
+    // 获取用户报表
+    getUserReport: data => http.post('/admin/userAmount/getUserReport', data),
     //获取统计信息
     getReportInfo: data => http.post('/admin/userAmount/getReportInfo', data),
 
