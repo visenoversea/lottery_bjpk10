@@ -40,7 +40,6 @@ class level extends base
             'id' => intval($id),
             'title' => trim($title),
             'img' => trim($img),
-            'introduce' => trim($introduce),
             'spread_nums' => intval($spread_nums),
             'amount' => trim($amount),
             'reward' => trim($reward),

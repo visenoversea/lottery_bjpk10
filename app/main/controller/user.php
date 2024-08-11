@@ -65,7 +65,7 @@ class user extends base
      * 前台登录
      * /main/user/login
      */
-    public function login($type = 0, $account = '', $password = '', $area_code = 86, $mobile = '', $code = '')
+    public function login($type = 0, $account = '', $password = '', $area_code = 86, $mobile = '', $code = '',$codeKey = '')
     {
         if ($type == 0) {
             //用户名和邮箱   密码登录
@@ -74,7 +74,7 @@ class user extends base
                 $this->emailLogin($account, $password);
             } else {
                 //用户名登录
-                $this->userLogin($account, $password);
+                $this->userLogin($account, $password,$code,$codeKey);
             }
         } else if ($type == 1) {
             //手机号  密码登录
@@ -151,8 +151,22 @@ class user extends base
      * 用户名登录
      * /main/user/login
      */
-    public function userLogin($user_name = '', $password = '')
+    public function userLogin($user_name = '', $password = '',$code = '',$codeKey = '')
     {
+        $RedisService = RedisService::getInstance();
+        if($codeKey && $code){
+            //验证验证码
+            $cacheImgCode = $RedisService->getData('imgCode', $codeKey);
+            if(!$cacheImgCode){
+                $this->GlobalService->json(['code' => -2, 'msg' => '请重新获取验证码','$codeKey'=>$codeKey]);
+            }
+            $RedisService->setData('', 'imgCode', $codeKey, 1);
+            if (strtolower($cacheImgCode) !== strtolower($code)) {
+                $this->GlobalService->json(['code' => -2, 'msg' => '验证码错误']);
+            }
+        }else{
+            $this->GlobalService->json(['code' => -2, 'msg' => '验证码错误']);
+        }
         $user_name = trim($user_name);
         $password = trim($password);
         $user_model = user_model::getInstance();
