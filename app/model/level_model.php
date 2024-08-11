@@ -12,12 +12,6 @@ class level_model extends Model
     public function checkData($data): array
     {
 
-        if ($data['min'] < 1) {
-            return ['code' => -2, 'msg' => '最小余额不能小于1'];
-        }
-        if ($data['max'] < $data['min']) {
-            return ['code' => -2, 'msg' => '最大余额不能小于最小余额'];
-        }
 
         if ($data['amount'] <= 0) {
             return ['code' => -2, 'msg' => '升级金额不能小与0'];
