@@ -158,7 +158,7 @@ class index extends base
                 'user_name' => Param::getRandStr(2) . '***' . Param::getRandStr(1),
                 'amount' => $amount[array_rand($amount)],
                 //'amount' => round(mt_rand(200, 20000)/100,2),
-                'currency' => 'USDT'
+//                'status' => $this->GlobalService->translate('提现成功')
             ];
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $list]);
