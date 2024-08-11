@@ -8,6 +8,7 @@ namespace admin\controller;
 use admin\classes\base;
 use asura\Common;
 use asura\Log;
+use asura\Illuminate\DB;
 use model\user_amount_model;
 use model\user_log_model;
 use model\user_model;
@@ -300,8 +301,10 @@ class userAmount extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $rows]);
     }
 
-    public function getUserReport($date_time = [],$user_id = '')
+    public function getUserReport($date_time = [],$search_key = '',$search_val = '')
     {
+        $search_key = trim($search_key);
+        $search_val = trim($search_val);
         $userWhere = [];
         $pid = $this->GlobalService->getPid();
         if ($pid) {
@@ -315,15 +318,24 @@ class userAmount extends base
             $end_time = strtotime('today') + 86399;
         }
 
-        if($user_id){
-            $userWhere['id'] = $user_id;
+        if (!empty($search_val)) {
+            if ($search_key == 'user_id') {
+                $userWhere['id'] = $search_val;
+            } else if ($search_key == 'agent') {
+                $agent = DB::table('user')->find($search_val);
+                if(!$agent){
+                    $this->GlobalService->json(['code' => -2, 'msg' => '代理不存在', 'list' => []]);
+                }
+
+                $where['pid'] = ['LIKE' => $agent->pid . '%'];
+            }
         }
         $list = Common::timeArr($start_time, $end_time);
         $rows = [];
         $count = [
             'date' => '统计',
             //下注金额
-            'betAmount'=>0,
+            'betAmount'=>0.00,
             //派奖金额
             'winAmount'=>0,
             //盈亏
@@ -334,10 +346,6 @@ class userAmount extends base
         $where = ['status' => 1];
         $userWhere['status']['>='] = 0;
         $userWhere['`virtual`'] = 0;
-        $user_recharge_model = user_recharge_model::getInstance();
-        $user_withdraw_model = user_withdraw_model::getInstance();
-        $user_model = user_model::getInstance();
-        $user_rebate_model = user_rebate_model::getInstance();
         $user_bet_model = user_bet_model::getInstance();
         foreach ($list as $k => $v) {
             $where['create_time'] = ['BETWEEN' => [$v, $v + 86399]];
