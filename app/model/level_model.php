@@ -11,24 +11,14 @@ class level_model extends Model
 
     public function checkData($data): array
     {
-        if ($data['nums'] < 1) {
-            return ['code' => -2, 'msg' => '量化次数必须大于1'];
-        }
+
         if ($data['min'] < 1) {
             return ['code' => -2, 'msg' => '最小余额不能小于1'];
         }
         if ($data['max'] < $data['min']) {
             return ['code' => -2, 'msg' => '最大余额不能小于最小余额'];
         }
-        if ($data['min_rate'] < 0.0001) {
-            return ['code' => -2, 'msg' => '最小收益不能小于0.0001'];
-        }
-        if ($data['max_rate'] < $data['min_rate']) {
-            return ['code' => -2, 'msg' => '最大收益不能小于最小收益'];
-        }
-        if ($data['max_rate'] >= 1) {
-            return ['code' => -2, 'msg' => '最大收益不能超过100%'];
-        }
+
         if ($data['amount'] <= 0) {
             return ['code' => -2, 'msg' => '升级金额不能小与0'];
         }

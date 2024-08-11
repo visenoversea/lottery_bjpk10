@@ -33,24 +33,14 @@ class level extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $list]);
     }
 
-    public function edit($id, $title, $img, $nums, $min, $max,  $min_rate, $max_rate, $reward, $amount, $introduce, $spread_nums, $status)
+    public function edit($id, $title, $img, $nums, $min, $max, $reward, $amount, $introduce, $spread_nums, $status)
     {
-        if ($min_rate <= 0) {
-            $this->GlobalService->json(['code' => -2, 'msg' => '请填写正确的最小收益']);
-        }
-        if ($max_rate <= 0) {
-            $this->GlobalService->json(['code' => -2, 'msg' => '请填写正确的最大收益']);
-        }
+
         $data = [
             'id' => intval($id),
             'title' => trim($title),
             'img' => trim($img),
-            'nums' => intval($nums),
-            'min' => trim($min),
-            'max' => trim($max),
             'introduce' => trim($introduce),
-            'min_rate' => round($min_rate / 100, 4),
-            'max_rate' => round($max_rate / 100, 4),
             'spread_nums' => intval($spread_nums),
             'amount' => trim($amount),
             'reward' => trim($reward),
