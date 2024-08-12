@@ -75,7 +75,10 @@ export default {
   TaskList: () => import('@/views/TaskList/IndexView.vue'),
   //房间设置
   LotteryRoomList: () => import('@/views/LotteryRoomList/IndexView.vue'),
+  // 彩种配置
   lotteryList: () => import('@/views/lotteryList/IndexView.vue'),
+  // 等级配置
+  levelConfig: () => import('@/views/levelConfig/IndexView.vue'),
   /****************运营配置****************/
 
   /****************系统配置****************/

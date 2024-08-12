@@ -129,5 +129,21 @@ class lottery extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'lottery' => $lottery, 'lotteryDataList' => $lotteryDataList, 'nowTime' => SYS_TIME]);
     }
 
-
+    public function getHistory($id = 0,$page=1,$limit=15){
+        $lottery_model = lottery_model::getInstance();
+        $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
+        if (!$lottery) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '彩种不存在']);
+        }
+        $lottery['name'] = $this->GlobalService->translate($lottery['name']);
+        $lottery_data_model = lottery_data_model::getInstance();
+        $lotteryDataList = $lottery_data_model
+            ->where(['lottery_id' => $lottery['id'], 'open_time' => ['<' => SYS_TIME], 'status' => 1])
+            ->whereRaw("open_code != '' ")
+            ->order('open_time DESC')
+            ->limit($limit,$page)
+            ->select();
+        $total = $lottery_data_model->where(['lottery_id' => $lottery['id'], 'status' => 1])->count();
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'lottery' => $lottery, 'lotteryDataList' => $lotteryDataList, 'total' => $total]);
+    }
 }
