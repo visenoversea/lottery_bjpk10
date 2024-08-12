@@ -5,6 +5,7 @@ namespace model;
 
 use asura\db\Model;
 use service\GlobalService;
+use service\RedisService;
 
 class config_model extends Model
 {
@@ -41,6 +42,23 @@ class config_model extends Model
             return json_decode($res['v'], true);
         }
         return '';
+    }
+
+    //获取单条数据,带缓存
+    public function getCacheConfig(int $parent_id, string $k = '')
+    {
+        $RedisService = RedisService::getInstance();
+        $cacheKey = 'config_global';
+        $config = $RedisService->hget($cacheKey,$k);
+        if($config == null){
+            $res = $this->field('id,k,v')->where(['parent_id' => $parent_id, 'k' => $k, 'status' => 1])->getOne();
+            if (!$res) {
+                return null;
+            }
+            $config = $res['v'];
+            $RedisService->hset($cacheKey,$k,$config);
+        }
+        return $config;
     }
 
     //获取单条数据

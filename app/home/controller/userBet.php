@@ -11,9 +11,11 @@ use asura\Illuminate\DB;
 use model\lottery_played_model;
 use model\lottery_room_model;
 use model\user_bet_item_model;
+use model\config_model;
 use model\user_bet_model;
 use model\user_model;
 use Exception;
+use model\user_rebate_model;
 use service\RedisService;
 use service\WebSocketService;
 
@@ -119,6 +121,7 @@ class userBet extends base
             $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '已封盘，无法下注']);
         }
+//        $usdt2cnyRate = $RedisService->getDirect('usdt2cnyRate');
         $usdt2cnyRate = $RedisService->getDirect('usdt2cnyRate');
         $lottery_played_model = lottery_played_model::getInstance();
         $userBet = [
@@ -133,7 +136,9 @@ class userBet extends base
         ];
         $userBetItemList = [];
         $lotteryRoomSend = [];
-
+        $config_model = config_model::getInstance();
+        $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+//        $MopRate = $config_model->getConfig(7,'MopRate') ?? 8.00;
 
         foreach ($betList as $v) {
             $lotteryPlayed = $lottery_played_model->with(['lotteryGroup' => 'id,name,fn,status'])
@@ -158,11 +163,13 @@ class userBet extends base
                 'lottery_group_name' => $lotteryPlayed['lotteryGroup']['name'],
                 'fn' => '\\service\\lottery\\' . $lottery['class_name'] . '::'.$lotteryPlayed['lotteryGroup']['fn'],
                 'bet_no' => $lotteryPlayed['name'],
-                'bet_amount' => $betAmount,
+                'bet_amount' => bcdiv($betAmount,$MopRate,2),
+                'bet_amount_mop' => $betAmount,
                 'rate_cny' => $usdt2cnyRate,
                 'odds' => $lotteryPlayed['odds'],
             ];
-            $userBet['bet_amount'] += $betAmount;
+            $userBet['bet_amount_mop'] += $betAmount;
+            $userBet['bet_amount'] += bcdiv($betAmount,$MopRate,2);
             $lotteryRoomSend[] = [
                 //1-下注信息
                 'type' => 1,
@@ -200,12 +207,16 @@ class userBet extends base
                 $water_amount = $water_amount > 0 ? $water_amount : 0;
                 $user_model->edit(['id' => $res['user']['id'], 'water_amount' => $water_amount]);
             }
-            $WebSocketService = WebSocketService::getInstance();
-            foreach ($lotteryRoomSend as $v) {
-                $WebSocketService->lotteryRoom($v['lottery_room_id'], $v);
-            }
+//            $WebSocketService = WebSocketService::getInstance();
+//            foreach ($lotteryRoomSend as $v) {
+//                $WebSocketService->lotteryRoom($v['lottery_room_id'], $v);
+//            }
 //            (WebSocketService::getInstance())->SendAdminTips('下注提示', '你有新的下注信息', 'getUserBetList2', 'UserBetItemList');
             $dbh->commit();
+            //三级返佣
+            $agentList = $user_model->getAgentList($user['pid']);
+            $user_rebate_mode = user_rebate_model::getInstance();
+            $user_rebate_mode->lotteryRebate($userBet, $agentList);
             $this->GlobalService->json(['code' => 1, 'msg' => '下注成功!']);
         } catch (Exception $e) {
             $dbh->rollBack();

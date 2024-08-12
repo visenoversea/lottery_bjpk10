@@ -248,6 +248,92 @@ class user_rebate_model extends Model
         }
     }
 
+    public function lotteryRebate($userBet, $agentList = [])
+    {
+        if (!$agentList) {
+            return;
+        }
+        $config_model = config_model::getInstance();
+        $rebateConfig = $config_model->getConfigData(8);
+        //1级
+        if ($rebateConfig['betRebate1'] <= 0) {
+            return;
+        }
+        $GlobalService = GlobalService::getInstance();
+        $suffix = $GlobalService->getSuffix();
+
+        $level_model = level_model::getInstance();
+        $user_model = user_model::getInstance();
+        $agent = array_pop($agentList);
+        $data = [
+            'type' => 2,
+            'user_id' => $agent['id'],
+            'rebate_id' => $userBet['user_id'],
+            'title' => 'betRebate1',
+            'key_id' => $userBet['id'],
+            'currency' => 'USDT',
+            'rate' => 1,
+            'amount' => bcmul($userBet['bet_amount'] , $rebateConfig['betRebate1'], 3)
+        ];
+        if ($data['amount'] > 0) {
+            $GlobalService->setSuffix('');
+            $data['id'] = $this->add($data);
+            $GlobalService->setSuffix($suffix);
+            $res = $user_model->changeBalance($data['user_id'], $data['amount'], $data['currency'], $data['title'], 3, $data['id']);
+            $level_model->upLevel($res['user']);
+        }
+        //2级
+        if ($rebateConfig['betRebate2'] <= 0) {
+            return;
+        }
+        $agent = array_pop($agentList);
+        if (!$agent) {
+            return;
+        }
+        $data = [
+            'type' => 2,
+            'user_id' => $agent['id'],
+            'rebate_id' => $userBet['user_id'],
+            'title' => 'betRebate2',
+            'key_id' => $userBet['id'],
+            'currency' => 'USDT',
+            'rate' => 1,
+            'amount' => bcmul($userBet['bet_amount'] , $rebateConfig['betRebate2'], 3)
+        ];
+        if ($data['amount'] > 0) {
+            $GlobalService->setSuffix('');
+            $data['id'] = $this->add($data);
+            $GlobalService->setSuffix($suffix);
+            $res = $user_model->changeBalance($data['user_id'], $data['amount'], $data['currency'], $data['title'], 3, $data['id']);
+            $level_model->upLevel($res['user']);
+        }
+        //2级
+        if ($rebateConfig['betRebate3'] <= 0) {
+            return;
+        }
+        $agent = array_pop($agentList);
+        if (!$agent) {
+            return;
+        }
+        $data = [
+            'type' => 2,
+            'user_id' => $agent['id'],
+            'rebate_id' => $userBet['user_id'],
+            'title' => 'betRebate3',
+            'key_id' => $userBet['id'],
+            'currency' => 'USDT',
+            'rate' => 1,
+            'amount' => bcmul($userBet['bet_amount'] , $rebateConfig['betRebate3'], 3)
+        ];
+        if ($data['amount'] > 0) {
+            $GlobalService->setSuffix('');
+            $data['id'] = $this->add($data);
+            $GlobalService->setSuffix($suffix);
+            $res = $user_model->changeBalance($data['user_id'], $data['amount'], $data['currency'], $data['title'], 3, $data['id']);
+            $level_model->upLevel($res['user']);
+        }
+    }
+
     public function getSumAmount($user_id, $where = [])
     {
         $where['user_id'] = $user_id;

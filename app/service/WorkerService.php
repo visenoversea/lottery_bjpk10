@@ -42,137 +42,21 @@ class WorkerService
 //        DB::table('user_stake_settle')->update($data);
     }
 
-    //活期收益
-    public static function stakeProfit(){
-//        self::test();exit;
-        $nowTime = time();
-        $h = $nh = date('H');
-        if($nh == 0){
-            $h = 24;
-        }
-        Log::log(['msg'=>'活期收益计算....','h'=>$h,'now'=>$nowTime],Log::INFO,'stakeProfit');
-        $redis = RedisService::getInstance();
-        $lockKey = 'runStakeProfit';
-        $set = $redis->getDirect($lockKey);
-        if($set){
-            Log::log(['msg'=>'重复计算...','h'=>$h,'now'=>$nowTime],Log::INFO,'stakeProfit');
-            return ;
-        }
-        $res = $redis->setnx($lockKey,$nowTime,120);
-        if(!$res){
-            Log::log(['msg'=>'重复计算...','h'=>$h,'now'=>$nowTime],Log::INFO,'stakeProfit');
-            return ;
-        }
-        $rate = DB::table('staking')->where('id',$h)->value('rate');
-        if(!$rate){
-            Log::log(['msg'=>'收益率查询失败...','h'=>$h,'now'=>$nowTime],Log::INFO,'stakeProfit');
-            return ;
-        }
-        DB::table('user_stake_settle')->where('next_settle_time','<',$nowTime)
-            ->where('amount','>',0)
-//            ->where('last_settle_hour','<',$h)
-            ->orderBy('id','asc')->chunk(1000, function ($records) use ($rate,$redis) {
-                var_dump(count($records));
-                foreach ($records as $record){
-                    $date = date("Y-m-d",$record->next_settle_time);
-                    $h = date("H",$record->next_settle_time);
-                    $set = $redis->getDirect('StakingProfit:'.$date .':'.$h.':'.$record->user_id);
-                    if($set){
-                        Log::log(['msg'=>"{$record->user_id} 重复计算!"],Log::INFO,'stakeProfit');
-                        continue;
-                    }
-                    //计算
-                    $profit = bcmul($record->amount,$rate,4);
-                    Log::log(['msg'=>"{$record->user_id} 收益 : {$profit}"],Log::INFO,'stakeProfit');
-                    if($profit < 0.0001){//收益不足以计入,改变下次结算时间
-                        try{
-                            DB::table('user_stake_settle')->where('id',$record->id)->increment('next_settle_time',3600);
-                        }catch (\Exception $e){
-                            Log::log(['msg'=>"{$record->user_id} 结算时间更新异常!"],Log::INFO,'stakeProfit');
-                        }
-                        continue;
-                    }
-                    DB::beginTransaction();
-                    try{
-                        $profitData = [
-                            'user_id' => $record->user_id,
-                            'type' => 22,
-                            'title' => '余币宝活期收益',
-                            'des' => '余币宝活期收益',
-                            'amount' => $profit,
-                            'calculate_amount' => $record->amount,
-                            'rate' => $rate,
-                            'key_id' => $record->id,
-                            'end_time' => time(),
-                            'create_time' => time(),
-                            'status' => 1,
-                        ];
-                        DB::table('user_profit')->insert($profitData);
-                        $user = DB::table('user')->where('id',$record->user_id)->lockForUpdate()->first();
-                        if (!$user){
-                            DB::rollback();
-                            Log::log(['msg'=>"{$record->user_id}结算失败,锁表失败!"],Log::INFO,'stakeProfit');
-                        }
-                        //加钱
-                        $balance = bcadd($user->balance,$profit,4);
-                        DB::table('user')->where('id',$record->user_id)->update(['balance'=>$balance]);
-                        $amountData = [
-                            'user_id' => $record->user_id,
-                            'mode' => 1,
-                            'type' => 22,
-                            'title' => '余币宝活期收益',
-                            'des' => '余币宝活期收益',
-                            'currency' => 'USDT',
-                            'amount' => $profit,
-                            'balance' => $balance,
-                            'key_id' => $record->id,
-                            'status' => 1,
-                            'create_time' => time(),
-                        ];
-                        DB::table('user_amount')->insert($amountData);
-                        $updateStakeSettle = [
-                            'next_settle_time' => $record->next_settle_time + 3600,
-                            'last_settle_hour' => $h,
-                            'last_settle_time' => time(),
-                            'profit' => bcadd($record->profit,$profit,4),
-                        ];
-                        if($record->tmp_amount){//临时金额转入到下个结算周期
-                            $updateStakeSettle['amount'] = bcadd($record->amount,$record->tmp_amount,4);
-                            $updateStakeSettle['tmp_amount'] = 0;
-
-                        }
-                        DB::table('user_stake_settle')->where('id',$record->id)->update($updateStakeSettle);
-                        DB::commit();
-                        Log::log(['h'=>$h,'user'=>['id'=>$record->user_id,'stake'=>$record->amount,'profit'=>$profit,'rate'=>$rate]],Log::INFO,'stakeProfit');
-                        //设置缓存
-                        $redis->setnx('StakingProfit:'.date("Y-m-d") .':'.$h.':'.$record->user_id,$profit,86400);
-                    }catch (\Exception $e){
-                        DB::rollback();
-                        Log::log(['e'=>$e], Log::EXCEPTION,'stakeProfit');
-                        continue;
-                    }
-                }
-        });
-
-        $redis->del($lockKey);
-        $endTime = time();
-        echo '时间总计: '. ($endTime - $nowTime);
-    }
 
     //活期收益返佣
-    public static function stakeRebate(){
+    public static function userRebate(){
         $redis = RedisService::getInstance();
-        $lockKey = 'runStakeRebate';
+        $lockKey = 'runUserRebate';
         $set = $redis->getDirect($lockKey);
         if($set){
             echo '重复计算...';
-            Log::log('重复计算...',Log::INFO,'rebateProfit');
+            Log::log('重复计算...',Log::INFO,'userRebate');
             return ;
         }
         $res = $redis->setnx($lockKey,time(),300);
         if(!$res){
             echo '重复计算2...';
-            Log::log('重复计算2...',Log::INFO,'rebateProfit');
+            Log::log('重复计算2...',Log::INFO,'userRebate');
             return ;
         }
         $profits = DB::table('user_profit')->where('type',22)->where('rebate_status',0)->limit(200)->get()->toArray();

@@ -4,6 +4,7 @@ namespace service;
 
 use asura\Log;
 use asura\Param;
+use model\config_model;
 use model\lottery_data_model;
 use model\lottery_data_test_model;
 use model\lottery_model;
@@ -57,6 +58,8 @@ class LotteryService
             $runUnique = 'lotterySettle_'.$lotteryInfo['id'];
             $set = $RedisService->setnx($runUnique,$lotteryInfo['id'],600);
             if(!$set) return false;
+            $config_model = config_model::getInstance();
+            $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
             $user_bet_model = user_bet_model::getInstance();
             $userBetList = $user_bet_model->where(['open_expect'=>$lotteryInfo['open_expect']])
                 ->where(['status' => 2,'lottery_id'=>$lotteryInfo['lottery_id']])
@@ -84,14 +87,16 @@ class LotteryService
                         $res = call_user_func($userBetItem['fn'], $userBetItem, $openCode);
                         if ($res['winStatus'] == 1) {
                             $winAmount = round($userBetItem['bet_amount'] * $userBetItem['odds'], 2);
+                            $winAmountMop = bcmul($winAmount,$MopRate,2);
                             if ($winAmount > 0) {
                                 $userBetWinAmount += $winAmount;
-                                $user_bet_item_model->edit(['id' => $userBetItem['id'], 'win_amount' => $winAmount]);
+                                $user_bet_item_model->edit(['id' => $userBetItem['id'], 'win_amount' => $winAmount, 'win_amount_mop' => $winAmountMop]);
                                 $user_model->changeBalance($userBet['user_id'], $winAmount, $userBet['open_expect'], '派奖', 4, $userBetItem['id']);
                             }
                         }
                     }
-                    $res = $user_bet_model->edit(['open_code'=>$lotteryInfo['open_code'], 'win_amount' => $userBetWinAmount, 'status' => 1], ['status' => 2,'id' => $userBet['id']]);
+                    $userBetWinAmountMop = bcmul($userBetWinAmount,$MopRate,2);
+                    $res = $user_bet_model->edit(['open_code'=>$lotteryInfo['open_code'], 'win_amount' => $userBetWinAmount,'win_amount_mop'=>$userBetWinAmountMop, 'status' => 1], ['status' => 2,'id' => $userBet['id']]);
                     if (!$res) {
                         Log::log($userBet, Log::INFO,'lotterySettle');
                         echo '更新失败：' . $userBet['id'];

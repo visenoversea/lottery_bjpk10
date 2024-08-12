@@ -112,9 +112,9 @@ class userRebate extends base
             $userRebateWhere = [];
         }
         $data = [
-            'Quantify1' => $rebateConfig['Quantify1'],
-            'Quantify2' => $rebateConfig['Quantify2'],
-            'Quantify3' => $rebateConfig['Quantify3'],
+            'betRebate1' => $rebateConfig['betRebate1'],
+            'betRebate2' => $rebateConfig['betRebate2'],
+            'betRebate3' => $rebateConfig['betRebate3'],
         ];
         //3代以内注册会员
         $where['balance'] = ['>' => 0];

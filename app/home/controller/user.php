@@ -36,7 +36,7 @@ class user extends base
             'avatar' => empty($user['avatar']) ? '/img/avatar/0.png' : $user['avatar'],
             'login_ip' => $user['login_ip'],
             'balance' => $user['balance'],
-            'balance_mop' => Common::formatAmount($user['balance']*8.05,2),
+            'balance_mop' => Common::formatAmount($user['balance'] * 8,2),
             'wallet_address' => $user['wallet_address'],
             'create_time' => $user['create_time'],
             'tid'=>$user['tid'],

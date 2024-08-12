@@ -21,6 +21,7 @@ use model\trade_model;
 use model\user_bet_item_model;
 use model\user_bet_model;
 use model\user_model;
+use model\user_profit_model;
 use service\HuoBiService;
 use service\lottery\jnd28;
 use service\RedisService;
@@ -45,6 +46,7 @@ class cron
     //定时任务运行,每分钟执行
     public function run()
     {
+        return ;
         $crontab_model = crontab_model::getInstance();
         $list = $crontab_model->where(['run_time' => ['<=' => SYS_TIME], 'status' => 1])
             ->limit(-1)->select();
@@ -189,6 +191,89 @@ class cron
             //风控不修改
             $lottery_data_model->edit(['id' => $lotteryData['id'], 'set_status' => 3], ['set_status' => 0]);
         }
+    }
+
+    public function userRebate()
+    {
+        $user_profit_model = user_profit_model::getInstance();
+        $user_model = user_model::getInstance();
+
+        $RedisService = RedisService::getInstance();
+        $num = 0;
+        do {
+            $popData = $RedisService->popData($RedisService->CronUserProfitConsumeKey);
+            if ($popData) {
+                $lock_one_key = $RedisService->CronUserProfitConsumeKey . $popData['id'];
+                $lock = $RedisService->setnx($lock_one_key,1,20);
+                if(!$lock){
+                    Log::log('userProfit重复id:'.$popData['id'],Log::INFO,'cron_repeated_check_profit' );
+                    continue;//这里不能删除key
+                }
+                //$RedisService->setDirect($lock_one_key,1,10);//马上设置redis
+
+                $userProfit = $user_profit_model->where(['id'=> $popData['id'], 'status'=> 2])->getOne();
+                if($userProfit){
+                    $dbh = $user_profit_model->begin();
+                    try {
+                        $res = $user_profit_model->edit(['status' => 1], ['id' => $userProfit['id']]);
+                        if ($res) {
+                            //转移到余额
+                            $res = $user_model->changeBalance($userProfit['user_id'], $userProfit['amount'], $userProfit['title'], $userProfit['des'], $userProfit['type'], $userProfit['key_id']);
+                            if($res['code'] != 1 ){
+                                $dbh->rollBack();
+                                echo 'rollBack1 user_id:' . $userProfit['user_id'] . ' id:' . $userProfit['id'];
+                                $RedisService->del($lock_one_key); //删除key
+                                continue;
+                            }
+                        }
+                        $dbh->commit();
+                    } catch (Exception $e) {
+                        echo 'rollBack2 user_id:' . $userProfit['user_id'] . ' id:' . $userProfit['id'];
+                        $dbh->rollBack();
+                        $this->checkUnique('t_user_amount_unique', $e->getMessage());//如果是 Duplicate entry 则记录日志
+                        Log::logException($e, 'ExceptionUserProfit' , $userProfit['id']);
+                        $RedisService->del($lock_one_key); //删除key
+                        continue;
+                    }
+                    $num ++;
+                }
+                $RedisService->del($lock_one_key); //删除key
+            }
+        } while ($popData);
+
+        echo 'userProfit finish num:'. $num;
+
+        $this->log("用户收益放发到余额{$num}");
+
+        //防止重复生产
+        $lock = $RedisService->setnx($RedisService->CronUserProfitLockKey, 1, 6  );
+        if(!$lock){
+            echo 'lock userProfit';
+            return;
+        }
+
+        //取出符合条件的放到redis队列
+        $where = ['status' => 2, 'end_time' => ['<' => SYS_TIME]];
+        $list = $user_profit_model->field('id')->where($where)->limit(500)->select();
+        foreach ($list as $v){
+            $RedisService->pushData($v, $RedisService->CronUserProfitConsumeKey);
+        }
+        $RedisService->del($RedisService->CronUserProfitLockKey); //删除key
+        echo 'userProfit make new num:'. count($list);
+
+        //(crontab_log_model::getInstance())->addLog(104, "用户收益放发到余额");
+
+        $t=SYS_TIME;
+        echo "
+        <script>
+        function run(){
+        location.href = 'https://super.dcptg.vip/main/cron/userProfit?t={$t}';    
+        }
+        //setTimeout('run()', 1000);
+       
+</script>
+        ";
+
     }
 
     //发送信息
