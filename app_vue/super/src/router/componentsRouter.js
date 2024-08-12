@@ -117,5 +117,7 @@ export default {
   MapList: () => import('@/views/MapList/IndexView.vue'),
   DomainList: () => import('@/views/DomainList/IndexView.vue'),
   CrontabList: () => import('@/views/CrontabList/IndexView.vue'),
+  // 异常处理
+  SystemEdit: () => import('@/views/SystemEdit/IndexView.vue'),
   /****************系统管理****************/
 }

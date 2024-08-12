@@ -317,4 +317,11 @@ export default {
     editCrontab: data => http.post('/admin/crontab/edit', data),
     //删除
     delCrontab: data => http.post('/admin/crontab/del', data),
+
+    // 异常处理
+    
+    userUpLevel: data => http.post('/admin/system/userUpLevel', data), 
+    addWhiteIp: data => http.post('/admin/system/addWhiteIp', data), 
+    kickUser: data => http.post('/admin/system/kickUser', data), 
+    resetDomainCache: data => http.post('/admin/system/resetDomainCache', data), 
 }
