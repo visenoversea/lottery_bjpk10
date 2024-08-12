@@ -34,8 +34,8 @@ const form = reactive({
   spread_nums: '0',
   spread_level:1,
   status: 1,
-  rebate_rate:'',
-  withdraw_num: 0
+  // rebate_rate:'',
+  // withdraw_num: 0
 })
 
 //打开
@@ -51,8 +51,8 @@ const open = () => {
   form.spread_level = props.data.spread_level
   form.spread_nums = props.data.spread_nums
   form.status = props.data.status
-  form.rebate_rate = props.data.rebate_rate
-  form.withdraw_num = props.data.withdraw_num
+  // form.rebate_rate = props.data.rebate_rate
+  // form.withdraw_num = props.data.withdraw_num
 }
 
 //确认
@@ -112,21 +112,21 @@ const confirm = async () => {
             <el-input v-model="form.spread_nums" placeholder="请输入推广人数" autocomplete="off"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="团队返佣" prop="rebate_rate">
             <el-input v-model="form.rebate_rate" placeholder="请输入团队返佣" autocomplete="off"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="12">
           <el-form-item label="提现手续费" prop="fee">
             <el-input v-model="form.fee" placeholder="请输入提现手续费" autocomplete="off"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <!-- <el-col :span="12">
           <el-form-item label="提现次数" prop="withdraw_num">
             <el-input v-model="form.withdraw_num" placeholder="请输入提现次数" autocomplete="off"></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
         <el-col :span="12">
           <el-form-item label="状态">
             <el-select v-model="form.status">
