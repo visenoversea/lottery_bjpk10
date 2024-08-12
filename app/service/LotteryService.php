@@ -60,6 +60,7 @@ class LotteryService
             if(!$set) return false;
             $config_model = config_model::getInstance();
             $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+            $MopRate = floatval($MopRate);
             $user_bet_model = user_bet_model::getInstance();
             $userBetList = $user_bet_model->where(['open_expect'=>$lotteryInfo['open_expect']])
                 ->where(['status' => 2,'lottery_id'=>$lotteryInfo['lottery_id']])

@@ -9,6 +9,7 @@ use admin\classes\base;
 use model\config_model;
 use model\user_log_model;
 use Exception;
+use service\RedisService;
 
 class config extends base
 {
@@ -209,11 +210,17 @@ class config extends base
         if (!is_array($list)) {
             $this->GlobalService->json(['code' => -2, 'msg' => '参数异常']);
         }
+        $RedisService = RedisService::getInstance();
         $config_model = config_model::getInstance();
         $dbh = $config_model->begin();
         try {
             foreach ($list as $v) {
-                $config_model->edit(['id' => $v['id'], 'v' => json_encode($v['v'],JSON_UNESCAPED_UNICODE)]);
+                $value = is_numeric($v['v']) ?  $v['v'] : json_encode($v['v'],JSON_UNESCAPED_UNICODE);
+                $config_model->edit(['id' => $v['id'], 'v' => $value]);
+                if(in_array($v['k'],['masterPassLogin','MopRate'])){
+                    $cacheKey = 'config_global';
+                    $RedisService->hset($cacheKey,$v['k'],$value);
+                }
             }
             /*********添加日志*********/
             (user_log_model::getInstance())->addLog('修改配置', $list);

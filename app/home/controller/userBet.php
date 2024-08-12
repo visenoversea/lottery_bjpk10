@@ -138,6 +138,7 @@ class userBet extends base
         $lotteryRoomSend = [];
         $config_model = config_model::getInstance();
         $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+        $MopRate = floatval($MopRate);
 //        $MopRate = $config_model->getConfig(7,'MopRate') ?? 8.00;
 
         foreach ($betList as $v) {
