@@ -58,17 +58,9 @@ const edit = (row) => {
           <el-image v-if="scope.row.img" :src="scope.row.img" :preview-src-list="[scope.row.img]" fit="contain" hide-on-click-modal preview-teleported />
         </template>
       </el-table-column>
-      <el-table-column prop="nums" label="量化次数" min-width="100">
-      </el-table-column>
       <el-table-column prop="min" label="最小余额" min-width="100">
       </el-table-column>
       <el-table-column prop="max" label="最大余额" min-width="100">
-      </el-table-column>
-      <el-table-column prop="min_rate" label="最小收益" min-width="100">
-      </el-table-column>
-      <el-table-column prop="max_rate" label="最大收益" min-width="100">
-      </el-table-column>
-      <el-table-column prop="reward" label="晋级奖励" min-width="100">
       </el-table-column>
       <el-table-column prop="amount" label="金额要求" min-width="100">
       </el-table-column>

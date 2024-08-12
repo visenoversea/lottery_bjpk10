@@ -226,6 +226,11 @@ const del = (row) => {
           <span v-else>-</span>
         </template>
       </el-table-column>
+      <el-table-column label="等级" width="100">
+        <template #default="scope">
+          <span class="g-green-tiffany">{{ scope.row.level_id+'级' }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="层级" width="45">
         <template #default="scope">
           <span class="g-red">{{scope.row.layer}}代</span>
