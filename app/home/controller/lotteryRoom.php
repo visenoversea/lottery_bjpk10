@@ -47,18 +47,18 @@ class lotteryRoom extends base
             $this->GlobalService->json(['code' => 1, 'msg' => '参数异常', 'info' => $data]);
         }
 
-        $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id,'open_expect'=>$lottery_expect])->sum('bet_amount');
+        $betAmount = DB::table('user_bet')->where(['user_id'=>$user['id'],'lottery_room_id'=>$id,'open_expect'=>$lottery_expect])->sum('bet_amount_mop');
         $data['betAmount'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
         $todayWinAmount = DB::table('user_bet_item')
             ->where('user_id',$user['id'])
             ->where('create_time','>=',strtotime('today'))
-            ->sum('win_amount' );
+            ->sum('win_amount_mop' );
 
         $todayBetAmount = DB::table('user_bet_item as ubi')->leftJoin('user_bet as ub','ubi.user_bet_id','=','ub.id')
             ->where('ub.status',1)
             ->where('ubi.user_id',$user['id'])
             ->where('ubi.create_time','>=',strtotime('today'))
-            ->sum('ubi.bet_amount' );
+            ->sum('ubi.bet_amount_mop' );
         $data['todayWin'] = bcsub($todayWinAmount,$todayBetAmount,2);
 
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $data]);
