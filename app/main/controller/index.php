@@ -145,7 +145,7 @@ class index extends base
     }
 
     //获取随机动态展示数据
-    public function getRandList($limit = 100)
+    public function getRandList($limit = 10)
     {
         $list = [];
         $amount = [0.89, 0.66, 0.97, 0.69, 0.79, 5.18, 0.66, 5.69, 8.69, 11.86,18.77,25.25, 29.25, 99.98, 77.98, 43.25, 88.25, 50.25, 151.11, 351.11, 651.11, 1152.23, 1852.64, 3812.88, 4152.24];

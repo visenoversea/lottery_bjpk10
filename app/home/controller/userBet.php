@@ -298,7 +298,7 @@ class userBet extends base
         $list = DB::table('user_bet_item as ubi')
             ->leftJoin('user_bet as ub', 'ubi.user_bet_id', '=', 'ub.id')
             ->leftJoin('lottery as l', 'ubi.lottery_id', '=', 'l.id')
-            ->selectRaw("t_ubi.id,t_ubi.user_id,t_l.name,t_ubi.lottery_group_name,t_ubi.bet_no,t_ubi.bet_amount,t_ubi.win_amount,t_ubi.odds,t_ubi.create_time,t_ub.status")
+            ->selectRaw("t_ubi.id,t_ubi.user_id,t_l.name,t_ubi.lottery_group_name,t_ubi.bet_no,t_ubi.bet_amount,t_ubi.bet_amount_mop,t_ubi.win_amount,t_ubi.win_amount_mop,t_ubi.odds,t_ubi.create_time,t_ub.status")
             ->where('ubi.user_id', '=', $user['id'])
 //            ->where('ubi.status', '=', 1)
             ->forPage($page, $limit)
