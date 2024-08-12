@@ -97,6 +97,13 @@ class userBet extends base
         if (!$lotteryRoom) {
             $this->GlobalService->json(['code' => -2, 'msg' => '房间不存在']);
         }
+        $config_model = config_model::getInstance();
+        $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+        $MopRate = floatval($MopRate);
+        if($user['balance'] < $lotteryRoom['balance'] && $user['leve_id'] < $lotteryRoom['level']){
+            $roomBalanceMop = $lotteryRoom['balance'] * $MopRate;
+            $this->GlobalService->json(['code' => -2, 'msg' => 'vip等级不足或mop余额不足'.$roomBalanceMop]);
+        }
         if ($lotteryRoom['status'] != 1) {
             $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '房间已关闭,无法下注']);
@@ -121,6 +128,9 @@ class userBet extends base
             $RedisService->del($lockKey);
             $this->GlobalService->json(['code' => -2, 'msg' => '已封盘，无法下注']);
         }
+
+        //进入中级厅，要求达到vip2或余额在1000U以上，最低下注20，vip2要求为邀请10个客户
+        //高级厅下注要求，要求达到vip3或余额在3000U以上，最低下注50U，vip3要求为邀请20个客户。
 //        $usdt2cnyRate = $RedisService->getDirect('usdt2cnyRate');
         $usdt2cnyRate = $RedisService->getDirect('usdt2cnyRate');
         $lottery_played_model = lottery_played_model::getInstance();
@@ -136,9 +146,7 @@ class userBet extends base
         ];
         $userBetItemList = [];
         $lotteryRoomSend = [];
-        $config_model = config_model::getInstance();
-        $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
-        $MopRate = floatval($MopRate);
+
 //        $MopRate = $config_model->getConfig(7,'MopRate') ?? 8.00;
 
         foreach ($betList as $v) {

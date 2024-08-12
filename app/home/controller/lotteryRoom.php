@@ -9,6 +9,7 @@ use admin\controller\translate;
 use asura\Common;
 use main\classes\base;
 use asura\Illuminate\DB;
+use model\config_model;
 use model\lottery_data_model;
 use model\lottery_group_model;
 use model\lottery_model;
@@ -34,9 +35,11 @@ class lotteryRoom extends base
     public function betInfo($id,$lottery_expect)
     {
         $user = $this->GlobalService->getUser();
-
+        $config_model = config_model::getInstance();
+        $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+        $MopRate = floatval($MopRate);
         $data = [
-            'balance'=> $user['balance'],
+            'balance'=> bcmul($user['balance'] , $MopRate,2),
             'todayWin'=> 0.00,
             'betAmount'=> 0.00,
         ];
