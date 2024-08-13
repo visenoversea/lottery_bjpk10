@@ -121,19 +121,19 @@ class userRebate extends base
         //1代注册会员
         $where['layer']++;
         $data['agent1'] = $user_model->where($where)->count();
-        $where['recharge_amount'] = ['>=' => 30];
+//        $where['recharge_amount'] = ['>=' => 30];
         $data['agentValid1'] = $user_model->where($where)->count();
         $data['agentAmount1'] = $user_rebate_model->getSumAmount($user['id'], $userRebateWhere, ['layer' => $where['layer']]);
         //2代人数
         $where['layer']++;
         $data['agent2'] = $user_model->where($where)->count();
-        $where['recharge_amount'] = ['>=' => 30];
+//        $where['recharge_amount'] = ['>=' => 30];
         $data['agentValid2'] = $user_model->where($where)->count();
         $data['agentAmount2'] = $user_rebate_model->getSumAmount($user['id'], $userRebateWhere, ['layer' => $where['layer']]);
         //3代人数
         $where['layer']++;
         $data['agent3'] = $user_model->where($where)->count();
-        $where['recharge_amount'] = ['>=' => 30];
+//        $where['recharge_amount'] = ['>=' => 30];
         $data['agentValid3'] = $user_model->where($where)->count();
         $data['agentAmount3'] = $user_rebate_model->getSumAmount($user['id'], $userRebateWhere, ['layer' => $where['layer']]);
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'info' => $data]);
