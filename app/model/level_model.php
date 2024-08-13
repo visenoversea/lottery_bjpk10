@@ -28,8 +28,8 @@ class level_model extends Model
     //升级等级
     public function upLevel($user): array
     {
-        ///kkk
-        return ['code' => 1, 'msg' => '暂不自动升级'];
+
+
         $level = $this->where(['id' => $user['level_id'] + 1])->getOne();
         if (!$level) {
             return ['code' => -2, 'msg' => '未知的等级'];
@@ -37,9 +37,11 @@ class level_model extends Model
         if ($level['status'] != 1) {
             return ['code' => -2, 'msg' => '等级禁用'];
         }
+        $up = false;
         //验证条件
-        if ($user['balance'] < $level['amount']) {
-            return ['code' => -2, 'msg' => "晋级条件不满足，金额需大于" . $level['amount']];
+        if ($user['balance'] >= $level['amount']) {
+//            return ['code' => -2, 'msg' => "晋级条件不满足，金额需大于" . $level['amount']];
+            $up = true;
         }
         $user_model = user_model::getInstance();
 
@@ -47,11 +49,15 @@ class level_model extends Model
             'pid' => $user['pid'] . $user['id'] . ',',
             'type' => ['<' => 10],
             //累计充值100才算有效客户
-            'recharge_amount' => ['>=' => 100],
+//            'recharge_amount' => ['>=' => 100],
             'status' => ['>=' => 0]
         ])->count();
-        if ($user['virtual'] == 0 && $spreadNums < $level['spread_nums']) {
-            return ['code' => -2, 'msg' => "首次充值大于100的有效推广下线不足:" . $level['spread_nums']];
+        if ($spreadNums >= $level['spread_nums']) {
+//            return ['code' => -2, 'msg' => "首次充值大于100的有效推广下线不足:" . $level['spread_nums']];
+            $up = true;
+        }
+        if (!$up) {
+            return ['code' => -2, 'msg' => "余额不足{$level['amount']},或推广人数不足:" . $level['spread_nums']];
         }
         //满足条件升级
         $res = $user_model->edit(['id' => $user['id'], 'level_id' => $level['id']], ['level_id' => $user['level_id']]);

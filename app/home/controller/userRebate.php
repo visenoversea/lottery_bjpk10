@@ -106,7 +106,7 @@ class userRebate extends base
             'status' => ['>=' => 0]
         ];
         if ($time > 0) {
-            $where['create_time'] = ['>=' => $time];
+//            $where['create_time'] = ['>=' => $time];
             $userRebateWhere = ['create_time' => ['>=' => $time]];
         } else {
             $userRebateWhere = [];
