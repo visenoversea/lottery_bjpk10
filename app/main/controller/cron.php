@@ -25,6 +25,7 @@ use model\user_profit_model;
 use service\HuoBiService;
 use service\lottery\jnd28;
 use service\RedisService;
+use service\LotteryService;
 use service\WebSocketService;
 use Exception;
 
@@ -77,6 +78,9 @@ class cron
     public function paijiang()
     {
         $redis = RedisService::getInstance();
+        $lotteryService = \service\LotteryService::getInstance();
+        $lotteryService->paijiang();
+        exit;
         $bingKey = 'paijiang';
         $set = $redis->getDirect($bingKey);
         if($set) return'';

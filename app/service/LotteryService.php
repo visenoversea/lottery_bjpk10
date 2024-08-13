@@ -350,6 +350,10 @@ class LotteryService
             $redis->del($bingKey);
             return;
         }
+
+        $config_model = config_model::getInstance();
+        $MopRate = $config_model->getCacheConfig(7,'MopRate') ?? 8.00;
+        $MopRate = floatval($MopRate);
         $user_model = user_model::getInstance();
         $user_bet_item_model = user_bet_item_model::getInstance();
         //需要派奖
@@ -366,14 +370,16 @@ class LotteryService
                     $res = call_user_func($userBetItem['fn'], $userBetItem, $openCode);
                     if ($res['winStatus'] == 1) {
                         $winAmount = round($userBetItem['bet_amount'] * $userBetItem['odds'], 2);
+                        $winAmountMop = bcmul($winAmount,$MopRate,2);
                         if ($winAmount > 0) {
                             $userBetWinAmount += $winAmount;
-                            $user_bet_item_model->edit(['id' => $userBetItem['id'], 'win_amount' => $winAmount]);
+                            $user_bet_item_model->edit(['id' => $userBetItem['id'], 'win_amount' => $winAmount,'win_amount_mop' => $winAmountMop]);
                             $user_model->changeBalance($userBet['user_id'], $winAmount, $userBet['open_expect'], '派奖', 4, $userBetItem['id']);
                         }
                     }
                 }
-                $res = $user_bet_model->edit(['id' => $userBet['id'],'open_code'=>$userBet['openCode'], 'win_amount' => $userBetWinAmount, 'status' => 1], ['status' => 2]);
+                $userBetWinAmountMop = bcmul($userBetWinAmount,$MopRate,2);
+                $res = $user_bet_model->edit(['id' => $userBet['id'],'open_code'=>$userBet['openCode'], 'win_amount' => $userBetWinAmount,'win_amount_mop'=>$userBetWinAmountMop, 'status' => 1], ['status' => 2]);
                 if (!$res) {
                     echo '更新失败：' . $userBet['id'];
                     $redis->del($bingKey);
