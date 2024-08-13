@@ -334,12 +334,12 @@ class user_rebate_model extends Model
         }
     }
 
-    public function getSumAmount($user_id, $rebateWhere,$where = [])
+    public function getSumAmount($user_id, $where = [],$rebateWhere=[])
     {
         $where['user_id'] = $user_id;
         $where['status'] = 1;
-        $res = $this->field('SUM(amount) AS amount')->where($rebateWhere)->hasWhere('user',$where)->getOne();
-        return $res['amount'] ? round($res['amount'],2) : 0.00;
+        $res = $this->field('SUM(amount) AS amount')->where($where)->hasWhere('rebate',$rebateWhere)->getOne();
+        return $res['amount'] ? round($res['amount'],2) : '0.00';
     }
 
     public function getRebateAmount($user_id, $rebate_id, $where = [])
