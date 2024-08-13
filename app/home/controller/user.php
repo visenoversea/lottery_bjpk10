@@ -40,7 +40,9 @@ class user extends base
             'wallet_address' => $user['wallet_address'],
             'create_time' => $user['create_time'],
             'tid'=>$user['tid'],
-            'status' => $user['status']
+            'status' => $user['status'],
+            'level_id' => $user['level_id'],
+            'level' => 'VIP' . $user['level_id'],
         ];
         $data['promoteUrl'] = (domain_model::getInstance())->getUrl() . '/?tid=' . $data['tid'];
         $user_real_model = user_real_model::getInstance();
