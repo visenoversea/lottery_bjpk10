@@ -35,8 +35,6 @@ const query = reactive({
   limit: 20,
   orderBy:"create_time",
   search_key: 'user_id',
-  min: '',
-  max: '',
 })
 
 const getList = async (init = true) => {
@@ -72,14 +70,6 @@ const open = () => {
         <el-select v-model="query.orderBy" @change="getList">
           <el-option label="注册时间" value="create_time"></el-option>
         </el-select>
-      </el-form-item>
-      <el-form-item label="余额区间">
-        <el-col :span="11">
-          <el-input style="width: 100px" v-model="query.min" @keyup.enter="getList" @clear="getList" placeholder="最小余额" clearable></el-input>
-        </el-col>
-        <el-col :span="11" :offset="2">
-          <el-input style="width: 100px" v-model="query.max" @keyup.enter="getList" @clear="getList" placeholder="最大余额" clearable></el-input>
-        </el-col>
       </el-form-item>
       <el-form-item>
         <template #label>
