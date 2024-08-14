@@ -320,6 +320,7 @@ class userBet extends base
             $v['lottery_group_name'] = $this->GlobalService->translate($v['lottery_group_name']);
             $v['bet_no'] = $this->GlobalService->translate($v['bet_no']);
             $v['statusDesc'] = $v['status'] == 1 ? '已开奖' : '待开奖';
+            $v['statusDesc'] = $this->GlobalService->translate($v['statusDesc']);
         }
         $this->GlobalService->json(['code' => 1, 'msg' => '成功','list'=>$list,'total'=>$total]);
     }
