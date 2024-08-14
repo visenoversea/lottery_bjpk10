@@ -105,8 +105,8 @@ const regShow = ref(false)
     </el-row>
     <div style="padding: 10px">今日统计</div>
     <el-row :gutter="24">
-      <el-col :span="4" @click="regShow=true" class="g-pointer">
-        <div class="tj-title">今日注册会员</div><div class="tj-val">{{table.info.todayRegNums}}</div>
+      <el-col :span="4">
+        <div @click="regShow=true" class="tj-title">今日注册会员</div><div class="tj-val">{{table.info.todayRegNums}}</div>
       </el-col>
       <el-col :span="4">
         <div class="tj-title">今日新增首充人数</div><div class="tj-val">{{table.info.todayFirstRechargeNums}}</div>

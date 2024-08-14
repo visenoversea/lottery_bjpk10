@@ -35,8 +35,6 @@ const query = reactive({
   limit: 20,
   orderBy:"create_time",
   search_key: 'user_id',
-  min: '',
-  max: '',
 })
 
 const getList = async (init = true) => {
@@ -68,19 +66,6 @@ const open = () => {
                         range-separator="至" start-placeholder="开始日期"
                         end-placeholder="结束日期" />
       </el-form-item>
-      <el-form-item label="排序">
-        <el-select v-model="query.orderBy" @change="getList">
-          <el-option label="注册时间" value="create_time"></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="余额区间">
-        <el-col :span="11">
-          <el-input style="width: 100px" v-model="query.min" @keyup.enter="getList" @clear="getList" placeholder="最小余额" clearable></el-input>
-        </el-col>
-        <el-col :span="11" :offset="2">
-          <el-input style="width: 100px" v-model="query.max" @keyup.enter="getList" @clear="getList" placeholder="最大余额" clearable></el-input>
-        </el-col>
-      </el-form-item>
       <el-form-item>
         <template #label>
           <el-select v-model="query.search_key">
@@ -102,8 +87,8 @@ const open = () => {
         </el-row>
       </el-form-item>
     </el-form>
-    <el-table v-loading="table.loading" :data="table.list" stripe border>
-      <el-table-column fixed="left" label="状态" width="80" >
+    <el-table v-loading="table.loading" height="400" :data="table.list" stripe border>
+      <el-table-column label="状态" width="80" >
         <template #default="scope">
           <span v-if="scope.row.status===1" class="g-green">正常</span>
           <span v-else-if="scope.row.status===2" class="g-red">禁止提现</span>
@@ -115,7 +100,7 @@ const open = () => {
           <span class="g-grey" v-else>(离线)</span>
         </template>
       </el-table-column>
-      <el-table-column fixed="left" label="用户ID" width="120">
+      <el-table-column label="用户ID" width="120">
         <template #default="scope">
           <div :class="{'g-bg-pink':scope.row.virtual}">
             <span>{{scope.row.id}}</span>
@@ -126,25 +111,12 @@ const open = () => {
           </div>
         </template>
       </el-table-column>
-      <el-table-column fixed="left" prop="user_name" label="用户名" width="100">
-      </el-table-column>
-      <el-table-column label="总代理" width="100">
-        <template #default="scope">
-          <span class="g-red g-pointer" v-if="scope.row.agentList.length > 0"
-                @click="spread(scope.row.agentList[0].id)">{{ scope.row.agentList[0].user_name }}</span>
-          <span v-else>-</span>
-        </template>
+      <el-table-column prop="user_name" label="用户名" min-width="100">
       </el-table-column>
       <el-table-column label="上级代理" width="100">
         <template #default="scope">
-          <span class="g-blue g-pointer" v-if="scope.row.agentList.length > 0"
-                @click="spread(scope.row.agentList[scope.row.agentList.length - 1].id)">{{ scope.row.agentList[scope.row.agentList.length - 1].user_name }}</span>
+          <span class="g-blue" v-if="scope.row.agentList.length > 0">{{ scope.row.agentList[scope.row.agentList.length - 1].user_name }}</span>
           <span v-else>-</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="等级" width="100">
-        <template #default="scope">
-          <span class="g-green-tiffany">{{ scope.row.level_id+'级' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="层级" width="45">
@@ -152,14 +124,19 @@ const open = () => {
           <span class="g-red">{{scope.row.layer}}代</span>
         </template>
       </el-table-column>
-      <el-table-column label="充值" width="80">
+      <el-table-column label="等级" width="50">
         <template #default="scope">
-          <span class="g-green">{{scope.row.recharge}}</span>
+          <span class="g-blue">{{scope.row.level.title}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="提现" width="80">
+      <el-table-column label="今日量化" width="70">
         <template #default="scope">
-          <span class="g-red">{{scope.row.withdraw}}</span>
+          <span>{{scope.row.todayQuantifyNums}}次</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="今日收益" width="70">
+        <template #default="scope">
+          <span class="g-purple">{{scope.row.todayQuantifyProfit}}</span>
         </template>
       </el-table-column>
       <el-table-column label="余额" width="80">
@@ -167,22 +144,20 @@ const open = () => {
           <span class="g-blue">{{scope.row.balance}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="剩余流水" width="80">
+      <el-table-column label="登录时间" width="130" :show-overflow-tooltip="true">
         <template #default="scope">
-          <span class="g-blue">{{scope.row.water_amount}}</span>
+          <span>{{formatDate(scope.row.login_time)}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="登录地区" width="130">
-        <template #default="scope">
-          <span class="g-purple">{{scope.row.ipAddress}}</span>
-        </template>
+      <el-table-column prop="login_ip" label="登陆ip" width="120">
       </el-table-column>
-      <el-table-column label="注册IP/时间" width="130">
-        <template #default="scope">
-          <div class="g-blue g-pointer" @click="ip('',scope.row.create_ip)">{{scope.row.create_ip}}</div>
-          <div>{{formatDate(scope.row.create_time)}}</div>
-        </template>
-      </el-table-column>
+      <!--        <el-table-column label="注册时间" width="130">-->
+      <!--          <template #default="scope">-->
+      <!--            <span>{{formatDate(scope.row.create_time)}}</span>-->
+      <!--          </template>-->
+      <!--        </el-table-column>-->
+      <!--        <el-table-column prop="create_ip" label="注册ip" width="120">-->
+      <!--        </el-table-column>-->
     </el-table>
     <el-pagination
         :page-sizes="[15, 30, 60, 100]" :total="table.total"
