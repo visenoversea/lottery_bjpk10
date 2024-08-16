@@ -216,8 +216,25 @@ class send_model extends Model
             $subject = str_replace(['{0}'], [$systemConfig['WebTitle']], $emailConfig['Subject']);
             $body = str_replace(['{0}', '{1}'], [$systemConfig['WebTitle'], $code], $emailConfig['Tpl']);
         }
-        $Email = new Email($emailConfig['UserName'], $emailConfig['Password'], $emailConfig['Host'], $emailConfig['Port']);
+        if(!empty($systemConfig['SendEmailUrl'])){//使用远程的
+            $data = array(
+                'emailConfig' => [
+                    'UserName' => $emailConfig['UserName'],
+                    'Password' => $emailConfig['Password'],
+                    'Host' => $emailConfig['Host'],
+                    'Port' => $emailConfig['Port'],
+                ],
+                'toEmail' => $email,
+                'subject' => $subject,
+                'body' => $body,
+            );
+            $res = Common::curlRequest(trim($systemConfig['SendEmailUrl']), json_encode($data), ['Content-Type: application/json']);
+            $res = json_decode($res,true);
+        } 
+        else {
+            $Email = new Email($emailConfig['UserName'], $emailConfig['Password'], $emailConfig['Host'], $emailConfig['Port']);
         $res = $Email->send($emailConfig['UserName'], $email, $subject, $body);
+        }
         $data = ['account' => $email, 'content' => $body, 'code' => $code, 'ip' => $ip];
         if ($res['code'] != 1) {
             $data['status'] = 0;
