@@ -10,9 +10,11 @@ use asura\Param;
 use home\classes\base;
 use model\domain_model;
 use model\send_model;
+use model\user_balance_model;
 use model\user_bet_item_model;
 use model\user_bet_model;
 use model\user_model;
+use model\user_product_lever_model;
 use model\user_real_model;
 use asura\Illuminate\DB;
 class user extends base
@@ -97,6 +99,49 @@ class user extends base
             $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'token' => $user_model->getToken($user, $token['auth'])]);
         }
         $this->GlobalService->json(['code' => -2, 'msg' => '系统异常']);
+    }
+
+    //余额列表
+    public function getBalanceList($type = 1)
+    {
+        $user = $this->GlobalService->getUser();
+        if ($type == 1) {
+            $user_product_lever_model = user_product_lever_model::getInstance();
+            $freeze = $user_product_lever_model->getAmountByUser($user['id']);
+            $list = [
+                [
+                    'id' => 0,
+                    'product_id' => 0,
+                    'icon' => '/img/icon/usdt.png',
+                    'currency' => 'USDT',
+                    'balance' => Common::formatAmount($user['balance']),
+                    'freeze' => $freeze,
+                    'amount_fixed' => 2,
+                    'usdtRate' => 1
+                ],
+            ];
+            $user_balance_model = user_balance_model::getInstance();
+            $userBalancelist = $user_balance_model->with(['product' => 'id,title,icon,price'])
+                ->where(['user_id' => $user['id'], 'status' => 1])
+                ->order('create_time desc')
+                ->select();
+            foreach ($userBalancelist as $v) {
+                $list[] = [
+                    'id' => $v['id'],
+                    'product_id' => $v['product_id'],
+                    'icon' => $v['product']['icon'],
+                    'currency' => $v['currency'],
+                    'balance' => Common::formatAmount($v['balance']),
+                    'amount_fixed' => $v['amount_fixed'],
+                    'usdtRate' => $v['product']['price']
+                ];
+            }
+        } else if ($type == 2) {
+            $list = [
+                ['id' => 0, 'product_id' => 0, 'icon' => '/img/icon/usdt.png', 'currency' => 'USDT', 'balance' => Common::formatAmount($user['deposit']), 'amount_fixed' => 2, 'usdtRate' => 1]
+            ];
+        }
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $list]);
     }
 
     //重置余额
