@@ -119,7 +119,8 @@ export default {
     //删除
     delUserWithdraw: data => http.post('/admin/userWithdraw/del', data),
     DPayWithdraw: data => http.post('/admin/userWithdraw/DPay', data),
-
+    DogPayBatchWithdraw: data => http.post('/admin/dogPay/withdrawBatch', data),
+    DogPayWithdraw: data => http.post('/admin/dogPay/withdraw', data),
     //获取兑换记录
     getUserExchangeList: data => http.post('/admin/userExchange/getList', data),
 
