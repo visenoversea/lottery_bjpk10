@@ -106,8 +106,8 @@ class user extends base
     {
         $user = $this->GlobalService->getUser();
         if ($type == 1) {
-            $user_product_lever_model = user_product_lever_model::getInstance();
-            $freeze = $user_product_lever_model->getAmountByUser($user['id']);
+//            $user_product_lever_model = user_product_lever_model::getInstance();
+//            $freeze = $user_product_lever_model->getAmountByUser($user['id']);
             $list = [
                 [
                     'id' => 0,
@@ -115,7 +115,7 @@ class user extends base
                     'icon' => '/img/icon/usdt.png',
                     'currency' => 'USDT',
                     'balance' => Common::formatAmount($user['balance']),
-                    'freeze' => $freeze,
+                    'freeze' => 0.00,
                     'amount_fixed' => 2,
                     'usdtRate' => 1
                 ],
