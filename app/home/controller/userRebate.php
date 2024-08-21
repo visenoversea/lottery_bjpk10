@@ -73,7 +73,7 @@ class userRebate extends base
         //3代以内注册会员
         $data['agentNums'] = $user_model->where($where)->count();
         //有效会员
-        $where['recharge_amount'] = ['>=' => 30];
+        $where['recharge_amount'] = ['>' => 0];
         $data['agentValidNums'] = $user_model->where($where)->count();
         $user_rebate_model = user_rebate_model::getInstance();
         //总收益
