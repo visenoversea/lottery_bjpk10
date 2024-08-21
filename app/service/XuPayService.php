@@ -142,7 +142,6 @@ UgMHI7Bk7g17b5s=
 
     public function withdrawal($id, $userId, $orderNo, $amount, $channelType, $address): array
     {
-        return [];
         if (!in_array($channelType, ['TRC20', 'ERC20','ETH','TRX'])) {
             return ['code' => -2, 'msg' => '操作失败,当前链类型只支持TRC20,ERC20,ETH,TRX'];
         }

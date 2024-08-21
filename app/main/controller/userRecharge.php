@@ -161,7 +161,7 @@ class userRecharge extends base
                         Log::log($post, Log::ERR, 'XuPayService');
                         return;
                     }
-                    $user_recharge_model->success($user, array_merge($userRecharge, $data),'XUPAY');
+                    $user_recharge_model->success($user, array_merge($userRecharge, $data));
                     $dbh->commit();
                     $success = true;
                     echo 'SUCCESS';
