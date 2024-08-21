@@ -10,6 +10,7 @@ const auth = reactive({
   reviewUserWithdraw: store.auth("reviewUserWithdraw"),
   editUserWithdraw: store.auth("editUserWithdraw"),
   DogPayWithdraw: store.auth("DogPayWithdraw"),
+  XuPayWithdraw: store.auth("XuPayWithdraw"),
   delUserWithdraw: store.auth("delUserWithdraw"),
   DPayWithdraw: store.auth("DPayWithdraw"),
 });
@@ -123,7 +124,40 @@ const DogPay = (row) => {
     await getList(false);
   });
 };
+const XPay = (row) => {
+  ElMessageBox.prompt("请输入实际提款金额", "确认XPay下款?", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    inputValue: row.amount,
+    type: "warning",
+  }).then(async ({ value }) => {
+    table.loading = true;
+    const { success, data } = await api.XPayWithdraw({ id: row.id, amount: value });
+    table.loading = false;
+    if (!success) return;
+    ElMessage.success(data.msg); 
+    await getList(false);
+  });
+};
 
+const XpayBatch = () => {
+  if (query.value.ids === "") {
+    ElMessage.error("请选择要Xpay下款的订单");
+    return;
+  }
+  ElMessageBox.confirm("确认XPay批量下款?", "审核通过", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  }).then(async () => {
+    table.loading = true;
+    const { success, data } = await api.XpayBatchWithdraw({ ids: query.value.ids });
+    table.loading = false;
+    if (!success) return;
+    ElMessage.success(data.msg);
+    await getList(false);
+  });
+};
 const DogPayBatch = () => {
   console.log(query.ids);
   if (query.ids === "") {
@@ -165,6 +199,12 @@ const del = (row) => {
         <span>用户提现列表</span>
         <div class="g-flex-justify-end g-flex-1">
           <el-button
+            v-if="auth.XuPayWithdraw"
+            type="warning"
+            @click="XpayBatch"
+            >Xpay批量</el-button
+          >
+          <el-button
             v-if="auth.DogPayWithdraw"
             type="success"
             @click="DogPayBatch"
@@ -202,6 +242,7 @@ const del = (row) => {
           <el-option label="审核通过" value="1"></el-option>
           <el-option label="待审核" value="2"></el-option>
           <el-option label="提款中" value="3"></el-option>
+          <el-option label="Xpay批量提款中" value="6"></el-option>
           <el-option label="DogPay批量提款中" value="7"></el-option>
           <el-option label="审核不通过" value="0"></el-option>
         </el-select>
@@ -314,6 +355,9 @@ const del = (row) => {
           >
           <span v-else-if="scope.row.status === 3" class="g-purple"
             >提款中</span
+          >
+          <span v-else-if="scope.row.status === 6" class="g-blue"
+            >Xpay批量提款中</span
           >
           <span v-else-if="scope.row.status === 7" class="g-blue"
             >DogPay批量提款中</span
@@ -455,6 +499,12 @@ const del = (row) => {
             type="primary"
             @click="DogPay(scope.row)"
             >DogPay</el-button
+          >
+          <el-button
+            v-if="scope.row.status === 2 && auth.XuPayWithdraw"
+            type="primary"
+            @click="XPay(scope.row)"
+            >XPay</el-button
           >
           <el-button
             v-if="scope.row.status === 2 && auth.DPayWithdraw"

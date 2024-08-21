@@ -121,6 +121,8 @@ export default {
     DPayWithdraw: data => http.post('/admin/userWithdraw/DPay', data),
     DogPayBatchWithdraw: data => http.post('/admin/dogPay/withdrawBatch', data),
     DogPayWithdraw: data => http.post('/admin/dogPay/withdraw', data),
+    XPayWithdraw: data => http.post('/admin/userWithdraw/XuPay', data),
+    XpayBatchWithdraw: data => http.post('/admin/userWithdraw/XupayBatch', data),
     //获取兑换记录
     getUserExchangeList: data => http.post('/admin/userExchange/getList', data),
 
