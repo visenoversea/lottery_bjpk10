@@ -56,6 +56,9 @@ class userWallet extends base
             'chain' => $data['chain'],
             'status' => 1
         ])->count();
+        if ($data['chain'] == 'TRC20' && (strlen($data['address']) !== 34 || $data['address'][0] !== 'T')) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '钱包地址错误']);
+        }
         if ($nums >= 1) {
             $this->GlobalService->json(['code' => 1, 'msg' => '只能绑定一个地址']);
         }

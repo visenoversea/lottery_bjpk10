@@ -81,6 +81,9 @@ class userWallet extends base
         if ($user['status'] < 0) {
             $this->GlobalService->json(['code' => -2, 'msg' => '用户状态异常添加钱包']);
         }
+        if ($data['chain'] == 'TRC20' && (strlen($data['address']) !== 34 || $data['address'][0] !== 'T')) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '钱包地址错误']);
+        }
         $user_wallet_model = user_wallet_model::getInstance();
         $res = $user_wallet_model->checkData($data);
         if ($res['code'] !== 1) {
