@@ -153,8 +153,10 @@ class user_recharge_model extends Model
     public function sumUserAgentInfo($userWhere, $where = []): array
     {
         $where['status'] = 1;
+        $where['del'] = 0;
         $userWhere['status']['>='] = 0;
         $userWhere['virtual'] = 0;
+
         $res = $this->alias('ur')
             ->field('SUM(ur.real_amount) AS amount,COUNT(DISTINCT ur.user_id) AS userNums,COUNT(*) AS nums,SUM((ur.amount-ur.real_amount) * ur.rate) AS gift')
             ->hasWhere('user', $userWhere)

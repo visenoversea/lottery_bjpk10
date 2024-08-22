@@ -67,6 +67,7 @@ class user_withdraw_model extends Model
         $where['status'] = 1;
         $userWhere['status']['>='] = 0;
         $userWhere['virtual'] = 0;
+        $where['del'] = 0;
         $res = $this->alias('uw')
             ->field('SUM(uw.real_amount * uw.rate) AS amount,COUNT(DISTINCT uw.user_id) AS userNums,COUNT(*) AS nums')
             ->hasWhere('user', $userWhere)
