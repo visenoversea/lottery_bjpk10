@@ -6,7 +6,7 @@
           {{ i18n.titleText }}
         </div>
         <div class="c-pop-head-version">
-          V.{{ store.system.system }} {{ i18n.wendingText }}
+          V.{{ store.system.Version }} {{ i18n.wendingText }}
         </div>
       </div>
       <div class="c-pop-content">
@@ -72,12 +72,14 @@ defineExpose({
 <style lang='scss'>
 .c_update_pop {
   .van-overlay {
+    z-index: 999999!important;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
 
   .c-pop {
+    z-index: 999999!important;
     position: absolute;
     width: 80%;
     border-radius: 10px;
@@ -92,7 +94,7 @@ defineExpose({
       .c-pop-head-title {
         font-size: 20px;
         padding-top: 10px;
-        color: var(--g-white);
+        color: var(--g-black);
         text-align: center;
       }
 
@@ -108,7 +110,8 @@ defineExpose({
       padding: 0 15px 15px 15px;
 
       .c-pop-content-title {
-        color: #000;
+        padding-top: 5px;
+        color: var(--g-white);
         font-size: 18px;
         font-weight: 600;
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="c_loading">
-    <van-loading class="c-loading-content" color="#FF2742"/>
+    <van-loading class="c-loading-content" color="#5488f7"/>
   </div>
 </template>
 <script setup>

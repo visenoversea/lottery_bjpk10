@@ -1,81 +1,104 @@
 <template>
- <div class="v_cash_out_coin g-flex-column">
-  <div class="v-head g-flex-align-center">
-    <div @click="$router.go(-1)" class="v-head-back g-flex-align-center">
-      <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_cash_out_coin g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <img src="/images/back-icon.png" alt="" />
+      </div>
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
-    <div class="v-title g-flex-align-center g-flex-justify-center">
-      <span>{{ i18n.titleText }}</span>
-    </div>
-  </div>
-   <div class="v-cashout-coin-container">
-    <div class="v-cashout-coin-content">
-      <div class="v-cashout-coin-top">
-        <p class="v-cashout-coin-title">{{ i18n.selectText }}</p>
-        <div class="v-cashout-coin-two-select-box">
-          <div class="v-cashout-coin-two-select g-flex-align-center" @click="selectCoinClick">
-            <div class="v-cashout-coin-two-select-left g-flex-align-center">
-              <span>{{ seletCoinItem.obj.currency }}</span>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
+    <div class="v-cashout-coin-container">
+      <div class="v-cashout-coin-content">
+        <div class="v-cashout-coin-top">
+          <div class="v-cashout-sel">
+            <p class="v-cashout-coin-title">{{ i18n.selectText }}</p>
+            <div class="v-cashout-coin-two-select-box">
+              <div class="v-cashout-coin-two-select g-flex-align-center" @click="selectCoinClick">
+                <div class="v-cashout-coin-two-select-left g-flex-align-center">
+                  <span>{{ seletCoinItem.obj.currency }}</span>
+                </div>
+                <i class="iconfont icon-xiala" :style="styObjOne"></i>
+              </div>
+              <!-- 选择币 -->
+              <select-coin-pop :coinList="cashoutInfo.info.list" @emitCoinItemClick="emitCoinItemClick"
+                ref="refSelectCoinPop" />
             </div>
-            <i class="iconfont icon-xiala" :style="styObjOne"></i>
           </div>
-          <!-- 选择币 -->
-          <select-coin-pop :coinList="cashoutInfo.info.list" @emitCoinItemClick="emitCoinItemClick" ref="refSelectCoinPop"/>
-        </div>
-        <p class="v-cashout-coin-title">{{ i18n.chianText }}</p>
-        <ul class="v-cashout-coin-link-list g-flex-align-center">
-          <li @click="linkItemClick(item, index)" :class="linkIndex == index ? 'active': ''" class="v-cashout-coin-link-item" v-for="(item, index) in seletCoinItem.obj.chainList" :key="index">
-            <span>{{ item }}</span>
-          </li>
-        </ul>
-     </div>
-      <div class="v-cashout-coin-bottom">
-
-        <!-- is-link  value="钱包地址" -->
-        <van-cell :title="i18n.addressText" value="" />
-        <div class="v-cashout-coin-bottom-address">
-          <van-field v-model="form.info.address" label="" label-width="0" :placeholder="i18n.walletAddressText" />
-          <img @click="selectAddressClick" v-show="cashoutInfo.info.isSelect == 1" src="/img/icon/assets_currency_address.png" alt=""/>
-        </div>
-        <!-- <van-cell :title="i18n.numText" :value="`${i18n.minText}:${cashoutInfo.min}USDT，${i18n.maxText}:${cashoutInfo.max == -1 ? `${ i18n.nolimitText }`: (cashoutInfo.max + 'USDT')}`"/> -->
-        <div class="v-cashout-coin-bottom-input-num">
-          <van-field  :type="'text'" @input="amountChange" v-model="form.amount"
-                  :placeholder="i18n.numTextPlaceholderText + '(' + 'USDT' + ')'" />
-          <span @click="allClick">{{ i18n.allText }}</span>
-        </div>
-        <!-- 约等于 -->
-        <div v-show="seletCoinItem.obj.currency != 'USDT' && form.amount"
-            class="v-recharge-bi-yuedengyu g-flex-align-center">
-            <span>≈</span>
-            <p>{{ form.money }} </p>
-            <span>{{ seletCoinItem.obj.currency }}</span>
-          </div>
-
-          <p v-if="store.system.WithdrawModel == 2" class="v-cashout-coin-bottom-canuse g-flex-align-center">{{
-            i18n.shijidaozhangText
-          }}({{ seletCoinItem.obj.currency }}): <span> {{ shijiDaoZhang }}</span></p>
           
-        <p class="v-cashout-coin-bottom-canuse g-flex-align-center">{{ i18n.canUseText }}({{canUserWallet.currency}}): <span> {{canUserWallet.balance}}</span></p>
-<!--        <p class="v-cashout-coin-bottom-canuse g-flex-align-center">{{ i18n.shouxuFeiText }}({{canUserWallet.currency}}): <span> {{shouxuFei}}</span></p>-->
-        <div v-if="cashoutInfo.remark" class="v-cashout-coin-bottom-tips">
-          {{ cashoutInfo.remark }}
+
+          <div class="v-cashout-sel">
+            <p class="v-cashout-coin-title">{{ i18n.chianText }}</p>
+            <ul class="v-cashout-coin-link-list g-flex-align-center">
+              <li @click="linkItemClick(item, index)" :class="linkIndex == index ? 'active' : ''"
+                class="v-cashout-coin-two-select-left g-flex-align-center" v-for="(item, index) in seletCoinItem.obj.chainList" :key="index">
+                <span style="color:#fff">{{ item }}</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+        <div class="v-cashout-coin-bottom">
+          
+          <div class="v-cashout-sel">
+            <!-- is-link  value="钱包地址" -->
+            <van-cell class="v-cashout-coin-bottom-address-title" :title="i18n.addressText" value="" />
+            <div class="v-cashout-coin-bottom-address">
+              <van-field :readonly="(cashoutInfo.info.isSelect == 1) ? true: false" v-model="form.info.address" label="" label-width="0" :placeholder="i18n.addressPlaceholderText" />
+              <div v-show="cashoutInfo.info.isSelect == 1" @click="selectAddressClick"  class="v-cashout-coin-bottom-address-select">
+                <i class="iconfont icon-zu15"></i>
+              </div>
+            </div>
+          </div>
+          <div class="v-cashout-sel">
+            <div class="v-cashout-coin-bottom-input-num">
+              <van-field @input="amountChange" v-model="form.amount" label="" label-width="0"
+                :placeholder="i18n.numTextPlaceholderText + '(' + seletCoinItem.obj.currency + ')'" />
+              <span @click="allClick">{{ i18n.allText }}</span>
+            </div>
+          </div>
+          <!-- <van-cell :title="i18n.numText" :value="`${i18n.minText}:${cashoutInfo.min}USDT，${i18n.maxText}:${cashoutInfo.max == -1 ? `${ i18n.nolimitText }`: (cashoutInfo.max + 'USDT')}`"/> -->
+          <!-- 约等于 -->
+          <div v-show="seletCoinItem.obj.currency != 'USDT' && form.amount" class="v-recharge-bi-yuedengyu g-flex-align-center">
+             <span>≈</span>
+             <p>{{ form.money }} </p>
+             <span>{{seletCoinItem.obj.currency}}</span>
+           </div>
+           <p v-if="store.system.WithdrawModel == 2" class="v-cashout-coin-bottom-canuse g-flex-align-center">{{ i18n.shijidaozhangText
+          }}({{ seletCoinItem.obj.currency }}): <span> {{ shijiDaoZhang }}</span></p>
+
+          <p class="v-cashout-coin-bottom-canuse g-flex-align-center">{{ i18n.canUseText }}({{ canUserWallet.currency }}):
+            <span> {{ canUserWallet.balance }}</span></p>
+          <p class="v-cashout-coin-bottom-canuse g-flex-align-center">{{ i18n.shouxuFeiText
+          }}({{ canUserWallet.currency }}): <span> {{ shouxuFei }}</span></p>
+          <div v-if="cashoutInfo.remark" class="v-cashout-coin-bottom-tips">
+            {{ cashoutInfo.remark }}
+          </div>
+
+          <div @click="$router.push({ name: 'rule', query: { id: 11 } })" class="v-cashout-coin-bottom-guize">
+            <span>《{{ i18n.chukuanguizeText }}》</span>
+          </div>
+        </div>
+        <div @click="cashOutClick" class="v-cashout-coin-btn g-flex-align-center g-flex-justify-center">
+          <span>{{ i18n.cashText }}</span>
         </div>
       </div>
-      <div @click="cashOutClick" class="v-cashout-coin-btn g-flex-align-center g-flex-justify-center">
-        <span>{{ i18n.cashText }}</span>
-      </div>
+
     </div>
-     
-   </div>
 
 
-   <!-- 密码 -->
-   <BussinessPwdPop ref="refBussinessPwdPop" @emitPwd="emitPwd"/>
+    <!-- 密码 -->
+    <BussinessPwdPop ref="refBussinessPwdPop" @emitPwd="emitPwd" />
 
-   <SelectWalletAddressPop :addressList="porpAddressList" @emitDelAddress="emitDelAddress" @emitSelectAddress="emitSelectAddress" ref="refSelectWalletAddressPop"/>
- </div>
+    <SelectWalletAddressPop :addressList="porpAddressList" @emitDelAddress="emitDelAddress"
+      @emitSelectAddress="emitSelectAddress" ref="refSelectWalletAddressPop" />
+  </div>
 </template>
-
+ 
 <script setup>
 import SelectCoinPop from '@/components/SelectCoinPop.vue'
 import { apiCashout, apiGetCashoutInfo, apiGetUserInfo, apiGetWalletAddressList, apiGetDuoWalletList } from '@/utils/api.js'
@@ -284,6 +307,16 @@ let balanceList = reactive({
   list: []
 })
 
+// 获取钱包余额列表
+async function apiGetDuoWalletListHandel() {
+  store.loadingShow = true
+  const { success, data } = await apiGetDuoWalletList({ type: 1 })
+  if (!success) return
+  balanceList.list = data.list
+  console.log(data)
+}
+
+apiGetDuoWalletListHandel()
 
 function amountChange() {
   if(!form.amount) return form.money = ''
@@ -299,8 +332,18 @@ const shijiDaoZhang = computed(() => {
 
 // 可用余额
 const canUserWallet = computed(() => {
-  if (!userInfo.value.id) return { balance: '', currency: '' }
-  return { balance: userInfo.value.balance, currency: 'USDT' }
+  console.log(balanceList.list)
+  console.log(seletCoinItem.obj)
+  if ((!balanceList.list.length) || (!seletCoinItem.obj.currency)) return { balance: '', currency: '' }
+  let target = balanceList.list.find((item, index) => {
+    return item.currency == seletCoinItem.obj.currency
+  })
+  console.log(target)
+  console.log('====================================')
+  if (target) {
+    return { balance: target.balance, currency: target.currency }
+  }
+  return { balance: '', currency: '' }
 })
 
 
@@ -318,208 +361,283 @@ const shouxuFei = computed(() => {
   }
 })
 </script>
-
+ 
 <style lang='scss'>
 .v_cash_out_coin {
   height: 100%;
   overflow: auto;
-  background: #eff2f2;
+  // background: var(--g-white);
   .v-head {
+    height: 46px;
     position: fixed;
-    width: 100%;
-    padding: 0 15px;
-    height: 50px;
-    top: 0;
     left: 0;
-    background-color: var(--g-white);
+    top: 0;
     z-index: 9;
-
-    .v-head-back {
+    width: 100%;
+    background: var(--g-white);
+    .v-head-back-icon {
       position: absolute;
+      left: 0;
+      top: 0;
       height: 100%;
-
+      padding: 0 16px;
       .iconfont {
         font-size: 26px;
         font-weight: 700;
+        color: #fff;
       }
     }
-
-    .v-title {
-      height: 100%;
+    .v-head-title {
       flex: 1;
-      font-size: 16px;
+      height: 100%;
+      text-align: center;
       font-weight: 700;
+      font-size: 16px;
+      color: #fff;
+    }
+    .v-head-right {
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
+      .iconfont {
+        font-size: 22px;
+        font-weight: 700;
+        color: #fff;
+      }
     }
   }
+
+
   .v-cashout-coin-container {
     flex: 1;
     overflow: auto;
-    background: #eff2f2;
-    padding-top: 70px;
+    padding-top: 10px;
+
     .v-cashout-coin-content {
       padding: 0px 15px 15px 15px;
+
+
+      .v-cashout-sel {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        padding: 15px;
+      }
       .v-cashout-coin-top {
-        background: var(--g-white);
         border-radius: 5px;
-        padding: 0px 15px 15px 15px;
+
         .v-cashout-coin-title {
           padding: 15px 0px 10px 0;
           font-size: 14px;
           font-weight: 700;
+          color: #fff;
         }
+
         .v-cashout-coin-two-select-box {
           position: relative;
           flex: 1;
+
           .v-cashout-coin-two-select {
-              user-select: none;
-              cursor: pointer;
-              position: relative;
-              border: 1px solid #c5cfd5;
-              height: 40px;
-              padding: 0 10px;
-              border-radius: 4px;
-              color: rgba(0,0,0,.85);
-              .v-cashout-coin-two-select-left {
-                img {
-                  width: 20px;
-                  height: 20px;
-                  border-radius: 50%;
-                  object-fit: contain;
-                }
-                span {
-                  font-size: 14px;
-                  line-height: 20px;
-                  margin-left: 8px;
-                  margin-right: 8px;
-                }
+            user-select: none;
+            cursor: pointer;
+            position: relative;
+            // border: 1px solid #c5cfd5;
+            height: 40px;
+            border-radius: 4px;
+            color: #fff;
+
+            .v-cashout-coin-two-select-left {
+              img {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                object-fit: contain;
               }
-              .icon-xiala {
-                right: 10px;
-                position: absolute;
-                margin-left: 10px;
-                color: #7b8293;
-                font-size: 20px;
-                transition: transform .2s linear,-webkit-transform .2s linear;
+
+              span {
+                font-size: 14px;
+                line-height: 20px;
+                margin-left: 8px;
+                margin-right: 8px;
               }
             }
+
+            .icon-xiala {
+              right: 10px;
+              position: absolute;
+              margin-left: 10px;
+              color: #fff;
+              font-size: 20px;
+              transition: transform .2s linear, -webkit-transform .2s linear;
+            }
+          }
         }
+
         .v-cashout-coin-link-list {
           .v-cashout-coin-link-item {
             padding: 6px;
             font-size: 14px;
-            color: #bebcbc;
-            background: #f8f8f8;
-            margin-right: 30px;
+            color: #fff;
+            // background: #a09e9e;
+            // margin-right: 30px;
+
             &.active {
-              color: #0685e6;
-              background: #f3f3f3;
+              color: #fff;
+              background: var(--g-main_color);
             }
           }
         }
       }
+
       .v-cashout-coin-bottom {
         margin-top: 20px;
-        background: var(--g-white);
         border-radius: 5px;
         overflow: hidden;
+
         .van-cell {
+          padding-left: 0;
+          padding-right: 0;
+          &::after {
+            left: 0;
+          }
+          &.v-cashout-coin-bottom-address-title {
+            padding-top: 0;
+            padding-bottom: 0;
+            &::after {
+              display: none;
+            }
+          }
           .van-cell__title {
             font-weight: 700;
+            color: #fff;
             font-size: 14px;
           }
+
           .van-cell__value {
             font-size: 12px;
           }
         }
+
         .v-cashout-coin-bottom-address {
           position: relative;
-          img {
+
+          .v-cashout-coin-bottom-address-select {
             position: absolute;
-            width: 32px;
+            width: 36px;
             padding: 5px;
             right: 15px;
             z-index: 99;
             top: 50%;
             transform: translateY(-50%);
+            .iconfont {
+              color: #c7c7c7;
+              font-size: 22px;
+            }
           }
+
           .van-cell {
-           .van-cell__value {
+            padding-left: 0;
+            padding-right: 0;
+            background:none;
+            .van-cell__value {
               .van-field__body {
                 input {
+                  color: #fff;
                   font-size: 16px;
                   &::placeholder {
                     font-size: 16px;
                   }
                 }
               }
-            } 
+            }
           }
         }
+
         .v-cashout-coin-bottom-input-num {
           position: relative;
+
           span {
             position: absolute;
             font-size: 14px;
-            color: #0685e6;
+            color: var(--g-main_color);
             top: 50%;
             transform: translateY(-50%);
             right: 15px;
+            z-index: 99;
           }
+
           .van-cell {
-           .van-cell__value {
+            background: transparent;
+            .van-cell__value {
               .van-field__body {
                 input {
-                  font-size: 20px;
+                  padding-right: 40px;
+                  font-size: 16px;
+                  color: #fff;
                   &::placeholder {
-                    font-size: 22px;
+                    font-size: 20px;
                   }
                 }
               }
-            } 
-          }
-        }
-        .v-recharge-bi-yuedengyu {
-            padding: 10px 15px;
-            background: var(--g-white);
-            font-size: 14px;
-            p {
-              color: red;
-              padding-left: 10px;
-              padding-right: 10px;
             }
           }
+        }
+
+        .v-recharge-bi-yuedengyu {
+          padding: 10px 15px;
+          font-size: 14px;
+
+          p {
+            color: red;
+            padding-left: 10px;
+            padding-right: 10px;
+          }
+        }
 
         .v-cashout-coin-bottom-canuse {
-          color: #969799;
+          color: #fff;
           font-size: 14px;
-          padding-left: 15px;
           margin-top: 15px;
           padding-bottom: 10px;
+
           span {
             padding-left: 5px;
           }
         }
+
         .v-cashout-coin-bottom-tips {
           font-size: 12px;
-          padding-left: 15px;
           padding-right: 15px;
           padding-bottom: 10px;
           line-height: 18px;
-          color: rgb(130, 128, 128);
+          color: var(--g-white);
+        }
+
+        .v-cashout-coin-bottom-guize {
+          font-size: 14px;
+          color: var(--g-main_color);
+          line-height: 22px;
+          margin-top: 10px;
         }
       }
+
       .v-cashout-coin-btn {
         margin: 15px 0;
-        margin-top: 30px;
+        margin-top: 20px;
         height: 44px;
         line-height: 44px;
         color: var(--g-white);
         font-size: 14px;
         background: var(--g-main_color);
-        border-radius: 5px;
+        border-radius: 30px;
       }
     }
-    
+
+    .van-cell {
+      background: none!important;
+    }
+
   }
-}
-</style>
+}</style>

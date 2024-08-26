@@ -2,21 +2,21 @@
   <div class="c_select_address_pop g-flex-column">
     <van-popup :overlay="false" :close-on-click-overlay="false" position="right"
       :style="{ width: '100%', height: '100%' }" v-model:show="show" class="c-select-address-pop-container g-flex-column">
-      <div class="v-bank-card-list-pwd-head g-flex-align-center">
-        <div @click="onClose" class="v-bank-card-list-pwd-head-back-icon">
-          <i class="iconfont icon-zuojiantou"></i>
+      <div class="v-head g-flex-align-center">
+        <div @click="onClose" class="v-head-back-icon g-flex-align-center">
+          <i class="iconfont icon-zuo"></i>
         </div>
+        <div class="v-head-title g-flex-align-center g-flex-justify-center">
+          <span>{{ i18n.titleText }}</span>
+        </div>
+        <!-- <div class="v-head-right g-flex-align-center">
+          <i class="iconfont icon-datijilu"></i>
+        </div> -->
       </div>
       <div class="v-bank-card-list-pwd-container">
-        <div class="v-title g-flex-justify-between g-flex-align-center">
-          {{ i18n.titleText }}
-          <img @click="$router.push({ name: 'addbankcard' })"
-            src="/img/icon/public_increase_black.png" alt="" />
-        </div>
         <div class="v-bank-card-list-tips">
           {{ i18n.tipsText }}
         </div>
-
         <div v-show="bankCardList.list.length" class="v-bank-card-list-content">
           <div @click="itemClick(item, index)" v-for="(item, index) in bankCardList.list" :key="index"
             class="v-bank-card-list-item"
@@ -28,11 +28,11 @@
               {{ item.name }}
             </div>
             <div class="v-bank-card-list-item-bank-cardnum">
-              {{ filterBankCardNumber(item.card_number) }}
+              {{ item.card_number }}
             </div>
-            <!-- <div @click="editClick(item)" class="v-bank-card-list-item-bank-edit">
+            <div @click="editClick(item)" class="v-bank-card-list-item-bank-edit">
               <img src="/img/icon/extract_bank_modify.png" alt="">
-            </div> -->
+            </div>
             <div v-show="selectIndex == index" class="v-bank-card-list-item-bank-select">
               <img src="/img/icon/select.png" alt="" />
             </div>
@@ -40,10 +40,16 @@
         </div>
 
         <div v-show="!bankCardList.list.length" class="v-back-car-list-no g-flex-column g-flex-align-center">
-          <img src="/img/icon/deficiency_bank_record.png" alt="" />
+          <img src="/img/icon/empty-image.png" alt="" />
           <span class="v-back-car-list-no-text">{{ i18n.nolistText }}</span>
         </div>
       </div>
+
+      <div class="v-form-btn-box">
+      <div @click="$router.push({ name: 'addbankcard' })" class="v-form-btn g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.addText }}</span>
+      </div>
+    </div>
     </van-popup>
   </div>
 </template>
@@ -55,7 +61,6 @@ import { useRouter } from 'vue-router';
 import { useI18n } from "vue-i18n";
 import useStore from '@/store/index.js'
 import { apiGetBankList } from '@/utils/api.js'
-import { filterBankCardNumber } from '@/utils/index.js'
 // pinia状态管理仓库
 const store = useStore();
 const i18nObj = useI18n()
@@ -88,7 +93,7 @@ function deleteClick(item) {
     message: i18n.value.delTipsText,
     width: '220px',
     theme: 'round',
-    cancelButtonColor: '#333333',
+    cancelButtonColor: '#000',
     confirmButtonColor: '#0077ff',
   }).then(() => {
     apiDelBankHandel(item)
@@ -139,25 +144,6 @@ function itemClick(item, index) {
 </script>
 
 <style lang='scss'>
-.v_theme_dark {
-  .c_select_address_pop {
-    .c-select-address-pop-container {
-      background: var(--g-theme_dark_bgColor);
-
-      .v-bank-card-list-pwd-container {
-        .v-title {
-          color: var(--g-theme_dark_white_color);
-        }
-
-        .v-bank-card-list-tips {
-          background: var(--g-theme_less_dark_bgColor);
-        }
-      }
-
-    }
-  }
-}
-
 .c_select_address_pop {
   .van-overlay {
     position: absolute;
@@ -166,40 +152,55 @@ function itemClick(item, index) {
   }
 
   .c-select-address-pop-container {
-    position: absolute;
     height: 100%;
     overflow: auto;
-    background: #F0F1F3;
-
-    .v-bank-card-list-pwd-head {
-      height: 50px;
-      // padding: 15px 15px 0 15px;
-      position: relative;
-
-      .v-bank-card-list-pwd-head-back-icon {
+    background-color: var(--g-white);
+    .v-head {
+        height: 46px;
+        left: 0;
+        top: 0;
+        z-index: 9;
+        width: 100%;
+        background-color: var(--g-white);
+      .v-head-back-icon {
         position: absolute;
         left: 0;
-        padding: 15px;
-
-        img {
-          width: 22px;
-          height: 22px;
-          object-fit: contain;
-        }
+        top: 0;
+        height: 100%;
+        padding: 0 16px;
         .iconfont {
           font-size: 26px;
-          left: 10px;
           font-weight: 700;
+          color: var(--g-black);
+        }
+      }
+      .v-head-title {
+        flex: 1;
+        height: 100%;
+        text-align: center;
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--g-black);
+      }
+      .v-head-right {
+        position: absolute;
+        height: 100%;
+        right: 0;
+        top: 0;
+        padding: 0 0 0 10px;
+        .iconfont {
+          font-size: 22px;
+          font-weight: 700;
+          color: var(--g-black);
         }
       }
     }
 
     .v-bank-card-list-pwd-container {
+      padding-top: 46px;
       flex: 1;
       overflow: auto;
-      padding-bottom: 10px;
       position: relative;
-
       .v-title {
         padding: 20px 15px 15px 15px;
         font-size: 22px;
@@ -215,9 +216,9 @@ function itemClick(item, index) {
 
       .v-bank-card-list-tips {
         padding: 10px 25px;
-        background: var(--g-white);
+        background: var(--g-main_color);
         font-size: 13px;
-        color: #EE903B;
+        color: var(--g-white);
         line-height: 20px;
       }
 
@@ -272,7 +273,7 @@ function itemClick(item, index) {
             position: absolute;
             top: 0;
             right: 0;
-            background: var(--g-main_color);
+            background: #335ee3;
             padding: 5px;
             border-radius: 0 0 0 15px;
 
@@ -298,6 +299,20 @@ function itemClick(item, index) {
           color: #AAB1B6;
           font-size: 14px;
         }
+      }
+    }
+
+    .v-form-btn-box {
+      width: 100%;
+      padding: 10px;
+      padding-bottom: 30px;
+      .v-form-btn {
+        width: 100%;
+        height: 44px;
+        background: var(--g-main_color);
+        color: var(--g-white);
+        border-radius: 6px;
+        font-size: 14px;
       }
     }
 

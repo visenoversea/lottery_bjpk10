@@ -1,15 +1,17 @@
 <template>
-  <div class="v_change_bus_pwd g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_change_bus_pwd g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <img src="/images/back-icon.png" alt="" />
       </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <!-- <div @click="$router.push({ name: 'rechargehistory'})" class="v-head-right g-flex-align-center">
-     <i class="iconfont icon-datijilu"></i>
-   </div> -->
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-change-bus-pwd-container">
       <div class="v-form">
         <!-- 旧密码 -->
@@ -19,7 +21,8 @@
           </div>
           <div class="v-form-item g-flex-align-center">
             <div class="v-form-item-middle-input">
-              <input :type="pwdSeeeVal ? 'text' : 'password'" v-model="form.oldPassword" :placeholder="i18n.oldBusPwdPlaceholderText"/>
+              <input :type="pwdSeeeVal ? 'text' : 'password'" v-model="form.oldPassword"
+                :placeholder="i18n.oldBusPwdPlaceholderText" />
             </div>
             <div @click="pwdSeeeVal = !pwdSeeeVal" class="v-form-item-middle-right g-flex-align-center">
               <i v-show="!pwdSeeeVal" class="iconfont icon-bukejian"></i>
@@ -28,14 +31,15 @@
           </div>
         </div>
 
-         <!-- 新密码 -->
-         <div class="v-form-item-box">
+        <!-- 新密码 -->
+        <div class="v-form-item-box">
           <div class="v-form-item-box-title">
             <span>{{ i18n.newBusPwdText }}</span>
           </div>
           <div class="v-form-item g-flex-align-center">
             <div class="v-form-item-middle-input">
-              <input :type="pwdSecondSeeeVal ? 'text' : 'password'" v-model="form.password"  :placeholder="i18n.newBusPwdPlaceholderText"/>
+              <input :type="pwdSecondSeeeVal ? 'text' : 'password'" v-model="form.password"
+                :placeholder="i18n.newBusPwdPlaceholderText" />
             </div>
             <div @click="pwdSecondSeeeVal = !pwdSecondSeeeVal" class="v-form-item-middle-right g-flex-align-center">
               <i v-show="!pwdSecondSeeeVal" class="iconfont icon-bukejian"></i>
@@ -44,14 +48,15 @@
           </div>
         </div>
 
-         <!-- 确认新密码 -->
-         <div class="v-form-item-box">
+        <!-- 确认新密码 -->
+        <div class="v-form-item-box">
           <div class="v-form-item-box-title">
             <span>{{ i18n.comfirmBusPwdText }}</span>
           </div>
           <div class="v-form-item g-flex-align-center">
             <div class="v-form-item-middle-input">
-              <input :type="pwdThreeSeeeVal ? 'text' : 'password'" v-model="form.password2" :placeholder="i18n.comfirmBusPwdPlaceholderText"/>
+              <input :type="pwdThreeSeeeVal ? 'text' : 'password'" v-model="form.password2"
+                :placeholder="i18n.comfirmBusPwdPlaceholderText" />
             </div>
             <div @click="pwdThreeSeeeVal = !pwdThreeSeeeVal" class="v-form-item-middle-right g-flex-align-center">
               <i v-show="!pwdThreeSeeeVal" class="iconfont icon-bukejian"></i>
@@ -167,46 +172,50 @@ async function apiChangeTradePwdHandel() {
 .v_change_bus_pwd {
   height: 100%;
   overflow: auto;
-
+  // background-color: #f6f4f5;
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
-    background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
+    z-index: 9;
+    width: 100%;
+    background-color: #f6f4f5;
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
 
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: #fff;
       }
     }
 
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      
+      color: #fff;
     }
 
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
 
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: #fff;
       }
     }
   }
@@ -216,31 +225,30 @@ async function apiChangeTradePwdHandel() {
     overflow: auto;
     padding-bottom: 70px;
     padding-top: 50px;
-    .v-title {
-      padding: 20px 15px 15px 15px;
-      font-size: 22px;
-      line-height: 26px;
-      color: #333;
-      font-weight: 600;
-    }
 
     .v-form {
       padding: 15px;
 
       .v-form-item-box {
+        margin-bottom: 15px;
+        border: 1px solid #e4e7ed;
+        padding: 10px;
+        border-radius: 6px;
         .v-form-item-box-title {
-          font-size: 16px;
-          font-weight: 700;
-          margin-top: 20px;
+          padding-left: 10px;
+          padding-bottom: 4px;
+          font-size: 14px;
+          color: #fff;
+          line-height: 20px;
         }
-        .v-form-item {
-          padding: 0 15px;
-          margin-top: 10px;
-          width: 100%;
-          height: 46px;
-          background: #f2f4f7;
-          border-radius: 4px;
 
+        .v-form-item {
+          position: relative;
+          padding: 4px 10px;
+          height: 34px;
+          // background: var(--g-white);
+          // border: 1px solid #e4e7ed;
+          // border-radius: 4px;
           &:nth-of-type(1) {
             margin-top: 15px;
           }
@@ -248,12 +256,14 @@ async function apiChangeTradePwdHandel() {
           .v-form-item-left {
             height: 100%;
             padding: 0 10px 0 0px;
+
             .v-form-item-left-text {
-              font-size: 16px;
+              font-size: 14px;
             }
+
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: #c0c4cc;
             }
           }
 
@@ -267,14 +277,12 @@ async function apiChangeTradePwdHandel() {
               background-color: transparent;
               font-size: 14px;
               font-weight: 400;
-              color: #333;
+              color: #fff;
               border: none;
               outline: none;
-
               &::placeholder {
-                color: #7D919D;
-                font-weight: 700;
-                font-size: 14px;
+                color: rgb(128, 127, 127);
+                font-size: 12px;
               }
             }
           }
@@ -285,7 +293,7 @@ async function apiChangeTradePwdHandel() {
 
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: #fff;
             }
 
             img {
@@ -312,8 +320,7 @@ async function apiChangeTradePwdHandel() {
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      border-radius: 4px;
+      border-radius: 50px;
     }
   }
-}
-</style>
+}</style>

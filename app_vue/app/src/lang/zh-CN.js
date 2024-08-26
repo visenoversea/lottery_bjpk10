@@ -7,7 +7,9 @@ const lang = {
     loadingText: '加载中',
     copySuccessText: '复制成功',
     sendCodeText: '发送验证码',
-    againSendCodeText: '重新获取'
+    againSendCodeText: '重新获取',
+    cehuitikuanText: '取消提款',
+    cehuitikuanTipsText: '确认取消提款?'
   },
   jsLanguage: {
     copySuccessText: '复制成功',
@@ -19,24 +21,37 @@ const lang = {
     zuoduoText: '做多',
     zuokongText: '做空',
     bibiText: '币币',
-    miaoheyueText: '秒合约',
-    buyText: '买入',
-    sellText: '卖出',
-    danText: '单',
-    shuangText: '双',
-    smallText: '小',
-    bigText: "大"
+    miaoheyueText: '秒合约'
   },
-  
+
+  taskCenter: {
+    titleText: '任务中心',
+    tipsText: '做任务，赢奖励',
+    yilingquText: '已领取',
+    lingquJiangLiText: '领取奖励',
+    weiwanchengText: '尚未完成',
+    nowanchengText: '未完成',
+    lingquTipsText: '确认领取该奖励？'
+  },
+  aboutUs: {
+    titleText: '关于我们',
+    pingtaijianjieText: '平台简介',
+    yingsiText: '隐私协议',
+    zhucexieyiText: '注册协议',
+    shiyongzheText: '使用者协议',
+  },
   footerLayout: {
     mainText: '首页',
-    rechargeText: '储值',
+    tuanduiText: '我的团队',
+    introduceText: '介绍',
+    rechargeText: '充值',
+    lianghuaText: '量化',
     kefuText: '客服',
     myText: '我的'
   },
 
   addBankCard: {
-    titleText: '修改银行卡',
+    titleText: '我的银行卡',
     countryText: '国家/地区',
     countryPlaceholderText: '请输入国家/地区',
     fabiText: '法币',
@@ -63,7 +78,8 @@ const lang = {
   },
 
   bankCardList: {
-    titleText: '银行汇款',
+    titleText: '我的银行卡',
+    addBankCardText: '添加银行卡',
     noListText: '暂无记录',
     tipsText: '为了您的资金安全，取款前请绑定银行卡信息，绑定前务必核对银行卡信息，更多问题请联系客服人员。',
   },
@@ -91,7 +107,17 @@ const lang = {
     codePlaceholderText: '请输入验证码',
     submitBtnText: '提交'
   },
-
+  choujiang: {
+    titleText: '抽奖中心',
+    jiluText: '抽奖记录',
+    kechoucishuText: '可抽奖次数',
+    ciText: '{val1}次',
+    gongxiText: '恭喜',
+    comfirmText: '确认'
+  },
+  choujiangHistory: {
+    titleText: '抽奖记录'
+  },
   cashoutBank: {
     titleText: '银行卡取款',
     cardText: '银行卡',
@@ -127,6 +153,7 @@ const lang = {
     chianText: '链名称',
     addressText: '取款地址',
     addressPlaceholderText: '请输入或者粘贴地址',
+    addressSelectText: '请选择钱包地址',
     numText: '提现数量',
     minText: '最小',
     maxText: '最大',
@@ -139,7 +166,8 @@ const lang = {
     walletAddressText: '钱包地址',
     setBusPwdText: '请先设置支付密码',
     realNameText: '请先进行实名认证',
-    shijidaozhangText: '实际到账'
+    shijidaozhangText: '实际到账',
+    chukuanguizeText: '出款规则'
   },
 
   cashoutControl: {
@@ -151,7 +179,7 @@ const lang = {
     titleText: '提款记录',
     allText: '全部',
     refreshSuccessText: '刷新成功',
-    rechargeNumText: '储值数量',
+    rechargeNumText: '充值数量',
     cashoutNumText: '提现数量',
     tibiText: '提币',
     failRemarkText: '失败原因',
@@ -167,7 +195,7 @@ const lang = {
     statusWaitText: '待付款',
     cashoutBiZhongText: '提款币种'
   },
-  
+
   cashoutSelect: {
     titleText: '取款方式',
     bankhuikuanText: '银行汇款',
@@ -203,43 +231,10 @@ const lang = {
     codePlaceholderText: '请输入验证码',
     submitBtnText: '提交',
   },
-
-  chip: {
-    zoushiText: '市场走势',
-    jiaoyiJiLuText: '交易记录',
-    zaixiankefuText: '在线客服',
-    jiaoyiShuoMingText: '交易说明',
-    juliText: '距离',
-    qiFengpanText: '期封盘',
-    yifengpanText: '已封盘',
-    yuerText: '余额',
-    diText: '第',
-    qiText: '期',
-    qishuText: '期数',
-    zongheText: '总和',
-    jieguoText: '结果',
-    busTypeText: '交易类型',
-    busAmountText: '交易金额',
-    jinerText: '金额',
-    totalText: '共1注',
-    zhuText: '注',
-    quickBusText: '快速交易',
-    cancelBusText: '交易取消',
-    danbiText: '单笔交易',
-    startText: '起',
-    zongjinerFengtingText: '总交易金额999999封顶',
-    qihaoText: '期号',
-    guanbiTipsText: '--关闭，请耐心等待--单局最高收益100万，最低交易',
-    inputAmountText: '请输入交易金额',
-    sureText: '确定',
-    cancelText: '取消',
-    descText: '说明',
-    querenText: '确认',
-    resetBusText: '重新交易',
-    querenBusText: '确认交易',
-    goumaiText: '购买',
-    cedanText: '撤单',
-    cedanTitleText: '撤销订单',
+  myTransfer: {
+    introduceText: '说明',
+    introduce1Text: '说明1',
+    introduce2Text: '说明2',
   },
 
   chart: {
@@ -319,49 +314,37 @@ const lang = {
   },
 
   finance: {
-    themeText: '颜色主题',
-    checkLoginText: '点击登录',
-    loginTipsText: '你好，欢迎登录',
-    inviteCodeText: '邀请码',
-    shengfengRenZhengText: '身份认证',
-    tikuanControlText: '提款管理',
-    noticeText: '站内信',
-    helpCenterText: '帮助中心',
-    inviteFriendText: '邀请好友',
-    lineKefuText: '在线客服',
-    tongyongSetText: '通用设置',
-    statusWaitText: '待认证',
-    noRenzhengText: '未认证',
-    statusFailText: '认证失败',
-    statusSuccessText: '认证成功',
-    statusIngText: '认证中',
-    userRealSuccessTipsText: '身份认证成功后不可修改',
-    userRealIngTipsText: '身份认证审核中,请耐心等待',
-    zongyuerText: '余额',
-    zongShouYiText: '总收益',
-    jinriYongJinText: '今日佣金',
-    jinriShouYiText: '今日收益',
-    zuoriShouYiText: '昨日收益',
-    chongzhiText: '储值',
-    tixianText: '提现',
+    totalFinanceText: '账户总资产',
+    todayShouYiText: '今日收益',
+    cangweiBaozhengjingText: '仓位保证金',
     mingxiText: '明细',
-    mingxitouzhuText: '投注明细',
-    shengfengRengZhengText: '身份认证',
-    qianbaoGuanLiText: '钱包管理',
-    yinghangkaGuanLiText: '银行卡管理',
-    changjianwentiText: '常见问题',
-    safeCenterText: '安全中心',
-    lianghuajiaochengText: '量化教程',
-    yuyanSetText: '语言设置',
-    aboutUsText: '关于我们',
-    xiazaiAppText: '下载APP',
-    tuichuLoginText: '退出登录',
-    exitLoginOutTipsText: '确定退出登录?',
-    xiajiText: '下级',
-    rechargeHistoryText: '储值记录',
-    cashoutHistoryText: '提现记录',
-    zhongjianText: '中奖金额',
-    jingriYingKuiText: '今日盈亏'
+    rechargeText: '入款',
+    cashoutText: '取款',
+    exchangeText: '兑换',
+    rechargeHistoryText: '入款记录',
+    cashoutHistoryText: '取款记录',
+    refreshSuccessText: '刷新成功',
+    rechargeNumText: '充值数量',
+    cashoutNumText: '提现数量',
+    tibiText: '提币',
+    statusAlreadyText: '已完成',
+    failRemarkText: '失败原因',
+    moneyText: '金额',
+    amountText: '数量',
+    daozhangMoneyText: '到账金额',
+    timeText: '时间',
+    statusFailText: '审核失败',
+    statusSuccessText: '成功',
+    statusIngText: '审核中',
+    statusWaitText: '待付款',
+    xianhuoAccountText: '现货账户',
+    heyueAccountText: '合约账户',
+    huazhuanText: '资金划转',
+    canUseText: '可用',
+    zeheText: '折合',
+    zanyongText: '占用',
+    rechargeBiZhongText: '充值币种',
+    tixianBiZhongText: '提现币种'
   },
 
   forgetPwd: {
@@ -384,6 +367,22 @@ const lang = {
     pwdSecondTipsText: '两次密码输入不一致',
     submitBtnText: '确认提交'
   },
+  invite: {
+    titleText: '邀请好友',
+    inviteLinkText: '邀请链接',
+    copyInviteText: '复制邀请链接',
+    inviteTipsText: '世界级量化产品',
+    inviteTips2Text: '免费对外开放使用',
+    inviteCodeText: '邀请码',
+    copyCodeText: '复制邀请码',
+  },
+
+  kefu: {
+    titleText: '客服',
+    zaixiankefuText: '在线客服',
+    zaixianKeFuTipsText: '如果您有任何问题需要帮助，请联系在线客服',
+    zaixianText: '在线客服'
+  },
 
   huazhuan: {
     titleText: '资金划转',
@@ -403,6 +402,98 @@ const lang = {
     titleText: '语言设置'
   },
 
+  lianghua: {
+    rishouyilvText: '日收益率',
+    kelianghuaMoneyText: '可量化资金',
+    tiyanYuErText: '体验余额',
+    linaghuaShouruMingXiText: '量化收入明细',
+    tuanduiShouruMingXiText: '团队收入明细',
+    benyueShouYiText: '本月收益',
+    lianghuaZongShouYiText: '量化总收益',
+    jinriTuanDuiText: '今日团队',
+    benyueTuanDuiText: '本月团队',
+    tuanduiZongShouYiText: '团队总收益',
+    yonghuLiangHuaText: '用户量化',
+    tuanduiFanYongText: '团队返佣',
+    zhengzaiqidongText: '正在启动量化机器人',
+    qidongSuccessText: '量化机器人启动成功',
+    zhengzaisaomiaoText: '正在扫描行情',
+    saomiaoSuccessText: '扫描行情成功',
+    dingDanPipeiZhongText: '订单匹配中',
+    dingDanPiPeiSuccess: '订单匹配成功',
+    zhengzaiText: '正在',
+    faqiBullDanText: '发起买单',
+    zaiText: '在',
+    buySuccessText: '买入成功',
+    faqiSellDanText: '发起卖单',
+    sellSuccessText: '卖出成功',
+    xitongJieSuanZhongText: '系统结算中',
+    xitongJieSuanSuccessText: '系统结算完成',
+    shouyiFaFangZhongText: '收益发放中',
+    lianghuaWanChengText: '量化完成',
+    tuiguangrenText: '推广人',
+    huilirenText: '获利人',
+    fanyongJinErText: '返佣金额',
+    totalMoneyText: '总金额',
+    rechargeText: '充值',
+    cashoutText: '提现',
+    totalBalanceText: '总余额',
+    titleText: '量化交易',
+    tiyanJingText: '未释放资金',
+    canuserText: '可用资产',
+    jinriShouYiText: '今日收益',
+    zuouriShouYiText: '昨日收益',
+    totalShouYiText: '总收益',
+    shengyuText: '剩余',
+    cishuText: '次数',
+    danciqidongText: '启动量化',
+    lianghuaIngText: '量化中···',
+    lianghuaJieShaoText: '量化交易介绍',
+    shangyijiText: '上一级',
+    fuliText: '福利',
+    xiayijiText: '下一级',
+    lianghuaNumsText: '每日量化次数',
+    shoyiBiLiText: '收益率',
+    jingjiTiaoJianText: '晋级条件',
+    jingjiJiangLiText: '晋级奖励',
+    huiyuanNameText: '会员名称',
+    linaghuaNumesText: '量化次数',
+    shouyiText: '收益',
+    statusText: '状态',
+    hezuoPartNerText: '核心合作金融机构',
+    currentLevelText: '当前等级',
+    weijiesuoText: '未解锁',
+    yijiesuoText: '已解锁',
+    lianghuaSuccessText: '量化成功',
+    lianghuaFailText: '匹配失败',
+    lngquText: '领取',
+    alreadyLingQuText: '已领取',
+    balanceText: '余额',
+    tuiguangPeoPleNumsText: '推广人数',
+    peopleText: '人',
+    inviteText: '邀请',
+    mingText: '名',
+    yishangVipText: '以上会员',
+    spreadTipsText: '邀请 {val1} 名 {val2} 以上会员'
+  },
+
+  lianghuaHistory: {
+    titleText: '量化记录',
+    statusIngText: '审核中',
+    statusSuccessText: '成功',
+    statusFailText: '失败',
+    statusAlreadyText: '已完成',
+    statusWaitText: '待付款',
+    zhixingcangweiText: '执行仓位',
+    buyPlatText: '购买平台',
+    buyPriceText: '买入价格',
+    timeText: '时间',
+    sellePlatText: '销售平台',
+    sellPirceText: '卖出价格',
+    fuwufeiText: '服务费',
+    lirunText: '利润',
+  },
+
   licai: {
     defiText: 'Defi挖矿',
     zhiyaText: '质押挖矿'
@@ -410,13 +501,14 @@ const lang = {
 
   login: {
     titleText: '您好,欢迎登录',
-    registerText: '注册',
+    title2Text: '欢迎登录',
+    registerText: '去注册',
     accountLoginText: '用户登录',
     mobileLoginText: '手机登录',
     mobileText: '手机号',
     mobilePlaceholderText: '请输入手机号',
-    emailAccountText: '邮箱/用户名',
-    emailAccountPlaceholderText: '用户名/邮箱',
+    emailAccountText: '用户名',
+    emailAccountPlaceholderText: '用户名',
     pwdText: '密码',
     pwdPlaceholderText: '请输入密码',
     forgetText: '忘记密码?',
@@ -426,7 +518,8 @@ const lang = {
     userXieYiText: '用户协议',
     codeText: '验证码',
     codePlaceholderText: '请输入验证码',
-    kefuEmailText: '官方客服邮箱'
+    kefuEmailText: '官方客服邮箱',
+    downAppText: '下载App'
   },
   mainSearch: {
     searchPlaceholderText: '搜索您关心的币种',
@@ -439,9 +532,88 @@ const lang = {
   },
 
   mainView: {
-    titleText: '首页',
-    hallText: '交易大厅',
+    suocangWaKuanText: '持币生息',
+    renwuzhongxingText: '任务中心',
+    chongzhiText: '充值',
+    tixianText: '提现',
+    bangzhuText: '帮助',
+    tuanduiText: '团队',
+    linaghuaText: '量化',
+    xintuoText: '信托',
+    dailihezuoText: '代理合作',
+    yaoqingHaoYouText: '邀请好友',
+    linaghuaJiaoYiText: '量化交易',
+    lianghuaJiaoYiTipsText: '高效稳定赚取收益',
+    shishiHangQingText: '实时行情',
+    huiyuanDongTaiText: '会员动态',
+    jiaoyiDuiText: '交易对',
+    newMostPriceText: '最新价格',
+    zhangdieFuText: '涨跌幅',
+    huiyuanNameText: '会员名称',
+    shouyiText: '收益',
+    zhuangtaiText: '状态',
+    jingqingqidaiText: '敬请期待!',
+    linkWalletText: '连接钱包',
+    remengBiZhongText: '热门币种',
+    bizhongHangQingText: '币种行情',
+    bizhongVolText: '币种/交易量',
+    priceText: '价格',
+    zhidexinglaiText: '值得用户信赖的加密货币交易平台',
+    xinlaiItem1TitleText: '用户安全资产基金(SAFU)',
+    xinlaiItem1ContentText: '将所有交易费用的10%存储于安全资产基金，为用户资金提供部分保障',
+    xinlaiItem2TitleText: '个性化访问控制',
+    xinlaiItem2ContentText: '高级访问控制限制访问个人账户的设备和地址，让用户无后顾之忧',
+    xinlaiItem3TitleText: '先进数据加密',
+    xinlaiItem3ContentText: '个人交易数据通过端到端加密获得保障，仅限本人访问个人信息',
+    questionTitletEXT: '相关问题',
+    heyushengjiText: '合约审计机构',
+    xianghuogangganText: '现货/杠杆/合约',
+    defiText: '质押挖矿、DeFi等',
+    jijiangText: '即将开始交易',
+    quzhongxingText: '去中心化的交易所平台',
+    jiaoyiText: '立即交易',
+    partnerText: '合作伙伴',
+    searchPlaceholderText: '搜索您关心的币种',
+    kuaijieRukuanText: '快捷入款',
+    kuaijieTipsText: '支持USDT、BTC、ETH等',
+    helpCenterText: '帮助中心',
+    inviteText: '邀请奖励',
+    productText: '产品',
+    newPriceText: '最新价',
+    todayZhangfuText: '今日涨跌',
+    xinwenzixunText: '新闻资讯',
     moreText: '更多',
+    aboutUsText: '关于我们',
+    buyCoinText: '一键买币',
+    orderText: '订单',
+    buyText: '购买',
+    upDownText: '市场排名',
+    c2cTitleText: 'C2C交易',
+    c2cTipsText: '灵活选择,快速成交',
+    rechargeText: '入款',
+    cashoutText: '取款',
+    xianshangKefuText: '线上客服',
+    nftText: 'NFT',
+    xianshiText: '限时',
+    heyueText: '合约',
+    dianweiText: '点位',
+    downLoadText: '下载APP',
+    languageSetText: '语言设置',
+    wakuanTipsText: '一站式理财服务'
+  },
+
+  msgCenter: {
+    titleText: '消息中心',
+    noticeText: '消息通知',
+    xiaoxigonggaoText: '系统公告',
+    quanbuShanChuText: '全部删除',
+    quanbuYiDuText: '全部已读',
+    delAllTipsText: '确认删除全部消息?',
+    delItemTipsText: '确认删除该消息?',
+  },
+
+  msgDetail: {
+    titleText: '详情'
   },
 
   market: {
@@ -466,31 +638,210 @@ const lang = {
 
   mybill: {
     titleText: '资金明细',
-    rechargeText: '储值',
+    rechargeText: '充值',
     cashoutText: '提现',
     balanceText: '余额',
     minxiText: '明细',
     rechargeHistoryText: '入款记录',
     cashoutHistoryText: '取款记录',
     refreshSuccessText: '刷新成功',
-    rechargeNumText: '储值数量',
+    rechargeNumText: '充值数量',
     cashoutNumText: '提现数量',
     tibiText: '提币',
+    statusAlreadyText: '已完成',
     failRemarkText: '失败原因',
     moneyText: '金额',
     amountText: '数量',
     daozhangMoneyText: '到账金额',
     timeText: '时间',
-    statusAllText: '全部',
-    statusIngText: '审核中',
+    statusFailText: '审核失败',
     statusSuccessText: '成功',
-    statusFailText: '失败',
-    statusAlreadyText: '已完成',
+    statusIngText: '审核中',
     statusWaitText: '待付款',
-    rechargeBiZhongText: '储值币种',
-    tixianBiZhongText: '提现币种'
+    jiangliHistoryText: '奖励记录'
   },
-  
+  tokenInfo:{
+    dbzlText:'代币总量',
+    fxsjText:'发行时间',
+    ssglText:'所属公链',
+    znhydzText:'智能合约地址',
+    wyText:'万亿',
+    jbxxText:'基本信息',
+    jjText:'简介',
+    hqText:'行情',
+    qbText:'钱包',
+    sqjlText:'社区激励',
+    csldxText:'初始流动性',
+    yxText:'营销',
+    tdText:'团队',
+    ktText:'空投',
+    ddjjText:'代币简介',
+    jydText:'交易对',
+    zxjText:'最新价($)',
+    dayEdText:'24H额($)',
+    cjezbText:'成交额占比',
+    mcText:'名称',
+    aqxText:'安全性',
+    xjText:'星级',
+    jyText:'禁用',
+    zcText:'正常',
+    zljkText:'治理金库',
+    ptaqText:'平台安全',
+    moreText:'Load more',
+    fqaText:'FQA',
+    tipsText:'Everything you need to know about Anron Icons. Can’t find the answer? you can ',
+    contactText:'contact us.'
+  },
+
+  mycenter: {
+    mytoken:'我的token',
+    choujianZhongxingText: '抽奖中心',
+    suocangWaKuanText: '持币生息',
+    zijingmingxiText: '资金明细',
+    accountBuhuoyueText: '账号不活跃',
+    kecaozuoMoneyText: '可操作资金',
+    weishifangMoneyText: '未释放资金',
+    benyueText: '本月收入',
+    shangyueText: '上月收入',
+    putongAccountText: '普通账号',
+    teamAccountText: '团队账号',
+    nextLevelText: '下一级',
+    youxiaoMoneyText: '有效金额',
+    yishangVipText: '以上会员',
+    myTeamText: '我的团队',
+    themeText: '颜色主题',
+    checkLoginText: '点击登录',
+    loginTipsText: '你好，欢迎登录',
+    inviteCodeText: '邀请码',
+    shengfengRenZhengText: '身份认证',
+    tikuanControlText: '提款管理',
+    noticeText: '站内信',
+    helpCenterText: '帮助中心',
+    inviteFriendText: '邀请好友',
+    lineKefuText: '在线客服',
+    tongyongSetText: '通用设置',
+    statusWaitText: '待认证',
+    noRenzhengText: '未认证',
+    statusFailText: '认证失败',
+    statusSuccessText: '认证成功',
+    statusIngText: '认证中',
+    userRealSuccessTipsText: '身份认证成功后不可修改',
+    userRealIngTipsText: '身份认证审核中,请耐心等待',
+    zongyuerText: '总余额',
+    zongShouYiText: '总收益',
+    jinriYongJinText: '今日佣金',
+    zuoriYongJinText:'昨日佣金',
+    jinriShouYiText: '今日收益',
+    zuoriShouYiText: '昨日收益',
+    chongzhiText: '充值',
+    tixianText: '提现',
+    mingxiText: '明细',
+    shengfengRengZhengText: '身份认证',
+    qianbaoGuanLiText: '钱包管理',
+    yinghangkaGuanLiText: '银行卡管理',
+    changjianwentiText: '常见问题',
+    safeCenterText: '安全中心',
+    lianghuajiaochengText: '量化教程',
+    yuyanSetText: '语言设置',
+    aboutUsText: '关于我们',
+    xiazaiAppText: '下载APP',
+    tuichuLoginText: '退出登录',
+    exitLoginOutTipsText: '确定退出登录?',
+    xiajiText: '下级',
+    yishangHuiYuanTipText: '{val1} 以上会员',
+    yijiText: '一级',
+    erjiText: '二级',
+    sanjiText: '三级',
+    zongyuerNewText: '总余额',
+    weishifangMoneyNewText: '未释放资金',
+    shouyiNewText: '收益',
+    zongShouYiNewText: '总收益',
+    jinriShouYiNewText: '今日收益',
+    zuoriShouYiNewText: '昨日收益',
+    benyueNewText: '本月收入',
+  },
+
+  myCenterPop: {
+    choujianZhongxingText: '抽奖中心',
+    suocangWaKuanText: '持币生息',
+    zijingmingxiText: '资金明细',
+    putongAccountText: '普通账号',
+    teamAccountText: '团队账号',
+    myTeamText: '我的团队',
+    inviteFriendText: '邀请好友',
+    qudengluText: '去登录',
+    welcomeText: '欢迎来到',
+    xinyongText: '信用分',
+    tuiguangText: '推广中心',
+    shareText: '我要分享',
+    userRealText: '身份认证',
+    safeText: '安全中心',
+    zaixiangkefuText: '在线客服',
+    fuwutiaokuanText: '服务条款',
+    exitLoginText: '退出登录',
+    gologinText: '前往登录',
+    userRealSuccessTipsText: '身份认证成功后不可修改',
+    userRealIngTipsText: '身份认证审核中,请耐心等待',
+    exitLoginTipsText: '是否退出登录?',
+    statusFailText: '认证失败',
+    statusSuccessText: '认证成功',
+    statusIngText: '认证中',
+    statusWaitText: '待认证',
+    noRenzhengText: '未认证',
+    chongzhiText: '充值',
+    tixianText: '提现',
+    kefuText: '客服',
+    mingxiText: '明细',
+    shengfengRengZhengText: '身份认证',
+    qianbaoGuanLiText: '钱包管理',
+    yinghangkaGuanLiText: '银行卡管理',
+    changjianwentiText: '常见问题',
+    safeCenterText: '安全中心',
+    lianghuajiaochengText: '量化教程',
+    yuyanSetText: '语言设置',
+    aboutUsText: '关于我们',
+    xiazaiAppText: '下载APP',
+    tuichuLoginText: '退出登录',
+    exitLoginOutTipsText: '确定退出登录?',
+    inviteCodeText: '邀请码'
+  },
+
+  myTeam: {
+    titleText: '团队贡献',
+    zongShouYiText: '总收益',
+    jinriShouYiText: '今日收益',
+    zongRenShuText: '总人数',
+    jinrizhuceText: '今日新增注册',
+    tuanduiRenYuanText: '团队人员',
+    tuanduigongxianText: '团队贡献',
+    jinriZhuceNumsText: '今日注册人数',
+    zhanghaoText: '账号',
+    levelText: '等级',
+    cengjiText: '层级',
+    timeText: '时间',
+    shouyiText: '收益',
+    zhuceTimeText: '注册时间',
+    yijiText: '一级',
+    erjiText: '二级',
+    sanjiText: '三级',
+    yicengText: '一层',
+    ercengText: '二层',
+    sancengText: '三层',
+    oneDayText: '今日',
+    threeDayText: '近3日',
+    sevenDayText: '近7日',
+    fifteenDayText: '近15日',
+    thirdtyDayText: '近30日',
+    oneDayShouYiText: '今日累计收益',
+    threeDayShouYiText: '3日累计收益',
+    sevenDayShouYiText: '7日累计收益',
+    fifteenDayShouYiText: '15日累计收益',
+    thirdtyDayShouYiText: '30日累计收益',
+    tobeTeamAccountText: '成为团队账号',
+    teamAccountText: '团队账号',
+    shenghezhongText: '审核中'
+  },
+
   noticedetail: {
     titleText: '详情',
   },
@@ -503,7 +854,7 @@ const lang = {
   rechargebank: {
     titleText: '银行卡入款',
     tipsText: '购买数量',
-    buyAmontPlaceholderText: '请输入购买数量',
+    buyAmontPlaceholderText: '请输入购买数量(USDT)',
     infoTitleText: '支付信息',
     moneyText: '转账金额',
     nameText: '收款人姓名',
@@ -523,11 +874,11 @@ const lang = {
   },
 
   rechargebi: {
-    titleText: '储值',
+    titleText: '充值',
     selectBiText: '请选择存款币种',
     linkText: '链名称',
-    saomaText: '扫码转账储值',
-    rechargeAmountText: '储值数量',
+    saomaText: '扫码转账充值',
+    rechargeAmountText: '充值数量',
     selectText: '请选择存款网络',
     qrcodeText: '二维码',
     addressText: '存款地址',
@@ -539,13 +890,17 @@ const lang = {
     uploadText: '上传图片',
     selectImgText: '选择图片',
     alreadyText: '我已存款',
-    copySuccessText: '复制成功'
+    copySuccessText: '复制成功',
+    submitBtnText: '确认提交',
+    qingZhuanZhangText: '请往此地址转',
+    bizhongText: '币种',
+    concatkefuText: '联系客服'
   },
 
   rechargeHistory: {
-    titleText: '储值记录',
+    titleText: '充值记录',
     refreshSuccessText: '刷新成功',
-    rechargeNumText: '储值数量',
+    rechargeNumText: '充值数量',
     cashoutNumText: '提现数量',
     tibiText: '提币',
     failRemarkText: '失败原因',
@@ -559,34 +914,27 @@ const lang = {
     statusFailText: '失败',
     statusAlreadyText: '已完成',
     statusWaitText: '待付款',
-    rechargeBiZhongText: '储值币种'
+    rechargeBiZhongText: '充值币种'
   },
 
   rechargeKefu: {
-    titleText: '客服储值',
-    amountText: '储值数量',
-    buyAmontPlaceholderText: '请输入储值数量',
+    titleText: '客服充值',
+    amountText: '充值数量',
+    buyAmontPlaceholderText: '请输入充值数量',
     conCatKeFuText: '联系客服',
     secondText: '转账完成,点击下方按钮,通知客服确认收款',
     finishText: '提交订单',
     uploadText: '上传凭证',
     selectImgText: '选择图片'
   },
-  
+
   rechargeSelect: {
-    balanceText: '余额',
-    zhunguiText: '尊敬的会员：',
-    rechargeDesText: '我们的网银储值收款账户会不定期更换。每次储值前请咨询在线客服，确定最新的收款账户。非常感谢您的支持！',
-    zhuheText: '全体员工祝您财源广进！',
-    amountInputPlaceHolderText: '请输入储值金额',
-    subBtnText: '提交储值',
-    rechargeTipsText: '提交储值前请确认支付成功。',
-    titleText: '储值方式',
-    selectText: '选择储值方式',
-    namePlaceholderText: '请输入真实姓名'
+    titleText: '充值方式',
+    selectText: '选择充值方式',
   },
 
   register: {
+    title2Text: '创建账户',
     titleText: '注册',
     mobileRegText: '手机注册',
     emailRegText: '邮箱注册',
@@ -606,7 +954,7 @@ const lang = {
     secondPwdPlaceholderText: '再次输入密码',
     inviteCodeText: '邀请码',
     inviteCodePlaceholderText: '邀请码(选填)',
-    inviteCodeBiPlaceholderText: '邀请码(必填)',
+    inviteCodeBiTianPlaceholderText: '邀请码(必填)',
     pwdNoSame: '两次密码输入不一致',
     registerBtnText: '注册',
     loginBtnText: '去登录',
@@ -634,7 +982,7 @@ const lang = {
     backCardText: '银行卡',
     mywalletText: '我的钱包'
   },
- 
+
   share: {
     titleText: '分享',
     shareLinkText: '分享链接'
@@ -738,7 +1086,7 @@ const lang = {
     jiesuanText: `结算中`,
     nocangweiText: `当前无持有仓位`
   },
-  
+
   chartQiQuanPop: {
     titleText: '限时',
     productNameText: '产品名称',
@@ -762,7 +1110,7 @@ const lang = {
   tuiguang: {
     titleText: '推广中心',
     inviteFriendText: '邀请好友一起赚币',
-    inviteFriendTipsText: '邀请好友，储值即刻获取佣金',
+    inviteFriendTipsText: '邀请好友，充值即刻获取佣金',
     seeGuizeText: '查看推广规则',
     myTuiguangText: '我的推广',
     myTuiguangNumsText: '推广总人数',
@@ -780,7 +1128,9 @@ const lang = {
     useridText: '用户ID',
     fanyongMoneyText: '返佣金额',
     zhuceTimeText: '注册时间',
-    saomaText: '扫描二维码即可注册'
+    saomaText: '扫描二维码即可注册',
+    tuiguangPeoPleNumsText: '推广人数',
+    peopleText: '人'
   },
 
   tuiguangDetail: {
@@ -792,7 +1142,7 @@ const lang = {
 
 
   userReal: {
-    titleText: '填写认证信息',
+    titleText: '实名认证',
     nameText: '姓名',
     namePlaceholderText: '请输入姓名',
     idCardNumText: '证件号码',
@@ -803,37 +1153,58 @@ const lang = {
     sureBtnText: '确定',
     failRemarkText: '失败原因',
     realTypeTips: '证件类型: 身份证/护照/驾驶证',
+    realTypeText: '证件类型',
+    realTypePlaceholerText: '请选择证件类型',
     shengdengZhengText: '身份证',
     huzhaoText: '护照',
     jiashizhengText: '驾驶证',
-  },
-
-  vipdetail: {
-    playShuoMingText: '游戏玩法',
-    dizhuText: '底注',
-    zhunruText: '准入',
-    yuerBuZhuTipsText: '余额不足,无法进入'
+    submitText: '提交',
   },
 
   wakuang: {
-    titleText: '锁仓挖矿',
-    secondTitleText: '挖矿赚不停',
-    secondTitleTipsText: '锁仓挖矿是通过将USDT托管给平台超算力矿机在平台矿池中进行挖矿收益',
-    productYoushiText: '产品优势',
-    suiqusuiCunText: '随存随取',
-    suocangZhouQiText: '锁仓周期',
-    meiriXiafaText: '每日下发',
-    suijikongtouText: '随机空投',
-    youshi1Text: '100%资金安全保障',
-    youshi2Text: '100%节假日收益不间断',
-    youshi3Text: '成功锁仓后当天产出',
-    wakuangComputeText: '收益计算',
-    weiyueText: '关于违约金',
-    wakuangBtnText: '锁仓挖矿',
+    titleText: '持币生息',
+    ingTuoguanText: '正在托管的资金',
+    suocangOrderText: '托管订单',
+    yujiTodayShouyiText: '预计今日收益',
+    leijiShouyiText: '累计收益',
+    orderText: '托管中的订单',
+    suocangText: '锁仓',
+    dayText: '天',
+    danBiZuiShaoText: '单笔最少',
+    danBiZuiDuoText: '单笔最多',
+    shouyiLvText: '日收益率',
+    suocangZhouQiText: '周期',
+    shuimingText: '说明',
+    orderDetailText: '订单详情',
+    canBuyNumsText: '可购次数',
+    xianerText: '限额',
+    wuxianZhiText: '无限制',
+    buyText: '去买入',
+    seemoreText: '查看更多',
+    changjianwentiText: '常见问题',
+    popItem1TitleText: '什么是持币生息？',
+    popItem1ContentText: '持币生息是本公司打造的一款帮助用户快捷进行链上质押获取奖励的工具产品。通过将数字资产质押在区块链网络，并获得基于POS（Proof of Stake，即权益证明）机制产生的奖励。在这个机制中，用户将数字资产委托给节点，节点在区块链上行使出块、打包交易等权利并获得奖励。用户根据锁仓数量按比例分享节点获得的奖励。',
+    popItem2TitleText: '产品优势',
+    popItem2SubTitleText: '稳健型',
+    popItem2ContentText: '持币生息可以获得第三方相对稳定的奖励，产品期限多样。',
+    popItem3TitleText: '投向生息资产说明',
+    popItem3ContentText: '持币生息是将您的数字资产质押在区块链上，以支持该区块链网络的运营，并获得相应的奖励。',
+    popItem4TitleText: '收益说明',
+    popItem4ContentText: 'T日申购成功后，T+1日00:00开始起息，02:00利息结算。',
+    popItem5TitleText: '交易说明',
+    popItem5SubTitleText: '买入规则',
+    popItem5ContentText: '支持随时申购。',
+    popItem6TitleText: '风险提示',
+    popItem6ContentText: '提前赎回定期产品，系统将扣除该笔订单已经获得的部分收益。',
+    shengqingRenGouText: '申请认购',
+    rengouShengHeZhongText: '认购审核中',
+    rengGouShengQingShengHeZhongTipsText: '您的认购申请正在审核中,请耐心等待',
+    shengqingTipsText: '确认申请认购？',
+    shengqingFailText: '申请审核不通过！'
   },
 
   wakuangList: {
-    titleText: '锁仓挖矿',
+    titleText: '持币生息',
     ingTuoguanText: '正在托管的资金',
     suocangOrderText: '锁仓订单',
     yujiTodayShouyiText: '预计今日收益',
@@ -869,11 +1240,11 @@ const lang = {
     popItem6ContentText: '提前赎回定期产品，系统将扣除该笔订单已经获得的部分收益。',
   },
   wakuangDetail: {
-    titleText: '锁仓挖矿',
-    suocangText: '锁仓',
+    titleText: '详情',
+    suocangText: '持币生息',
     rishouyiText: '日收益',
     dayText: '天',
-    suocangZhouQiText: '锁仓周期',
+    suocangZhouQiText: '托管周期',
     zuishaoText: '单笔最少',
     zuiduoText: '单笔最多',
     nolimitText: '无限制',
@@ -884,28 +1255,34 @@ const lang = {
     tiqianShuHuiText: '提前赎回',
     yujishouyiText: '预计收益',
     canuseMoneyText: '可用资产',
-    suocangMoneyText: '锁仓金额',
+    suocangMoneyText: '托管金额',
     allText: '全部',
-    rengouText: '认购',
+    rengouText: '同意认购',
+    shenqingRenGouText: '申请认购',
+    dayshouyiText: '每日收益'
   },
 
   waKuangOrderList: {
-    titleText: '锁仓订单',
-    suochangText: '锁仓',
+    titleText: '托管订单',
+    suochangText: '托管',
     dayText: '天',
     endText: '已结束',
     ingText: '进行中',
     waitText: '未开始',
     suocangIngText: '锁仓中',
+    shenheshibaiText: '审核失败',
+    shenhezhongText: '审核中',
     yishuhuiText: '已赎回',
-    suocangMoneyText: '锁仓金额',
+    suocangMoneyText: '托管金额',
     rishouyiLvText: '日收益率',
-    suocangDayText: '锁仓周期',
-    suocangTimeText: '锁仓时间',
+    suocangDayText: '托管周期',
+    suocangTimeText: '托管时间',
     daoqiTimeText: '到期时间',
     shuhuiTimeText: '赎回时间',
     shouyiText: '收益',
     tiqianShuHuiText: '提前赎回',
+    shibaiYuanYingText: '失败原因',
+    lianxikefuText: '请联系客服处理!'
   },
   waKuangOrderListPop: {
     shuhuiMoneyText: '赎回金额',
@@ -918,32 +1295,26 @@ const lang = {
     cancelText: '取消'
   },
 
+
   walletadd: {
-    titleText: '钱包地址',
-    selectText: '请选择币种',
+    titleText: '添加钱包',
+    selectText: '选择币种',
+    selectPlaceholderText: '请选择币种',
+    xieyiLeiXingText: '协议类型',
+    xieyiLeiXingPlaceholderText: '请选择协议类型',
     linkNameText: '链名称',
-    addressText: '钱包地址',
-    addressPlaceholderText: '请输入钱包地址',
+    addressText: '虚拟币地址',
+    addressPlaceholderText: '请输入虚拟币地址',
     unBindText: '解绑',
     changeText: '修改',
     submitText: '提交'
   },
 
   walletlist: {
-    titleText: '钱包地址',
+    titleText: '钱包管理',
     nolistText: '暂无记录',
-    delTipsText: '确认删除该钱包?'
-  },
-
-  zouShi: {
-    titleText: '走势图',
-    qihaoText: '期号',
-    haomaText: '号码',
-    zhiText: '值',
-    bigText: '大',
-    smallText: '小',
-    danText: '单',
-    shuangText: '双'
+    delTipsText: '确认删除该钱包?',
+    addaddressText: '创建新地址',
   },
 
   bindPhonePop: {
@@ -954,7 +1325,9 @@ const lang = {
   bussinessPwdPop: {
     titleText: '支付密码'
   },
+
   cashoutDetailPop: {
+    shibaiyuanyingText: "失败原因",
     titleText: '详情',
     rukuanMethodText: '入款方式',
     qukuanMethodText: '取款方式',
@@ -967,7 +1340,7 @@ const lang = {
     rechargeAddressText: '充币地址',
     cashoutAddressText: '提币地址',
     copyText: '复制',
-    rechargeBankText: '储值银行',
+    rechargeBankText: '充值银行',
     cashoutBankText: '提现银行',
     shoukuanNameText: '收款人姓名',
     qukuanNameText: '取款人姓名',
@@ -980,23 +1353,12 @@ const lang = {
     orderNumText: '订单号',
     timeText: '时间',
   },
+
+  mainBottomSwiper: {
+    lianghuaChengGongText: '量化成功'
+  },
   chartSelectCoinPop: {
     titleText: '全部产品',
-  },
-  myCenterPop: {
-    welcomeText: '欢迎来到',
-    xinyongText: '信用分',
-    tuiguangText: '推广中心',
-    shareText: '我要分享',
-    userRealText: '身份认证',
-    safeText: '安全中心',
-    zaixiangkefuText: '在线客服',
-    fuwutiaokuanText: '服务条款',
-    exitLoginText: '退出登录',
-    gologinText: '前往登录',
-    userRealSuccessTipsText: '身份认证成功后不可修改',
-    userRealIngTipsText: '身份认证审核中,请耐心等待',
-    exitLoginTipsText: '是否退出登录?',
   },
   ossUpload: {
     uploadFailText: '上传失败',
@@ -1014,7 +1376,8 @@ const lang = {
     noAddressTipsText: '快去新增地址吧~',
     addAddressBtnText: '添加地址',
     deleteAddressTipsText: '是否删除该钱包地址?',
-    nolistText: '暂无记录'
+    nolistText: '暂无记录',
+    addText: '创建新地址'
   },
 
   selectCashoutBankCardPop: {
@@ -1030,7 +1393,7 @@ const lang = {
     addText: '添加银行卡',
     delTipsText: '是否删除该银行卡',
     delBtnText: '删除',
-    nolistText: '暂无记录'
+    nolistText: '暂无记录',
   },
 
   selectConcatWalletPop: {
@@ -1063,7 +1426,7 @@ const lang = {
   },
 
 
-  
+
 
 
 
@@ -1112,11 +1475,8 @@ const lang = {
 
 
   conCatKeFu: {
-    titleText: '客服',
-    zaixiankefuText: '在线客服',
-    zaixianKeFuTipsText: '如果您有任何问题需要帮助，请联系在线客服',
-    zaixianText: '在线客服',
-    zaixianZiXunText: '在线咨询'
+    titleText: '客服中心',
+    zaixianText: '在线客服'
   },
 
   currencySet: {
@@ -1141,24 +1501,6 @@ const lang = {
   },
 
 
-  mycenter: {
-    themeText: '颜色主题',
-    checkLoginText: '点击登录',
-    loginTipsText: '你好，欢迎登录',
-    inviteCodeText: '邀请码',
-    shengfengRenZhengText: '身份认证',
-    statusWaitText: '待认证',
-    statusFailText: '认证失败',
-    statusSuccessText: '认证成功',
-    statusIngText: '认证中',
-    safeCenterText: '安全中心',
-    tikuanControlText: '提款管理',
-    noticeText: '站内信',
-    helpCenterText: '帮助中心',
-    inviteFriendText: '邀请好友',
-    lineKefuText: '在线客服',
-    tongyongSetText: '通用设置',
-  },
 
   myMsg: {
     titleText: '站内信',
@@ -1337,7 +1679,7 @@ const lang = {
     sureText: '确定'
   },
 
- 
+
   shenggou: {
     titleText: '新币申购',
     myshenggouText: '我的申购',
@@ -1404,12 +1746,12 @@ const lang = {
     comfirmText: '确认',
     jianMoreText: '最多减少'
   },
-  
+
   hourechargeselect: {
-    titleText: '储值',
-    c2cText: 'C2C储值',
-    rechargeCoinHistoryText: '储值记录',
-    selectText: '请选择储值方式'
+    titleText: '充值',
+    c2cText: 'C2C充值',
+    rechargeCoinHistoryText: '充值记录',
+    selectText: '请选择充值方式'
   },
 
   concatUsPop: {
@@ -1420,7 +1762,8 @@ const lang = {
 
 
   noticePop: {
-    titleText: '通知'
+    titleText: '公告',
+    rewardCountdownText: '奖金福利倒计时'
   },
 
 
@@ -1448,6 +1791,9 @@ const lang = {
   orderlist: {
     titleText: '订单',
   },
+
+
+
 }
 
 export default lang

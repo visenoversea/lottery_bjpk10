@@ -52,7 +52,7 @@ function initDPlayer() {
   })
 }
 </script>
-
+ 
 <style lang='scss'>
 .dplayer {
   .dplayer-controller {

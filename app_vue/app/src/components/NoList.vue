@@ -1,6 +1,6 @@
 <template>
   <div class="c-no-list g-flex-column g-flex-align-center">
-    <img :src="'/img/icon/deficiency_assets_record.png'" alt="">
+    <img :src="'/img/icon/empty-image.png'" alt="">
     <p class="c-no-list-text">{{ i18n.tipsText }}</p>
   </div>
 </template>

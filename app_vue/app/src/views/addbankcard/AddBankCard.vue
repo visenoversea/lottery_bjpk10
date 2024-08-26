@@ -1,15 +1,18 @@
 <template>
-  <div class="v_add_bank_card g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-    <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-      <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_add_bank_card g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <!-- <i class="iconfont icon-zuo"></i> -->
+        <img src="/images/back-icon.png" alt="" />
+      </div>
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
-    <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-    <!-- <div @click="$router.push({ name: 'addbankcard'})" class="v-head-right g-flex-align-center">
-      <i class="iconfont icon-jiahao1"></i>
-    </div> -->
-  </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-add-bank-card-container">
       <div class="v-add-bank-card-form">
         <!-- <div class="v-add-bank-card-form-item">
@@ -17,7 +20,7 @@
         <div class="v-add-bank-card-form-item-input">
           <van-field v-model="value" label="" label-width="0" placeholder="请输入国家/地区" />
           <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div>
         </div>
       </div> -->
@@ -27,17 +30,17 @@
         <div class="v-add-bank-card-form-item-input">
           <van-field readonly v-model="value2" label="" label-width="0" placeholder="请选择法币类型" />
           <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div>
         </div>
       </div> -->
 
         <div class="v-add-bank-card-form-item">
           <div class="v-add-bank-card-form-item-title">{{ i18n.bankNameText }}</div>
-          <div class="v-add-bank-card-form-item-input">
+          <div class="v-add-bank-card-form-item-input g-flex-align-center">
             <van-field v-model="form.bank_name" label="" label-width="0" :placeholder="i18n.bankPlaceholderText" />
             <!-- <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div> -->
           </div>
         </div>
@@ -48,7 +51,7 @@
             <van-field v-model="form.card_number" label="" label-width="0"
               :placeholder="i18n.cardNumberPlaceholderText" />
             <!-- <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div> -->
           </div>
         </div>
@@ -58,7 +61,7 @@
           <div class="v-add-bank-card-form-item-input">
             <van-field v-model="form.name" label="" label-width="0" :placeholder="i18n.namePlaceholderText" />
             <!-- <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div> -->
           </div>
         </div>
@@ -68,7 +71,7 @@
           <div class="v-add-bank-card-form-item-input">
             <van-field v-model="form.branch" label="" label-width="0" :placeholder="i18n.wangdianPlaceholderText" />
             <!-- <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div> -->
           </div>
         </div>
@@ -79,7 +82,7 @@
             <van-field v-model="form.bank_code" label="" label-width="0"
               :placeholder="i18n.zhihangCodePlaceholderText" />
             <!-- <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div> -->
           </div>
         </div>
@@ -89,7 +92,7 @@
         <div class="v-add-bank-card-form-item-input">
           <van-field v-model="form.remark" label="" label-width="0" placeholder="添加备注或其他信息内容" />
           <div class="v-add-bank-card-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+            <img src="/img/mycenter/user_public_down.png" alt=""/>
           </div>
         </div>
       </div> -->
@@ -195,84 +198,78 @@ async function apiDeleteBankHandel() {
 .v_add_bank_card {
   height: 100%;
   overflow: auto;
-  background: #fff;
-
+  // background-color: #f6f4f5;
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
-    background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
+    z-index: 9;
+    width: 100%;
+    background-color: #f6f4f5;
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
-
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--g-black);
     }
-
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
+
 
   .v-add-bank-card-container {
     flex: 1;
     overflow: auto;
     padding-top: 50px;
-    .v-title {  
-      padding: 20px 15px 15px 15px;
-      font-size: 22px;
-      line-height: 26px;
-      color: #333;
-      font-weight: 600;
-    }
-
     .v-add-bank-card-form {
       padding: 15px;
 
       .v-add-bank-card-form-item {
         margin-top: 18px;
+        border: 1px solid #e4e7ed;
+        padding: 10px;
+        border-radius: 6px;
         &:nth-of-type(1) {
           margin-top: 0;
         }
 
         .v-add-bank-card-form-item-title {
-          font-size: 16px;
-          color: #333;
-          font-weight: 700;
+          font-size: 14px;
+          color: #fff;
         }
 
         .v-add-bank-card-form-item-input {
-          background-color: #f2f4f7;
+          // background: var(--g-white);
           margin-top: 10px;
-          border: 1px solid #efefef;
+          // border: 1px solid #e4e7ed;
           padding: 10px;
-          border-radius: 5px;
+          // border-radius: 5px;
+          height: 34px;
           position: relative;
 
           .v-add-bank-card-form-item-input-down-img {
@@ -288,7 +285,7 @@ async function apiDeleteBankHandel() {
 
           .van-cell {
             padding: 0;
-            background-color: #f2f4f7;
+            background: none;
             &::after {
               display: none;
             }
@@ -296,13 +293,17 @@ async function apiDeleteBankHandel() {
             .van-cell__value {
               .van-field__body {
                 input {
+                  height: 100%;
+                  width: 100%;
+                  background-color: #202021;
                   font-size: 14px;
-                  font-weight: 600;
-                  color: #333;
+                  font-weight: 400;
+                  color: #fff;
+                  border: none;
+                  outline: none;
                   &::placeholder {
-                    color: #7D919D;
-                    font-weight: 700;
-                    font-size: 14px;
+                    color: rgb(128, 127, 127);
+                    font-size: 12px;
                   }
                 }
               }
@@ -381,9 +382,9 @@ async function apiDeleteBankHandel() {
       .v-add-bank-card-form-btn-list {
         .v-add-bank-card-form-btn {
           margin-top: 20px;
-          background: var(--g-main_color);
+          background: #335ee3;
           color: var(--g-white);
-          border-radius: 6px;
+          border-radius: 50px;
           height: 40px;
           width: 55%;
           font-size: 14px;

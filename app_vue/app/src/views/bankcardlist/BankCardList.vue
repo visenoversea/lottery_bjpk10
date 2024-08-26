@@ -1,15 +1,17 @@
 <template>
-  <div class="v_bank_card_list g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-    <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-      <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_bank_card_list g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <img src="/images/back-icon.png" alt="" />
+      </div>
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
-    <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-    <div @click="$router.push({ name: 'addbankcard'})" class="v-head-right g-flex-align-center">
-      <i class="iconfont icon-jiahao1"></i>
-    </div>
-  </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-bank-card-list-pwd-container">
       <div class="v-bank-card-list-tips">
         {{ i18n.tipsText }}
@@ -17,7 +19,7 @@
       <div v-show="bankCardList.list.length" class="v-bank-card-list-content">
         <div @click="selectIndex = index" v-for="(item, index) in bankCardList.list" :key="index"
           class="v-bank-card-list-item"
-          :style="{ backgroundImage: `url('/img/icon/extract_bank_card.png')` }">
+          :style="{ backgroundImage: `url('/images/Rectangle1.png')` }">
           <div class="v-bank-card-list-item-bank-name">
             {{ item.bank_name }}
           </div>
@@ -25,27 +27,31 @@
             {{ item.name }}
           </div>
           <div class="v-bank-card-list-item-bank-cardnum">
-            {{ filterBankCardNumber(item.card_number) }}
+            {{ item.card_number }}
           </div>
-          <!-- <div @click="editClick(item)" class="v-bank-card-list-item-bank-edit">
+          <div @click="editClick(item)" class="v-bank-card-list-item-bank-edit">
             <img src="/img/icon/extract_bank_modify.png" alt="">
-          </div> -->
+          </div>
           <!-- <div v-show="selectIndex == index" class="v-bank-card-list-item-bank-select">
-          <img src="/img/icon/select.png" alt=""/>
+          <img src="/img/icon/select.png" alt="" />
         </div> -->
         </div>
       </div>
 
       <div v-show="!bankCardList.list.length" class="v-back-car-list-no g-flex-column g-flex-align-center">
-        <img src="/img/icon/deficiency_bank_record.png" alt="" />
+        <img src="/img/icon/empty-image.png" alt="" />
         <span class="v-back-car-list-no-text">{{ i18n.noListText }}</span>
+      </div>
+    </div>
+    <div class="v-form-btn-box">
+      <div @click="$router.push({ name: 'addbankcard' })" class="v-form-btn g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.addBankCardText }}</span>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { filterBankCardNumber } from '@/utils/index.js'
 import { reactive, ref, computed } from 'vue';
 import useStore from '@/store/index.js'
 import { apiGetBankList } from '@/utils/api.js'
@@ -64,6 +70,7 @@ const i18n = computed(() => {
 let selectIndex = ref(0)
 let bankCardList = reactive({ list: [] })
 async function apiGetBankListHandel() {
+  store.loadingShow = true
   const { success, data } = await apiGetBankList()
   if (!success) return
   bankCardList.list = data.list
@@ -82,48 +89,45 @@ function editClick(item) {
 .v_bank_card_list {
   height: 100%;
   overflow: auto;
-  background: #F0F1F3;
-
+  // background-color: #f6f4f5;
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
-    background-color: #F0F1F3;
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
+    z-index: 9;
+    width: 100%;
+    background-color: #f6f4f5;
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
-
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--g-black);
     }
-
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
       .iconfont {
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
@@ -132,7 +136,7 @@ function editClick(item) {
     flex: 1;
     overflow: auto;
     padding-bottom: 10px;
-    padding-top: 50px;
+    padding-top: 46px;
     position: relative;
     .v-title {
       padding: 20px 15px 15px 15px;
@@ -148,12 +152,16 @@ function editClick(item) {
     }
 
     .v-bank-card-list-tips {
-      padding: 10px 25px;
-      background: var(--g-white);
-      font-size: 13px;
-      color: #EE903B;
-      line-height: 20px;
-    }
+        margin: 10px 15px;
+        padding: 10px;
+        border-radius: 6px;
+        // background: var(--g-main_color);
+        background: url(../images/Rectangle1.png) !important;
+        background-size: 100% 100% !important;
+        font-size: 13px;
+        color: var(--g-white);
+        line-height: 20px;
+      }
 
     .v-bank-card-list-content {
       padding: 15px;
@@ -206,7 +214,7 @@ function editClick(item) {
           position: absolute;
           top: 0;
           right: 0;
-          background: var(--g-main_color);
+          background: #335ee3;
           padding: 5px;
           border-radius: 0 0 0 15px;
 
@@ -232,6 +240,20 @@ function editClick(item) {
         color: #AAB1B6;
         font-size: 14px;
       }
+    }
+  }
+
+  .v-form-btn-box {
+    width: 100%;
+    padding: 10px;
+    padding-bottom: 30px;
+    .v-form-btn {
+      width: 100%;
+      height: 44px;
+      background: var(--g-main_color);
+      color: var(--g-white);
+      border-radius: 50px;
+      font-size: 14px;
     }
   }
 }

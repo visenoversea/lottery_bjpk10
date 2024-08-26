@@ -60,17 +60,40 @@ watch(value, (nval) => {
       z-index: 99;
       right: 15px;
       top: 15px;
+      color: var(--g-black);
     }
 
     .s-pop-title {
       padding: 30px 0 30px 0;
-      color: #000;
+      color: var(--g-black);
       font-size: 16px;
       font-weight: bold;
     }
 
     .s-pop-keyboard {
       position: relative;
+    }
+    // .van-password-input {
+    //   color: var(--g-black);
+    //   .van-password-input__security {
+    //     color: var(--g-black);
+    //     &::after {
+    //       border-color: var(--g-black);
+    //     }
+    //     .van-password-input__item {
+    //         color: var(--g-black);
+    //         i {
+    //           background-color: var(--g-black);
+    //         }
+    //         .van-password-input__cursor {
+    //           background-color: var(--g-black);
+    //         }
+    //     }
+    //   }
+    // }
+    .van-number-keyboard {
+      margin-top: 10px;
+      
     }
   }
 

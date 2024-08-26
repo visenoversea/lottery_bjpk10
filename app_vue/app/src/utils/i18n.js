@@ -9,10 +9,10 @@ const locales = {
 const i18n = createI18n({
   legacy:false, //默认使用 旧版 api 会报错, 要使用 组合式api 设置成false即可
   // locale: 'zh-CN',
-  // messages: {
-  //   'zh-CN': locales.zh,
-  //   'en': locales.en
-  // }
+  messages: {
+    // 'zh-CN': locales.zh,
+    // 'en': locales.en
+  }
 })
 
 export default i18n

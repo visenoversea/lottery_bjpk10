@@ -1,156 +1,342 @@
 <template>
-<div class="c_my_center_pop">
-  <van-popup safe-area-inset-bottom class="c-pop" v-model:show="show" position="left">
-    <div class="c-pop-container g-flex-column">
-      <div v-show="store.token && userInfo.wallet_address" class="c-pop-wallet-box g-flex-align-center g-flex-justify-end">
-        <div @click="copyClick(userInfo.wallet_address)" class="c-pop-wallet-address g-flex-align-center g-flex-justify-center">
-          <i class="iconfont icon-lianjie"></i>
-          <div class="c-pop-wallet-address-val">
-            {{ userInfo.wallet_address }}
+  <div class="c_my_center_pop ">
+    <van-popup safe-area-inset-bottom class="s-pop" v-model:show="show" position="left">
+      <div class="s-pop-container">
+        <div v-if="userInfo.id"  @click="$router.push({ name: 'safecenter' })" class="s-pop-head g-flex-align-center">
+          <div class="s-pop-head-left g-flex-align-center">
+            <div class="s-pop-head-left-img g-flex-align-center">
+              <img src="/images/touxiang.png" alt=""/>
+            </div>
+            <div class="s-pop-head-left-content">
+              <div class="s-pop-head-left-username">
+                {{ filterBankCardNumber('+' + userInfo.area_code + userInfo.mobile) }}
+              </div>
+              <div class="s-pop-head-left-id g-flex-align-center">
+                <div class="s-pop-head-left-id-text g-flex-align-center">
+                  <span>UUID:</span>
+                  <span>{{ userInfo.id }}</span>
+<!--                  <span>{{ i18n.inviteCodeText }}:</span>-->
+<!--                  <span>{{ userInfo.tid }}</span>-->
+                </div>
+                <div @click.stop="copyClick(userInfo.id)" class="s-pop-head-left-id-copy g-flex-align-center">
+                  <i class="iconfont icon-ic_line_copy24px"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="s-pop-head-right">
+            <i class="iconfont icon-you"></i>
           </div>
         </div>
-      </div>
-      <div class="c-pop-head g-flex-align-center">
-        <div class="c-pop-head-img">
-          <img :src="store.banner.logo[0]" alt=""/>
-        </div>
-        <div class="c-pop-head-right">
-          <div class="c-pop-head-right-title g-flex-align-center">
-            <span>{{ i18n.welcomeText }}</span>
-            <span class="c-pop-head-right-webtitle g-blue">{{ store.system.WebTitle }}</span>
-          </div>
-          <div v-if="store.token" class="c-pop-head-right-id">
-            ID: {{ userInfo.id }}
-          </div>
-          <div v-if="store.token" class="c-pop-head-right-id">
-            {{ i18n.xinyongText }}: 100
-          </div>
-        </div>
-      </div>
 
-      <div class="c-pop-content">
-        <ul class="c-pop-content-list">
-          <!-- 推广中心 -->
-          <li v-show="store.system.TidSet == 1" @click="itemClick('tuiguang')" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/tuiguang.png" alt="" />
+        <div v-if="!userInfo.id"  @click="$router.push({ name: 'login' })" class="s-pop-head s-pop-head-no-login g-flex-align-center">
+          <div class="s-pop-head-left g-flex-align-center">
+            <div class="s-pop-head-left-img g-flex-align-center">
+              <img :src="store.banner.logo[1]" alt=""/>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.tuiguangText }}</span>
+            <div class="s-pop-head-left-content">
+              <div class="s-pop-head-left-username">
+                {{ i18n.qudengluText }}
+              </div>
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+          </div>
+          <div class="s-pop-head-right">
+            <i class="iconfont icon-you"></i>
+          </div>
+        </div>
+        <div class="s-pop-head-list g-flex-align-center">
+          <div @click="itemClick('rechargeselect')" class="s-pop-head-list-item g-flex-column g-flex-align-center">
+            <div class="s-pop-head-item-img">
+              <img src="/img/icon/mycenter-pop-recharge.png" alt=""/>
             </div>
-          </li>
-          <!-- 我要分享 -->
-          <li v-show="store.system.TidSet == 1" @click="itemClick('share')" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/share.png" alt="" />
+            <div class="s-pop-head-item-text">
+              <span>{{ i18n.chongzhiText }}</span>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.shareText }}</span>
+          </div>
+          <div @click="itemClick('cashoutselect')" class="s-pop-head-list-item g-flex-column g-flex-align-center">
+            <div class="s-pop-head-item-img">
+              <img src="/img/icon/mycenter-pop-cashout.png" alt=""/>
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+            <div class="s-pop-head-item-text">
+              <span>{{ i18n.tixianText }}</span>
             </div>
-          </li>
+          </div>
+          <!--<div @click="itemClick('kefu')" class="s-pop-head-list-item g-flex-column g-flex-align-center">
+            <div class="s-pop-head-item-img">
+              <img src="/img/icon/mycenter-pop-kefu.png" alt=""/>
+            </div>
+            <div class="s-pop-head-item-text">
+              <span>{{ i18n.kefuText }}</span>
+            </div>
+          </div>-->
+        </div>
+
+        <div class="s-pop-content-list">
           <!-- 身份认证 -->
-          <li @click="userRealClick" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/shenfeng.png" alt="" />
+          <div v-if="false" @click="userRealClick" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-userreal.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.shengfengRengZhengText }}</span>
+              </div>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.userRealText }}</span>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <div :class="filtersRealStatusClass(userInfo.userReal.status)" class="s-pop-content-right-text">
+                <span>{{ filtersRealStatus() }}</span>
+              </div>
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+          </div>
+
+          <!-- 钱包管理 -->
+          <div v-if="false" @click="itemClick('walletlist')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-wallet.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.qianbaoGuanLiText }}</span>
+              </div>
             </div>
-          </li>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>未认证</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 银行卡管理 -->
+          <div v-if="false" @click="itemClick('bankcardlist')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-wallet.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.yinghangkaGuanLiText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>未认证</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+          <!-- 常见问题 -->
+          <div @click="ruleClick(8)" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-problem.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.changjianwentiText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>未认证</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+
           <!-- 安全中心 -->
-          <li @click="itemClick('safecenter')" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/safecenter.png" alt="" />
+          <div @click="itemClick('safecenter')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-safe.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.safeCenterText }}</span>
+              </div>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.safeText }}</span>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+          </div>
+
+          <!-- 资金明细 -->
+          <div @click="itemClick('mybill')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-mingxi.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.zijingmingxiText }}</span>
+              </div>
             </div>
-          </li>
-          <!-- 在线客服 -->
-          <li @click="kefuClick" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/kefu.png" alt="" />
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.zaixiangkefuText }}</span>
+          </div>
+
+          <div @click="itemClick('invite')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+          <div class="s-pop-content-item-left g-flex-align-center">
+            <div class="s-pop-content-left-img g-flex-align-center">
+              <img src="/img/icon/mycenter-pop-invite.png" alt="" />
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+            <div class="s-pop-content-left-text">
+              <span>{{ i18n.inviteFriendText }}</span>
             </div>
-          </li>
-          <!-- 服务条款 -->
-          <li @click="itemClick('tiaokuanfuwu')" class="c-pop-content-item g-flex-align-center">
-            <div class="c-pop-content-item-left">
-              <img src="/img/icon/fuwu.png" alt="" />
+          </div>
+          <div class="s-pop-content-item-right g-flex-align-center">
+            <div class="s-pop-content-right-icon g-flex-align-center">
+              <i class="iconfont icon-you"></i>
             </div>
-            <div class="c-pop-content-item-center">
-              <span>{{ i18n.fuwutiaokuanText }}</span>
+          </div>
+        </div>
+
+        <div @click="itemClick('myteam')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+          <div class="s-pop-content-item-left g-flex-align-center">
+            <div class="s-pop-content-left-img g-flex-align-center">
+              <img src="/img/icon/mycenter-myteam.png" alt="" />
             </div>
-            <div class="c-pop-content-item-right">
-              <i class="iconfont icon-xiangyou1"></i>
+            <div class="s-pop-content-left-text">
+              <span>{{ i18n.myTeamText }}</span>
             </div>
-          </li>
-        </ul>
-      </div>
-      <div v-show="store.token" class="c-pop-exit-box g-flex-justify-center">
-        <div @click="exitClick" class="c-pop-exit g-flex-align-center g-flex-justify-center">
-          {{ i18n.exitLoginText }}
+          </div>
+          <div class="s-pop-content-item-right g-flex-align-center">
+            <div class="s-pop-content-right-icon g-flex-align-center">
+              <i class="iconfont icon-you"></i>
+            </div>
+          </div>
+        </div>
+          <!-- 量化教程 -->
+          <div @click="ruleClick(21)" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-jiaoxue.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.lianghuajiaochengText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>未认证</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 语言设置 -->
+          <div @click="itemClick('languageset')" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-language.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.yuyanSetText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <div class="s-pop-content-right-text">
+                <span>{{ selectLangObj.name }}</span>
+              </div>
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 关于我们 -->
+          <div @click="ruleClick(6)" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-about-us.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.aboutUsText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>简体中文</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- 下载APP -->
+          <div @click="downClick" class="s-pop-content-item g-flex-justify-between g-flex-align-center">
+            <div class="s-pop-content-item-left g-flex-align-center">
+              <div class="s-pop-content-left-img g-flex-align-center">
+                <img src="/img/icon/mycenter-pop-down.png" alt=""/>
+              </div>
+              <div class="s-pop-content-left-text">
+                <span>{{ i18n.xiazaiAppText }}</span>
+              </div>
+            </div>
+            <div class="s-pop-content-item-right g-flex-align-center">
+              <!-- <div class="s-pop-content-right-text">
+                <span>简体中文</span>
+              </div> -->
+              <div class="s-pop-content-right-icon g-flex-align-center">
+                <i class="iconfont icon-you"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="s-pop-exit-login-box g-flex-align-center g-flex-justify-center">
+          <div @click="exitClick" class="s-pop-exit-login g-flex-align-center g-flex-justify-center">
+            <span>{{ i18n.tuichuLoginText }}</span>
+          </div>
         </div>
       </div>
-      <div v-show="!store.token" class="c-pop-exit-box g-flex-justify-center">
-        <div @click="$router.push({ name: 'login' })" class="c-pop-exit c-pop-login-btn g-flex-align-center g-flex-justify-center">
-          {{ i18n.gologinText }}
-        </div>
-      </div>
-    </div>
-  </van-popup>
-</div>
+    </van-popup>
+  </div>
 </template>
 
 <script setup>
-import { kefuClick, copyClick } from "@/utils/index";
 import { apiGetUserInfo } from '@/utils/api.js'
-import { useRoute, useRouter } from 'vue-router'
-import { reactive, ref, computed, onMounted, onUnmounted } from 'vue';
-import useStore from '@/store/index.js'
+import { filterBankCardNumber, dotDealWith, filtersRealStatusClass, formatDate, copyClick, upDownClass, upDownBgClass, filtersZhangfu, kefuClick, upDownBgFontColorClass } from "@/utils/index.js";
+import {
+  reactive,
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  nextTick,
+} from "vue";
 import { useI18n } from "vue-i18n";
-import { Toast, Dialog  } from 'vant'
+import useStore from "@/store/index.js";
+import { useRouter, useRoute } from "vue-router";
+import { Dialog, Toast } from "vant";
+const router = useRouter();
+const route = useRoute();
 // pinia状态管理仓库
 const store = useStore();
-
-const i18nObj = useI18n()
+const i18nObj = useI18n();
 const i18n = computed(() => {
-  return i18nObj.tm('myCenterPop')
-})
+  return i18nObj.tm("myCenterPop");
+});
 
-const route = useRoute()
-const router = useRouter()
 let show = ref(false)
 function onShow() {
   if(store.token) {
     apiGetUserInfoHandel()
   }
   show.value = true
-}
-
-function onClose() {
-  show.value = false
-}
-
-function itemClick(name) {
-  router.push({ name: name })
 }
 
 let userInfo = computed(() => {
@@ -165,6 +351,10 @@ async function apiGetUserInfoHandel() {
   console.log(data)
 }
 
+function downClick() {
+  window.location.href = store.system.downUrl
+}
+
 function userRealClick() {
   if(!store.token) return router.push({ name: 'login' })
   if((!userInfo.value.userReal.id) || userInfo.value.userReal.status == 0) return router.push({ name: 'userreal' })
@@ -172,18 +362,46 @@ function userRealClick() {
   if(userInfo.value.userReal.status == 2) return Toast(i18n.value.userRealIngTipsText)
 }
 
-function exitClick() {
-  Dialog.confirm({
-    title: i18n.value.exitLoginTipsText,
-    confirmButtonColor: '#FF2742',
-  })
-  .then(() => {
-    store.logout()
-  })
-  .catch(() => {
-  });
+function filtersRealStatus() {
+  // status 0 认证失败
+  // status 1 认证成功
+  // status 2 认证中
+  if((!userInfo.value.userReal.id)) return i18n.value.noRenzhengText
+  if (userInfo.value.userReal.status == 0) return i18n.value.statusFailText
+  if (userInfo.value.userReal.status == 1) return i18n.value.statusSuccessText
+  if (userInfo.value.userReal.status == 2) return i18n.value.statusIngText
 }
 
+
+function onClose() {
+  show.value = false
+}
+
+function itemClick(name) {
+  router.push({ name: name })
+}
+function ruleClick(id) {
+  router.push({ name: 'rule', query: { id: id } })
+}
+
+function exitClick(item) {
+  Dialog.confirm({ 
+    title: '', 
+    message: i18n.value.exitLoginOutTipsText,
+    cancelButtonColor: '#000',
+    confirmButtonColor: '#5488f7' 
+  })
+  .then(() => { store.logout() }).catch(() => { });
+}
+
+let selectLangObj = computed(() => {
+  console.log("store.lang", store.lang);
+  if (!store.langList.length) return {};
+  var target = store.langList.find((item) => item.code == store.lang);
+  console.log("target", target);
+  if (target) return target;
+  else return store.langList[0];
+});
 defineExpose({
   onShow
 })
@@ -191,112 +409,143 @@ defineExpose({
 
 <style lang='scss'>
 .c_my_center_pop {
-  .van-overlay {
-    filter: blur(0.08rem);
-    -webkit-backdrop-filter: blur(.08rem);
-    backdrop-filter: blur(0.08rem);
-    background-color: rgba(0,0,0,.2);
-  }
-
-  .c-pop {
+  .s-pop {
     height: 100%;
-    .c-pop-container {
+    width: 70vw;
+    background-color: #202021;
+    padding: 20px 0 60px 0;
+    .s-pop-container {
+      position: relative;
       height: 100%;
       overflow: auto;
-      .c-pop-wallet-box {
-        width: 100%;
-        padding: 30px 15px 0 15px;
-        .c-pop-wallet-address {
-          width: 120px;
-          height: 30px;
-          background: #f4f4f4;
-          border-radius: 30px;
-          padding: 0 12px;
-          overflow: hidden;
-          .iconfont {
-            color: #161616;
-            font-size: 18px;
-          }
-          .c-pop-wallet-address-val {
-            color: #161616;
-            font-size: 14px;
-            flex: 1;
-            @include textManyOverflow();
-          }
-        }
-      }
-      .c-pop-head {
-        padding: 20px 20px 0 20px;
-        .c-pop-head-img {
+      .s-pop-head {
+        padding: 7px 11px;
+        &.s-pop-head-no-login {
+          padding-top: 0!important;
           img {
-            width: 50px;
-            height: 50px;
+            width: 80px!important;
+          }
+          .s-pop-head-left-username {
+            font-size: 18px!important;
           }
         }
-        .c-pop-head-right {
+        .s-pop-head-left {
           flex: 1;
-          padding-left: 10px;
-          .c-pop-head-right-title {
-            font-size: 17px;
-            line-height: 26px;
-            color: #333;
-            padding-bottom: 6px;
-            .c-pop-head-right-webtitle {
-              padding-left: 4px;
+          overflow: hidden;
+          flex-shrink: 1;
+          .s-pop-head-left-img {
+            padding-right: 8px;
+            img {
+              width: 48px;
+              height: 48px;
+              border-radius: 50%;
+              object-fit: contain;
             }
           }
-          .c-pop-head-right-id {
-            color: #7d919d;
-            font-size: 14px;
-            line-height: 20px;
+          .s-pop-head-left-content {
+            flex: 1;
+            .s-pop-head-left-username {
+              width: 100%;
+              line-height: 24px;
+              font-size: 15px;
+              color: #fff;
+              @include textManyOverflow();
+            }
+            .s-pop-head-left-id {
+              padding-top: 4px;
+              .s-pop-head-left-id-text {
+                font-size: 13px;
+                line-height: 18px;
+                color: #969799;
+              }
+              .s-pop-head-left-id-copy {
+                padding-left: 4px;
+                .iconfont {
+                 color: #8169FF;
+                }
+              }
+            }
+          }
+        }
+        .s-pop-head-right {
+          .iconfont {
+            font-size: 20px;
           }
         }
       }
-      .c-pop-content {
-        flex: 1;
-        overflow: auto;
-        padding-top: 40px;
-        .c-pop-content-list {
-          padding: 0 30px;
-          .c-pop-content-item {
-            padding-bottom: 30px;
-            overflow: hidden;
-            .c-pop-content-item-left {
+      .s-pop-head-list {
+        gap: 10px; 
+        padding: 0 10px;
+        margin: 7px 0;
+        .s-pop-head-list-item {
+          flex: 1;
+          padding: 6px;
+          background: linear-gradient(90deg,#009AFE,#8169FF);
+          border-radius: 6px;
+          .s-pop-head-item-img {
+            img {
+              width: 28px;
+              height: 28px;
+              object-fit: contain;
+            }
+          }
+          .s-pop-head-item-text {
+            font-size: 12px;
+            color: var(--g-white);
+            line-height: 16px;
+            padding-top: 2px;
+          }
+        }
+      }
+
+      .s-pop-content-list {
+        .s-pop-content-item {
+          padding: 11px 9px;
+          border-bottom: 0.8px solid #e4e7ed;
+          .s-pop-content-item-left {
+            flex: 1;
+            .s-pop-content-left-img {
+              padding-right: 4px;
               img {
                 width: 22px;
                 height: 22px;
-                object-fit: contain;
               }
             }
-            .c-pop-content-item-center {
-              flex: 1;
-              padding-left: 15px;
-              font-size: 17px;
-              line-height: 22px;
-              @include textManyOverflow();
+            .s-pop-content-left-text {
+              color: #fff;
+              font-size: 13px;
             }
-            .c-pop-content-item-right {
-              padding-left: 15px;
-              font-size: 20px;
-              font-weight: 700;
+          }
+          .s-pop-content-item-right {
+            text-align: right;
+            .s-pop-content-right-text {
+              font-size: 12px;
+              color: #fff;
+              padding-right: 4px;
+            }
+            .s-pop-content-right-icon {
+              .iconfont {
+                font-size: 18px;
+                color: #fff;
+              }
             }
           }
         }
       }
-      .c-pop-exit-box {
-        padding-bottom: 50px;
-        padding-top: 20px;
-        .c-pop-exit {
+
+      .s-pop-exit-login-box {
+        position: fixed;
+        bottom: 30px;
+        padding: 0 10px;
+        width: 100%;
+        .s-pop-exit-login {
+          background: var(--g-main_color);
+          width: 100%;
           height: 40px;
-          width: 80%;
-          background: #dbdbdb;
-          font-size: 17px;
-          color: var(--g-less-black);
-          border-radius: 6px;
-          &.c-pop-login-btn {
-            background-color: var(--g-main_color);
-            color: var(--g-white);
-          }
+          color: var(--g-white);
+          font-size: 14px;
+          border-radius: 4px;
+          border-radius: 40px;
         }
       }
     }

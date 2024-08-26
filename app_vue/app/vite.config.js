@@ -1,9 +1,12 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import postcsspxtoviewport from 'postcss-px-to-viewport'
-const url = 'https://cryptfi2-app.facaige.dev/'
-// https://vitejs.dev/config/
+import postcsspxtoviewport8plugin from 'postcss-px-to-viewport-8-plugin'
+// const url = 'https://dc-dev.sv56.com/'
+// const url = 'https://app.wetify.net/'  //第二套
+
+const url = 'https://www.venetiannailspaco.com/'
+ 
 export default defineConfig({
   base: './', //开发或生产环境服务的公共基础路径 index.html 引用css js的方式
 
@@ -14,7 +17,7 @@ export default defineConfig({
   css: {
     postcss: {
       plugins: [
-          postcsspxtoviewport({
+        postcsspxtoviewport8plugin({
             unitToConvert: 'px', // 要转化的单位
             viewportWidth: 375, // UI设计稿的宽度
             unitPrecision: 6, // 转换后的精度，即小数点位数
@@ -50,10 +53,10 @@ export default defineConfig({
 				changeOrigin: true, //是否跨域
         rewrite: (path) => path.replace(/^\/api/, '')
 			},
-			'/img/': {
-				target: url, // 接口域名
-				changeOrigin: true, //是否跨域
-			},
+			// '/img/': { 
+			// 	target: url, // 接口域名
+			// 	changeOrigin: true, //是否跨域
+			// },
 			'/upload/': { 
 				target: url, // 接口域名
 				changeOrigin: true, //是否跨域
@@ -90,12 +93,12 @@ export default defineConfig({
           'main': [
             './src/views/login/Login.vue',
             './src/views/register/Register.vue',
-            './src/views/chip/Chip.vue',
-            './src/views/vipdetail/VipDetail.vue',
-            './src/views/rechargeselect/RechargeSelect.vue',
-            './src/views/concatkefu/ConcatKeFu.vue',
             './src/views/mainview/MainView.vue',
-            './src/views/finance/Finance.vue',
+            './src/views/mycenter/MyCenter.vue',
+            './src/views/rechargeselect/RechargeSelect.vue',
+            './src/views/cashoutselect/CashoutSelect.vue',
+            './src/views/lianghua/LiangHua.vue',
+            './src/views/intro/Intro.vue'
           ],
         }
     }
