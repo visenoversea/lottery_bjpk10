@@ -86,7 +86,14 @@ class userBet extends base
         if (!empty($user_bet_items['list'])) {
             foreach ($user_bet_items['list'] as $k => $v) { 
 
-                $integer_bet_amount = intval($v['bet_amount'] * $v['rate_cny']);                  
+                // 按原下注金额投注 取整数最低为 1
+                $integer_bet_amount = intval($v['bet_amount']); 
+
+                // 设置同步投注最低金额     
+                if ($integer_bet_amount <= 1) {
+                    $integer_bet_amount = 1;
+                }           
+
                 $v['bet_amount'] = $integer_bet_amount;
                 $user_bet_items['list'][$k] = $v;
             }            
