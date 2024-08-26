@@ -14,16 +14,12 @@
     <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-my-team-container">
       <div class="v-my-team-card-one">
-        <div
-          class="v-my-team-card-title g-flex-align-center g-flex-justify-between"
-        >
+        <div class="v-my-team-card-title g-flex-align-center g-flex-justify-between">
           <div class="v-my-team-card-title-left">
             <span>{{ i18n.tuanduiShuJuGaiLanText }}</span>
           </div>
-          <div
-            @click="selectTopTimeClick"
-            class="v-my-team-card-title-right g-flex-align-center g-flex-justify-between"
-          >
+          <div @click="selectTopTimeClick"
+            class="v-my-team-card-title-right g-flex-align-center g-flex-justify-between">
             <span class="v-my-team-card-title-right-text">
               {{ topForm.topDayText }}
             </span>
@@ -31,9 +27,7 @@
           </div>
         </div>
         <div class="v-my-team-card-one-middle-list g-flex-align-center">
-          <div
-            class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center">
             <!-- <div class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center">
               <div class="v-my-team-card-one-middle-item-title">
                 <span>{{ i18n.zhuceHuiYuanText }}</span>
@@ -49,9 +43,7 @@
               <span>{{ topTotalInfo.obj.agentNums }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-one-middle-item-title">
               <span>{{ i18n.youxiaoHuiYuanText }}</span>
             </div>
@@ -59,9 +51,7 @@
               <span>{{ topTotalInfo.obj.agentValidNums }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-one-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-one-middle-item-title">
               <span>{{ i18n.tuanduiShouRuText }}</span>
             </div>
@@ -70,9 +60,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="v-my-team-card-one-bottom g-flex-align-center g-flex-justify-between"
-        >
+        <div class="v-my-team-card-one-bottom g-flex-align-center g-flex-justify-between">
           <div class="v-my-team-card-one-bottom-left g-flex-align-center">
             <div class="v-my-team-card-one-bottom-left-title">
               {{ i18n.leijiTuanDuiGuiMiText }}:
@@ -81,28 +69,20 @@
               topTotalInfo.obj.totalAgentNums
             }}</span>
           </div>
-          <div
-            @click="$router.push({ name: 'myteammemberlist' })"
-            class="v-my-team-card-one-bottom-right g-flex-align-center"
-          >
-            <span class="v-my-team-card-one-bottom-right-val">{{
-              i18n.chakanTuanDuiLieBiaoText
-            }}</span>
+          <div @click="$router.push({ name: 'myteammemberlist' })"
+            class="v-my-team-card-one-bottom-right g-flex-align-center">
+            <span class="v-my-team-card-one-bottom-right-val">{{ i18n.chakanliushuixiangqing2}}</span>
           </div>
         </div>
       </div>
 
       <div class="v-my-team-card-two">
-        <div
-          class="v-my-team-card-title g-flex-align-center g-flex-justify-between"
-        >
+        <div class="v-my-team-card-title g-flex-align-center g-flex-justify-between">
           <div class="v-my-team-card-title-left">
             <span>{{ i18n.zuijingSanDaiShuJuText }}</span>
           </div>
-          <div
-            @click="selectBottomTimeClick"
-            class="v-my-team-card-title-right g-flex-align-center g-flex-justify-between"
-          >
+          <div @click="selectBottomTimeClick"
+            class="v-my-team-card-title-right g-flex-align-center g-flex-justify-between">
             <span class="v-my-team-card-title-right-text">
               {{ bottomForm.bottomDayText }}
             </span>
@@ -113,9 +93,7 @@
           {{ i18n.yidaiShuJuText }}
         </div>
         <div class="v-my-team-card-two-middle-list g-flex-align-center">
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.betRebate1 }}</span>
             </div>
@@ -123,9 +101,7 @@
               <span>{{ i18n.commissionText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agent1 }}</span>
             </div>
@@ -133,9 +109,7 @@
               <span>{{ i18n.zhuceHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentValid1 }}</span>
             </div>
@@ -143,9 +117,7 @@
               <span>{{ i18n.youxiaoHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentAmount1 }}</span>
             </div>
@@ -158,9 +130,7 @@
           {{ i18n.erdaiShuJuText }}
         </div>
         <div class="v-my-team-card-two-middle-list g-flex-align-center">
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.betRebate2 }}</span>
             </div>
@@ -168,9 +138,7 @@
               <span>{{ i18n.commissionText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agent2 }}</span>
             </div>
@@ -178,9 +146,7 @@
               <span>{{ i18n.zhuceHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentValid2 }}</span>
             </div>
@@ -188,9 +154,7 @@
               <span>{{ i18n.youxiaoHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentAmount2 }}</span>
             </div>
@@ -204,9 +168,7 @@
           {{ i18n.sandaiShuJuText }}
         </div>
         <div class="v-my-team-card-two-middle-list g-flex-align-center">
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.betRebate3 }}</span>
             </div>
@@ -214,9 +176,7 @@
               <span>{{ i18n.commissionText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agent3 }}</span>
             </div>
@@ -224,9 +184,7 @@
               <span>{{ i18n.zhuceHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentValid3 }}</span>
             </div>
@@ -234,9 +192,7 @@
               <span>{{ i18n.youxiaoHuiYuanText }}</span>
             </div>
           </div>
-          <div
-            class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center"
-          >
+          <div class="v-my-team-card-two-middle-item g-flex-column g-flex-align-center">
             <div class="v-my-team-card-two-middle-item-val">
               <span>{{ bottomTotalInfo.obj.agentAmount3 }}</span>
             </div>
@@ -248,19 +204,11 @@
       </div>
     </div>
 
-    <SelectRadioPop
-      :columns="timeListTop.list"
-      @emitsSelectConfirm="emitsSelectConfirm"
-      :selectVal="topForm.day"
-      ref="refSelectRadioPop"
-    />
+    <SelectRadioPop :columns="timeListTop.list" @emitsSelectConfirm="emitsSelectConfirm" :selectVal="topForm.day"
+      ref="refSelectRadioPop" />
 
-    <SelectRadioPop
-      :columns="timeList.list"
-      @emitsSelectConfirm="emitsSelectBottomConfirm"
-      :selectVal="bottomForm.day"
-      ref="refBottomSelectRadioPop"
-    />
+    <SelectRadioPop :columns="timeList.list" @emitsSelectConfirm="emitsSelectBottomConfirm" :selectVal="bottomForm.day"
+      ref="refBottomSelectRadioPop" />
   </div>
 </template>
 
@@ -429,6 +377,11 @@ async function apiGetUserInfoHandel() {
 </script>
 
 <style lang='scss'>
+.v-my-team-card-one-bottom-right-val {
+  max-width: 120px;
+  text-align: center;
+  padding: 5px 0;
+}
 .v_my_team {
   height: 100%;
 
@@ -486,17 +439,20 @@ async function apiGetUserInfoHandel() {
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
+
     .v-my-team-card-one {
       background: var(--g-white);
       border-radius: 6px;
       box-shadow: 1px 1px 10px #d3d3d3;
       padding: 15px;
+
       .v-my-team-card-title {
         .v-my-team-card-title-left {
           font-size: 16px;
           color: #000;
           font-weight: 700;
         }
+
         .v-my-team-card-title-right {
           padding: 0 10px;
           width: 100px;
@@ -507,10 +463,12 @@ async function apiGetUserInfoHandel() {
           color: #000;
           font-weight: 700;
           overflow: hidden;
+
           .v-my-team-card-title-right-text {
             flex: 1;
             @include textEllipsis();
           }
+
           .iconfont {
             font-size: 20px;
             color: #969696;
@@ -518,15 +476,18 @@ async function apiGetUserInfoHandel() {
           }
         }
       }
+
       .v-my-team-card-one-middle-list {
         gap: 5px;
         padding-top: 15px;
         padding-bottom: 15px;
         border-bottom: 1px solid #e7e7e7;
+
         .v-my-team-card-one-middle-item {
           width: calc(100% / 3);
           position: relative;
           flex-shrink: 0;
+
           &::after {
             position: absolute;
             right: 0;
@@ -538,11 +499,13 @@ async function apiGetUserInfoHandel() {
             transform: translateY(-50%);
             z-index: 9;
           }
+
           &:nth-last-of-type(1) {
             &::after {
               display: none;
             }
           }
+
           .v-my-team-card-one-middle-item-title {
             color: #8b9592;
             font-size: 15px;
@@ -550,10 +513,12 @@ async function apiGetUserInfoHandel() {
             width: 100%;
             padding: 0 15px;
             height: 30px;
+
             span {
               @include textEllipsis(2);
             }
           }
+
           .v-my-team-card-one-middle-item-val {
             font-size: 20px;
             padding-top: 5px;
@@ -562,23 +527,35 @@ async function apiGetUserInfoHandel() {
           }
         }
       }
+
       .v-my-team-card-one-bottom {
         padding-top: 15px;
+
         .v-my-team-card-one-bottom-left {
           font-size: 15px;
           color: #8b9592;
+
           .v-my-team-card-one-bottom-left-val {
             color: #000;
             font-size: 16px;
             padding-left: 5px;
           }
         }
+
         .v-my-team-card-one-bottom-right {
-          color: var(--g-main_color);
+          border-radius: 4px;
+          border: 1px solid #b9b9b9;
           font-size: 14px;
+          color: var(--g-main_color);
+          font-weight: 700;
+          overflow: hidden;
+          border-radius: 13px;
+          display: flex;
+          align-items: center;
         }
       }
     }
+
     .v-my-team-card-two {
       margin-top: 15px;
       background: var(--g-white);
@@ -586,12 +563,14 @@ async function apiGetUserInfoHandel() {
       box-shadow: 1px 1px 10px #d3d3d3;
       padding: 15px;
       padding-bottom: 0;
+
       .v-my-team-card-title {
         .v-my-team-card-title-left {
           font-size: 16px;
           color: #000;
           font-weight: 700;
         }
+
         .v-my-team-card-title-right {
           padding: 0 10px;
           width: 100px;
@@ -602,10 +581,12 @@ async function apiGetUserInfoHandel() {
           color: #000;
           font-weight: 700;
           overflow: hidden;
+
           .v-my-team-card-title-right-text {
             flex: 1;
             @include textEllipsis();
           }
+
           .iconfont {
             font-size: 20px;
             color: #969696;
@@ -613,29 +594,35 @@ async function apiGetUserInfoHandel() {
           }
         }
       }
+
       .v-my-team-card-two-second-title {
         color: var(--g-main_color);
         font-size: 15px;
         font-weight: 700;
         padding-top: 15px;
       }
+
       .v-my-team-card-two-middle-list {
         gap: 5px;
         padding-top: 15px;
         padding-bottom: 10px;
         border-bottom: 1px solid #e7e7e7;
+
         &:nth-last-of-type(1) {
           border-bottom: none;
         }
+
         .v-my-team-card-two-middle-item {
           width: calc(100% / 4);
           position: relative;
           flex-shrink: 0;
+
           .v-my-team-card-two-middle-item-val {
             color: #000;
             font-weight: 700;
             font-size: 18px;
           }
+
           .v-my-team-card-two-middle-item-title {
             margin-top: 15px;
             height: 36px;
@@ -645,6 +632,7 @@ async function apiGetUserInfoHandel() {
             text-align: center;
             word-break: keep-all;
             color: #8b9592;
+
             span {
               width: 100%;
               padding: 0 5px;
