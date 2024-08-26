@@ -1,196 +1,154 @@
 <template>
-  <div class="v_user_real g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
-      </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <!-- <div @click="$router.push({ name: 'rechargehistory'})" class="v-head-right g-flex-align-center">
-     <i class="iconfont icon-datijilu"></i>
-   </div> -->
+<div class="v_user_real g-flex-column n-bg">
+  <div class="new-head">
+    <div @click="$router.go(-1)" class="new-head-back">
+      <!-- <i class="iconfont icon-zuo"></i> -->
+      <img src="/images/back-icon.png" alt="" />
     </div>
-    <div class="v-user-real-container">
-      <div class="v-licai-head g-flex-align-center g-flex-justify-center">
-        <div class="v-licai-head-list g-flex-align-center">
-          <div @click="navItemClick(1)" :class="form.type == 1 ? 'active' : ''"
-            class="v-licai-head-item g-flex-justify-center g-flex-align-center">
-            <div class="v-licai-head-item-title">{{ i18n.shengdengZhengText }}</div>
-          </div>
-          <div @click="navItemClick(2)" :class="form.type == 2 ? 'active' : ''"
-            class="v-licai-head-item g-flex-align-center g-flex-justify-center">
-            <div class="v-licai-head-item-title">{{ i18n.huzhaoText }}</div>
-          </div>
-          <div @click="navItemClick(3)" :class="form.type == 3 ? 'active' : ''"
-            class="v-licai-head-item g-flex-align-center g-flex-justify-center">
-            <div class="v-licai-head-item-title">{{ i18n.jiashizhengText }}</div>
+    <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+      <span>{{ i18n.titleText }}</span>
+    </div> -->
+    <!-- <div class="v-head-right g-flex-align-center">
+      <i class="iconfont icon-datijilu"></i>
+    </div> -->
+  </div>
+  <div class="new-head_title_text">{{ i18n.titleText }}</div>
+  <div class="v-user-real-container">
+    <div class="v-real-fail" v-show="userInfo.userReal.status == 0 && userInfo.userReal.reason">
+        {{ i18n.failRemarkText }}: {{ userInfo.userReal.reason }}
+    </div>
+    <div class="v-form">
+      <!-- <div class="v-form-item">
+        <div class="v-form-item-title">
+          国家
+        </div>
+        <div class="v-form-item-input">
+          <input type="text" v-model="form.country" :placeholder="'请输入国家'">
+        </div>
+      </div> -->
+
+      <div class="v-form-item">
+        <div class="v-form-item-title">
+          {{ i18n.realTypeText }}
+        </div>
+        <div @click="selectTypeClick" class="v-form-item-input">
+          <input type="text" readonly v-model="form.typeText" :placeholder="i18n.realTypePlaceholerText">
+          <div class="v-form-item-input-icon">
+            <i class="iconfont icon-you"></i>
           </div>
         </div>
       </div>
-      <div class="v-real-fail" v-show="userInfo.userReal.status == 0 && userInfo.userReal.reason">
-          {{ i18n.failRemarkText }}: {{ userInfo.userReal.reason }}
+
+      <div class="v-form-item">
+        <div class="v-form-item-title">
+          {{ i18n.nameText }}
+        </div>
+        <div class="v-form-item-input">
+          <input :readonly="readonlyVal" type="text" v-model="form.name" :placeholder="i18n.namePlaceholderText">
+        </div>
       </div>
-      <div class="v-user-real-form">
-        <!-- <div class="v-user-real-tips">
-          {{ i18n.realTypeTips }}
-        </div> -->
-        <!-- <div class="v-user-real-form-item">
-        <div class="v-user-real-form-item-title">国家/地区</div>
-        <div class="v-user-real-form-item-input">
-          <van-field v-model="form.country" label="" label-width="0" placeholder="请输入国家/地区" />
-          <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
-          </div>
-        </div>
-      </div> -->
 
-        <!-- <div class="v-user-real-form-item">
-        <div class="v-user-real-form-item-title">证件类型</div>
-        <div class="v-user-real-form-item-input">
-          <van-field readonly v-model="value2" label="" label-width="0" placeholder="请选择证件类型" />
-          <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
-          </div>
+      <div class="v-form-item">
+        <div class="v-form-item-title">
+          {{ i18n.idCardNumText }}
         </div>
-      </div> -->
-
-        <!-- <div class="v-user-real-form-item">
-        <div class="v-user-real-form-item-title">性别</div>
-        <div class="v-user-real-form-item-input">
-          <van-field readonly v-model="value" label="" label-width="0" placeholder="请选择性别" />
-          <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
-          </div>
-        </div>
-      </div> -->
-
-        <!-- <div class="v-user-real-form-item">
-        <div class="v-user-real-form-item-title">出生日期</div>
-        <div class="v-user-real-form-item-input">
-          <van-field readonly v-model="value" label="" label-width="0" placeholder="请选择出生日期" />
-          <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
-          </div>
-        </div>
-      </div> -->
-
-        <div class="v-user-real-form-item">
-          <div class="v-user-real-form-item-title">{{ i18n.nameText }}</div>
-          <div class="v-user-real-form-item-input">
-            <van-field :readonly="readonlyVal" v-model="form.name" label="" label-width="0" :placeholder="i18n.namePlaceholderText" />
-            <!-- <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
+        <div class="v-form-item-input">
+          <input :readonly="readonlyVal" type="text" v-model="form.id_card" :placeholder="i18n.idCardNumPlaceholderText">
+          <!-- <div class="v-form-item-input-icon">
+            <i class="iconfont icon-you"></i>
           </div> -->
-          </div>
         </div>
+      </div>
 
-
-        <div class="v-user-real-form-item">
-          <div class="v-user-real-form-item-title">{{ i18n.idCardNumText }}</div>
-          <div class="v-user-real-form-item-input">
-            <van-field :readonly="readonlyVal"  v-model="form.id_card" label="" label-width="0" :placeholder="i18n.idCardNumPlaceholderText" />
-            <!-- <div class="v-user-real-form-item-input-down-img">
-            <img src="/img/icon/user_public_down.png" alt=""/>
-          </div> -->
-          </div>
-        </div>
-
-
-        <div class="v-user-real-form-item">
-          <div class="v-user-real-form-item-title">{{ i18n.idImgText }}</div>
-          <div class="v-user-real-form-cid-list">
-            <div class="v-user-real-form-cid-item">
-              <div @click="frontImgUploadClick" v-show="!form.front_img"
-                class="v-user-real-form-cid-item-img g-flex-column g-flex-align-center g-flex-justify-center">
-                <img src="/img/icon/user_identity_card1.png" alt="" />
-                <p class="v-user-real-form-cid-item-img-title">{{ i18n.frontImgText }}</p>
+      <div class="v-form-img-list g-flex-align-center">
+        <div class="v-form-img-item-box">
+          <div class="v-form-img-item">
+            <div v-show="!form.front_img" @click="frontImgUploadClick" class="v-form-img-item-no-img g-flex-column g-flex-align-center g-flex-justify-center">
+              <div class="v-form-img-item-no-img-icon">
+                <img src="/img/icon/ID_z.png" alt=""/>
               </div>
-
-              <div @click="frontImgUploadClick" v-show="!form.front_img" class="v-user-real-form-cid-item-out">
-                <img src="/img/icon/user_identity_corner.png" alt="" />
-              </div>
-
-              <div v-show="form.front_img"
-                class="v-user-real-form-cid-item-img-have g-flex-column g-flex-align-center g-flex-justify-center">
-                <div class="v-user-real-form-cid-item-img-have-box">
-                  <img @click="perviewImgClick([form.front_img])" :src="form.front_img" alt="" />
-                  <i v-if="!readonlyVal" @click="form.front_img = ''" class="iconfont icon-guanbi"></i>
-                </div>
-                <span class="v-user-real-form-cid-item-img-have-title">{{ i18n.frontImgText }}</span>
+              <div class="v-form-img-item-no-img-text g-flex-align-center g-flex-justify-center">
+                <span>{{ i18n.frontImgText }}</span>
               </div>
             </div>
-
-            <div class="v-user-real-form-cid-item">
-              <div @click="backImgUploadClick" v-show="!form.reverse_img"
-                class="v-user-real-form-cid-item-img g-flex-column g-flex-align-center g-flex-justify-center">
-                <img src="/img/icon/user_identity_card2.png" alt="" />
-                <p class="v-user-real-form-cid-item-img-title">{{ i18n.backImgText }}</p>
-              </div>
-
-              <div @click="backImgUploadClick" v-show="!form.reverse_img" class="v-user-real-form-cid-item-out">
-                <img src="/img/icon/user_identity_corner.png" alt="" />
-              </div>
-
-              <div v-show="form.reverse_img"
-                class="v-user-real-form-cid-item-img-have g-flex-column g-flex-align-center g-flex-justify-center">
-                <div class="v-user-real-form-cid-item-img-have-box">
-                  <img @click="perviewImgClick([form.reverse_img])" :src="form.reverse_img" alt="" />
-                  <i v-if="!readonlyVal" @click="form.reverse_img = ''" class="iconfont icon-guanbi"></i>
-                </div>
-                <span class="v-user-real-form-cid-item-img-have-title">{{ i18n.backImgText }}</span>
-              </div>
+            <div v-show="form.front_img" class="v-user-real-form-cid-item-img-have-box">
+              <img @click="perviewImgClick([form.front_img])" :src="form.front_img" alt="" />
+              <i v-if="!readonlyVal" @click="form.front_img = ''" class="iconfont icon-guanbi"></i>
             </div>
           </div>
         </div>
 
-        <div v-if="!readonlyVal" @click="apiRealNameHandel" class="v-user-real-form-btn g-flex-align-center g-flex-justify-center">
-          <span>{{ i18n.sureBtnText }}</span>
+        <div class="v-form-img-item-box">
+          <div class="v-form-img-item">
+            <div v-show="!form.reverse_img" @click="backImgUploadClick" class="v-form-img-item-no-img g-flex-column g-flex-align-center g-flex-justify-center">
+              <div class="v-form-img-item-no-img-icon">
+                <img src="/img/icon/ID_f.png" alt=""/>
+              </div>
+              <div class="v-form-img-item-no-img-text g-flex-align-center g-flex-justify-center">
+                <span>{{ i18n.backImgText }}</span>
+              </div>
+            </div>
+            <div v-show="form.reverse_img" class="v-user-real-form-cid-item-img-have-box">
+              <img @click="perviewImgClick([form.reverse_img])" :src="form.reverse_img" alt="" />
+              <i v-if="!readonlyVal" @click="form.reverse_img = ''" class="iconfont icon-guanbi"></i>
+            </div>
+          </div>
         </div>
       </div>
+
     </div>
-    <OssUpload MidrPath="/userReal/" idString="v-user-real-front-img" @emitUploadSuccess="emitUploadSuccess"
+    
+    <div v-if="!readonlyVal" class="v-form-btn-box">
+      <div @click="apiRealNameHandel" class="v-form-btn g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.submitText }}</span>
+      </div>
+    </div>
+  </div>
+
+  <SelectRadioPop :columns="typeList.list" @emitsSelectConfirm="emitsSelectConfirm" :selectVal="form.type" ref="refSelectRadioPop"/>
+
+  <OssUpload MidrPath="/userReal/" idString="v-user-real-front-img" @emitUploadSuccess="emitUploadSuccess"
       ref="refOssUpload" />
     <OssUpload MidrPath="/userReal/" idString="v-user-real-reverse-img" @emitUploadSuccess="emitUploadSuccessSecond"
       ref="refOssUploadSecond" />
-  </div>
+</div>
 </template>
 
 <script setup>
+import { apiGetUserRealTypeList, apiRealName, apiGetUserInfo } from '@/utils/api.js'
 import OssUpload from '@/components/OssUpload.vue'
-import { reactive, ref, computed } from 'vue';
+import SelectRadioPop from '@/components/SelectRadioPop.vue'
+import { dotDealWith, formatDate, copyClick, upDownClass, upDownBgClass, filtersZhangfu, kefuClick, upDownBgFontColorClass } from "@/utils/index.js";
+import {
+  reactive,
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  nextTick,
+} from "vue";
 import { useI18n } from "vue-i18n";
-import useStore from '@/store/index.js'
-import { useRoute, useRouter } from 'vue-router';
-import { apiGetUserInfo, apiRealName } from '@/utils/api.js'
-import { Toast } from 'vant';
-import { ImagePreview } from 'vant';
+import useStore from "@/store/index.js";
+import { useRouter, useRoute } from "vue-router";
+import { ImagePreview, Toast } from 'vant';
+const router = useRouter();
+const route = useRoute(); 
 // pinia状态管理仓库
 const store = useStore();
-
-const i18nObj = useI18n()
+const i18nObj = useI18n();
 const i18n = computed(() => {
-  return i18nObj.tm('userReal')
-})
-
-const i18n2 = computed(() => {
-  return i18nObj.tm('gongyong')
-})
-
-
-let router = useRouter()
+  return i18nObj.tm("userReal");
+});
 
 let form = reactive({
-  type: 1,
+  type: '',
+  typeText: '',
+  country: '',
   name: '',
   id_card: '',
   front_img: '',
   reverse_img: ''
 })
-
-function navItemClick(val) {
-  if(readonlyVal.value) return
-  form.type = val
-}
 
 let userInfo = computed(() => {
   return store.userInfo
@@ -208,6 +166,13 @@ async function apiGetUserInfoHandel() {
   store.setUserInfo(data.info)
   if (data.info.userReal.id) {
     Object.assign(form, data.info.userReal)
+    let target = typeList.list.find(item => {
+      return item.val == data.info.userReal.type
+    })
+    form.typeText = target.title
+  }else {
+    form.typeText = typeList.list[0].title
+    form.type = typeList.list[0].val
   }
   // if (data.info.userReal.status == 0) {
   //   Object.assign(form, data.info.userReal)
@@ -215,7 +180,32 @@ async function apiGetUserInfoHandel() {
   console.log(data)
 }
 
-apiGetUserInfoHandel()
+
+async function apiGetUserRealTypeListHandel() {
+  store.loadingShow = true
+  const { success, data } = await apiGetUserRealTypeList({ code: 'realType' })
+  if(!success) return
+  typeList.list = data.list
+  apiGetUserInfoHandel()
+  console.log(data)
+}
+
+apiGetUserRealTypeListHandel()
+
+let refSelectRadioPop = ref(null)
+function selectTypeClick() {
+  refSelectRadioPop.value.onShow()
+}
+
+let typeList = reactive({
+  list: []
+})
+
+function emitsSelectConfirm(item) {
+  console.log('item', item)
+  form.typeText = item.title
+  form.type = item.val
+}
 
 const refOssUpload = ref(null)
 
@@ -235,6 +225,11 @@ function backImgUploadClick() {
 function emitUploadSuccessSecond(path) {
   form.reverse_img = path
 }
+
+function perviewImgClick(arr) {
+  ImagePreview(arr)
+}
+
 // 实名认证
 async function apiRealNameHandel() {
   store.loadingShow = true
@@ -246,242 +241,181 @@ async function apiRealNameHandel() {
   }, 500);
   console.log(data)
 }
-
-function perviewImgClick(arr) {
-  ImagePreview(arr)
-}
 </script>
 
 <style lang='scss'>
 .v_user_real {
   height: 100%;
   overflow: auto;
-  background: #fff;
-
+  // background-color: #f6f4f5;
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
-    background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
+    z-index: 9;
+    width: 100%;
+    // background-color: #f6f4f5;
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
-
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: #fff;
       }
     }
-
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: #fff;
     }
-
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: #fff;
       }
     }
   }
-
   .v-user-real-container {
     flex: 1;
+    padding-top: 46px;
     overflow: auto;
-    padding-top: 50px;
-    .v-licai-head {
-      height: 60px;
-      width: 100%;
-      z-index: 9;
-      background-color: var(--g-white);
-
-      .v-licai-head-list {
-        border: 1px solid #cfd1d0;
-        height: 35px;
-        border-radius: 4px;
-        overflow: hidden;
-
-        .v-licai-head-item {
-          height: 100%;
-          width: 116px;
-          padding: 0 5px;
-          font-weight: 500;
-          color: #333;
-          font-size: 16px;
-
-          .v-licai-head-item-title {
-            @include textManyOverflow()
-          }
-
-          &.active {
-            background-color: var(--g-main_color);
-            color: var(--g-white);
-            border-radius: 4px;
-          }
-        }
-      }
-    }
     .v-real-fail {
-      padding-left: 15px;
+      padding: 14px 14px 0 14px;
       font-size: 14px;
-      padding-top: 10px;
       color: var(--g-red);
     }
-    .v-user-real-form {
-      padding: 15px;
-      .v-user-real-tips {
-        font-size: 14px;
-        font-weight: 700;
-        color: rgb(250, 72, 72);
-        padding-bottom: 10px;
-      }
-      .v-user-real-form-item {
-        margin-top: 18px;
-
-        &:nth-of-type(1) {
-          margin-top: 0;
-        }
-
-        .v-user-real-form-item-title {
+    .v-form {
+      margin-top: 10px;
+      padding: 10px;
+      .v-form-item {
+        margin-bottom: 15px;
+        border: 1px solid #ebd8e6;
+        border-radius: 4px;
+        padding: 10px;
+        .v-form-item-title {
+          padding-left: 10px;
+          padding-bottom: 4px;
           font-size: 14px;
-          color: #333;
+          color: #fff;
+          line-height: 20px;
         }
-
-        .v-user-real-form-item-input {
-          margin-top: 10px;
-          border: 1px solid #efefef;
-          padding: 10px;
-          border-radius: 5px;
+        .v-form-item-input {
           position: relative;
-
-          .v-user-real-form-item-input-down-img {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-
-            img {
-              width: 14px;
+          padding: 4px 10px;
+          height: 34px;
+          // background: var(--g-white);
+          // border-radius: 4px;
+          // border: 1px solid #e4e7ed;
+          input {
+            height: 100%;
+            width: 100%;
+            background-color: transparent;
+            font-size: 14px;
+            font-weight: 400;
+            color: #fff;
+            border: none;
+            outline: none;
+            &::placeholder {
+              color: rgb(128, 127, 127);
+              font-size: 12px;
             }
           }
-
-          .van-cell {
-            padding: 0;
-
-            &::after {
-              display: none;
+          .v-form-item-input-icon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            padding: 0 10px;
+            transform: translateY(-50%);
+            .iconfont {
+              font-size: 18px;
             }
+          }
+        }
+      }
 
-            .van-cell__value {
-              .van-field__body {
-                color: #111;
-
-                input {
-                  font-size: 14px;
-                  font-weight: 600;
-
-                  &::placeholder {
-                    font-weight: normal;
-                  }
+      .v-form-img-list {
+        flex-wrap: wrap;
+        gap: 10px;
+        .v-form-img-item-box {
+          flex-basis: calc(50% - 5px);
+          height: 142px;
+          border: 1px solid #c9c9c9;
+          border-radius: 3px;
+          .v-form-img-item {
+            height: 100%;
+            width: 100%;
+            .v-form-img-item-no-img {
+              height: 100%;
+              padding: 10px;
+              .v-form-img-item-no-img-icon {
+                img {
+                  width: 55px;
+                  height: 40px;
                 }
               }
+              .v-form-img-item-no-img-text {
+                margin-top: 18px;
+                // background: var(--g-main_color);
+                color: #fff;
+                width: 100%;
+                height: 38px;
+                // border-radius: 50px;
+                font-size: 14px;
+              }
             }
-          }
-        }
-
-        .v-user-real-form-cid-list {
-          .v-user-real-form-cid-item {
-            margin-top: 20px;
-            height: 160px;
-            position: relative;
-            background: #eff2f2;
-            padding: 15px;
-
-            .v-user-real-form-cid-item-img {
+            .v-user-real-form-cid-item-img-have-box {
+              height: 100%;
+              width: 100%;
               position: relative;
-
-              img {
-                height: 100px;
-              }
-
-              .v-user-real-form-cid-item-img-title {
-                font-size: 16px;
-                color: #8b969b;
-                text-align: center;
-                padding-top: 10px;
-              }
-            }
-
-            .v-user-real-form-cid-item-out {
-              position: absolute;
-              top: 50%;
-              left: 15px;
-              right: 15px;
-              transform: translateY(-50%);
-
               img {
                 width: 100%;
-                height: 130px;
-                object-fit: contain;
-              }
-            }
-
-            .v-user-real-form-cid-item-img-have {
-              .v-user-real-form-cid-item-img-have-box {
-                position: relative;
-
-                img {
-                  height: 100px;
-                }
-
-                .iconfont {
-                  right: 0;
-                  position: absolute;
-                  font-size: 16px;
-                  color: #fff;
-                  background: rgba($color: #000000, $alpha: 0.6);
-                  padding: 5px;
-                  z-index: 99;
-                  border-radius: 0 0 0 5px;
-                }
+                height: 100%;
+                object-fit: cover;
               }
 
-              .v-user-real-form-cid-item-img-have-title {
+              .iconfont {
+                right: 0;
+                position: absolute;
                 font-size: 16px;
-                color: #8b969b;
-                padding-top: 10px;
+                color: #fff;
+                background: rgba($color: #000000, $alpha: 0.6);
+                padding: 5px;
+                z-index: 99;
+                border-radius: 0 0 0 5px;
               }
-
             }
           }
         }
       }
+    }
 
-      .v-user-real-form-btn {
-        margin-top: 20px;
-        background: var(--g-main_color);
+    .v-form-btn-box {
+      width: 100%;
+      padding: 10px;
+      .v-form-btn {
+        width: 100%;
+        height: 44px;
+        background: #5314D6;
         color: var(--g-white);
-        border-radius: 6px;
-        height: 40px;
+        border-radius: 50px;
         font-size: 14px;
       }
     }
+   
   }
 }
 </style>

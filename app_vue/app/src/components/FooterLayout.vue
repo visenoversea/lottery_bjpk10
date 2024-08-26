@@ -1,46 +1,57 @@
 <template>
   <van-tabbar @change="onChange" v-model="active" class="s_footer_layout_container" :safe-area-inset-bottom="false"
-    active-color="#FF2742" inactive-color="#666">
+    active-color="#5488f7" inactive-color="#72798b">
     <van-tabbar-item :name="'main'" class="s-tab-item">
-      <span class="s-footer-layout-title">{{ i18n.mainText }}</span>
+      <!-- <span class="s-footer-layout-title">{{ i18n.mainText }}</span> -->
       <template #icon="props">
         <img :src="
           props.active
-            ? '/img/footer/tab1_active.png'
-            : '/img/footer/tab1.png'
+            ? '/img/footer/home_active.png'
+            : '/img/footer/home.png'
         " alt="" />
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item :name="'rechargeselect'" class="s-tab-item">
-      <span class="s-footer-layout-title">{{ i18n.rechargeText }}</span>
+    <van-tabbar-item :name="'halljunior'" class="s-tab-item">
+      <!-- <span class="s-footer-layout-title">{{ i18n.introduceText }}</span> -->
       <template #icon="props">
         <img :src="
           props.active
-            ? '/img/footer/tab2_active.png'
-            : '/img/footer/tab2.png'
+            ? '/img/footer/junior_active.png'
+            : '/img/footer/junior.png'
         " alt="" />
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item :name="'concatkefu'" class="s-tab-item">
-      <span class="s-footer-layout-title">{{ i18n.kefuText }}</span>
+    <van-tabbar-item :name="'hallintermediate'" class="s-tab-item s-tab-item-middle">
+      <!-- <span class="s-footer-layout-title">{{ i18n.lianghuaText }}</span> -->
       <template #icon="props">
         <img :src="
           props.active
-            ? '/img/footer/tab3_active.png'
-            : '/img/footer/tab3.png'
+            ? '/img/footer/intermediate_active.png'
+            : '/img/footer/intermediate.png'
         " alt="" />
       </template>
     </van-tabbar-item>
 
-    <van-tabbar-item :name="'finance'" class="s-tab-item">
-      <span class="s-footer-layout-title">{{ i18n.myText }}</span>
+    <van-tabbar-item :name="'halladvanced'" class="s-tab-item">
+      <!-- <span class="s-footer-layout-title">{{ i18n.rechargeText }}</span> -->
       <template #icon="props">
         <img :src="
           props.active
-            ? '/img/footer/tab4_active.png'
-            : '/img/footer/tab4.png'
+            ? '/img/footer/advanced_active.png'
+            : '/img/footer/advanced.png'
+        " alt="" />
+      </template>
+    </van-tabbar-item>
+
+    <van-tabbar-item :name="'mycenter'" class="s-tab-item">
+      <!-- <span class="s-footer-layout-title">{{ i18n.myText }}</span> -->
+      <template #icon="props">
+        <img :src="
+          props.active
+            ? '/img/footer/my_active.png'
+            : '/img/footer/my.png'
         " alt="" />
       </template>
     </van-tabbar-item>
@@ -50,6 +61,7 @@
 <script setup>
 import { computed, reactive, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
+import { Toast } from 'vant'
 import { useRouter, useRoute } from "vue-router";
 const i18nObj = useI18n();
 const i18n = computed(() => {
@@ -60,6 +72,7 @@ const router = useRouter();
 const route = useRoute();
 
 const active = ref("");
+// const preActive = ref("");
 
 watch(
   route,
@@ -81,14 +94,22 @@ watch(
 );
 
 function onChange(name) {
+  // if(name=== 'myteam' || name === 'rechargeselect') {
+  //   active.value = preActive.value
+  //   Toast('暂未开放，敬请期待!')
+  // } else {
+  //   preActive.value= active.value
+  //  router.push({ name })
+  // }
   router.push({ name })
+
 }
 </script>
 
 <style lang="scss">
 .s_footer_layout_container {
   &.van-tabbar {
-    background: var(--g-white);
+    background: #373737;
     z-index: 999;
     height: 50px;
     bottom: 0px;
@@ -103,10 +124,9 @@ function onChange(name) {
     .s-tab-item {
       font-size: 12px;
       &.van-tabbar-item--active {
-        background-color: var(--g-white);
+        background: #373737;
       }
       .s-footer-layout-title {
-        padding-top: 2px;
         @include textManyOverflow(1);
       }
 
@@ -119,16 +139,16 @@ function onChange(name) {
           height: 24px;
         }
       }
-      &.s-tab-item-middle {
-        .van-tabbar-item__icon {
-          img {
-              background: transparent;
-              position: relative;
-              z-index: 99999;
-              transform: translate3d(0,-10px,0) scale(2);
-            }
-          }
-        }
+      // &.s-tab-item-middle {
+      //   .van-tabbar-item__icon {
+      //     img {
+      //         background: transparent;
+      //         position: relative;
+      //         z-index: 99999;
+      //         transform: translate3d(0,-10px,0) scale(2);
+      //       }
+      //     }
+      //   }
     }
   }
 }

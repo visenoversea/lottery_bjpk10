@@ -1,15 +1,17 @@
 <template>
-  <div class="v_wallet_list g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
-      </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <div @click="$router.push({ name: 'walletadd' })" class="v-head-right g-flex-align-center">
-        <img src="/img/icon/public_increase_black.png" alt="" />
-      </div>
+  <div class="v_wallet_list g-flex-column n-bg">
+    <div class="new-head">
+    <div @click="$router.go(-1)" class="new-head-back">
+      <img src="/images/back-icon.png" alt="" />
     </div>
+    <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+      <span>{{ i18n.titleText }}</span>
+    </div> -->
+    <!-- <div class="v-head-right g-flex-align-center">
+      <i class="iconfont icon-datijilu"></i>
+    </div> -->
+  </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-wallet-list-container">
       <!-- <div class="v-wallet-list-tips">
       为了您的资金安全，取款前请绑定银行卡信息，绑定前务必核对银行卡信息，更多问题请联系客服人员。
@@ -19,7 +21,7 @@
         <div v-for="(item, index) in addressList.list" :key="index" class="v-wallet-item g-flex-align-center">
           <div class="v-wallet-item-left">
             <div class="v-wallet-item-left-img">
-              <img :src="item.icon" alt="" />
+              <img :src="'/img/icon/usdt.png'" alt="" />
               <span class="v-wallet-item-left-img-type g-flex-align-center g-flex-justify-center">{{
                 item.chain
               }}</span>
@@ -33,19 +35,24 @@
             </div>
             <div class="v-wallet-item-middle-address">{{ item.address }}</div>
             <div class="v-wallet-item-middle-bottom g-flex-align-center">
-              <!-- <i class="iconfont icon-bianji"></i> -->
+              <!--<i class="iconfont icon-bianji"></i>-->
               <i @click.stop="delClick(item)" class="iconfont icon-shanchu"></i>
             </div>
           </div>
           <!-- <div v-show="selectIndex == index" class="v-wallet-item-right">
-          <img src="/img/icon/user_public_choice.png" alt="">
+          <img src="/img/mycenter/user_public_choice.png" alt="">
         </div> -->
         </div>
       </div>
 
       <div v-show="!addressList.list.length" class="v-back-car-list-no g-flex-column g-flex-align-center">
-        <img src="/img/icon/deficiency_bank_record.png" alt="" />
+        <img src="/img/icon/empty-image.png" alt="" />
         <span class="v-back-car-list-no-text">{{ i18n.nolistText }}</span>
+      </div>
+    </div>
+    <div class="v-form-btn-box">
+      <div @click="$router.push({ name: 'walletadd' })" class="v-form-btn g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.addaddressText }}</span>
       </div>
     </div>
   </div>
@@ -79,7 +86,13 @@ async function apiGetWalletAddressListHandel() {
 apiGetWalletAddressListHandel()
 
 function delClick(item) {
-  Dialog.confirm({ title: '', message: i18n.value.delTipsText }).then(() => { apiDelWalletAddressHandel(item) }).catch(() => { });
+  Dialog.confirm({ 
+    title: '', 
+    message: i18n.value.delTipsText,
+    cancelButtonColor: '#000',
+    confirmButtonColor: '#5488f7' 
+  })
+  .then(() => { apiDelWalletAddressHandel(item) }).catch(() => { });
 }
 
 async function apiDelWalletAddressHandel(item) {
@@ -96,52 +109,45 @@ async function apiDelWalletAddressHandel(item) {
 .v_wallet_list {
   height: 100%;
   overflow: auto;
-  background: #fff;
-
+  // background-color: var(--g-white);
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
+    z-index: 99;
     top: 0;
+    width: 100%;
     background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
-
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      color: var(--g-black);
+      font-weight: 700;
     }
-
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
-      img {
-        padding: 5px 5px;
-        height: 28px;
-      }
-
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
@@ -152,10 +158,9 @@ async function apiDelWalletAddressHandel(item) {
     padding-top: 50px;
     padding-bottom: 10px;
     position: relative;
-
     .v-wallet-list-tips {
       padding: 10px 25px;
-      background: var(--g-white);
+      background: var(--g-black);
       font-size: 13px;
       color: #EE903B;
       line-height: 20px;
@@ -163,18 +168,16 @@ async function apiDelWalletAddressHandel(item) {
 
     .v-wallet-list-content {
       padding: 15px;
-
       .v-wallet-item {
+        background-color: #f6f4f5;
         width: 100%;
         position: relative;
-        border-bottom: 1px solid #e2e2e2;
-        padding: 10px 0px;
+        padding: 10px 15px;
         margin-top: 10px;
-
+        border-radius: 4px;
         &:nth-of-type(1) {
           margin-top: 0;
         }
-
         .v-wallet-item-left {
           .v-wallet-item-left-img {
             border-radius: 50%;
@@ -196,7 +199,7 @@ async function apiDelWalletAddressHandel(item) {
               padding: 3px 0;
               color: var(--g-white);
               position: absolute;
-              background: rgba($color: #000000, $alpha: 0.3);
+              background: rgba($color: #000000, $alpha: 0.5);
             }
           }
         }
@@ -204,12 +207,11 @@ async function apiDelWalletAddressHandel(item) {
         .v-wallet-item-middle {
           flex: 1;
           padding-left: 15px;
-          padding-right: 30px;
-
           // overflow: hidden;
           .v-wallet-item-middle-top {
             .v-wallet-item-middle-top-title {
-              font-size: 16px
+              font-size: 16px;
+              color:var(--g-black);
             }
 
             .v-wallet-item-middle-top-link {
@@ -226,7 +228,7 @@ async function apiDelWalletAddressHandel(item) {
           .v-wallet-item-middle-address {
             padding-top: 5px;
             width: 250px;
-            color: var(--g-grey);
+            color: var(--g-black);
             @include textEllipsis(1);
           }
         }
@@ -244,7 +246,7 @@ async function apiDelWalletAddressHandel(item) {
           padding-top: 5px;
 
           .iconfont {
-            color: #111;
+            color: var(--g-black);
             font-size: 22px;
             padding-right: 10px;
             padding-top: 5px;
@@ -271,5 +273,18 @@ async function apiDelWalletAddressHandel(item) {
       }
     }
   }
+    .v-form-btn-box {
+      width: 100%;
+      padding: 10px;
+      padding-bottom: 30px;
+      .v-form-btn {
+        width: 100%;
+        height: 44px;
+        background: var(--g-main_color);
+        color: var(--g-white);
+        border-radius: 50px;
+        font-size: 14px;
+      }
+    }
 }
 </style>

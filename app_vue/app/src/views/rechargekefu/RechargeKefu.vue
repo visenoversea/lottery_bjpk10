@@ -1,21 +1,28 @@
 <template>
-  <div class="v_recharge_kefu g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_recharge_kefu g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <!-- <i class="iconfont icon-zuo"></i> -->
+        <img src="/images/back-icon.png" alt="" />
       </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <!-- <div @click="$router.push({ name: 'rechargehistory'})" class="v-head-right g-flex-align-center">
-      <i class="iconfont icon-datijilu"></i>
-    </div> -->
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-recharge-kefu-container">
       <div class="v-recharge-kefu-pop-box">
-        <p class="v-recharge-kefu-buy-coin g-flex-align-center">
-          <span>{{ i18n.amountText }}：</span> <van-field type="number" v-model="form.amount" label="" label-width="0"
-            :placeholder="i18n.buyAmontPlaceholderText" />
-        </p>
+        <div class="v-form-item">
+          <div class="v-form-item-title">
+            {{ i18n.amountText }}
+          </div>
+          <div class="v-form-item-input">
+            <input type="text" v-model="form.amount" @input="amountChange"  :placeholder="i18n.buyAmontPlaceholderText" >
+          </div>
+        </div>
         <div class="v-recharge-kefu-list">
           <div class="v-recharge-kefu-item-box">
             <div class="g-flex-align-center g-flex-justify-between">
@@ -131,46 +138,51 @@ async function apiBankFinishPayHandel() {
 .v_recharge_kefu {
   height: 100%;
   overflow: auto;
+ background-color: #f6f4f5;
 
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
+    z-index: 9;
     top: 0;
-    background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
+    width: 100%;
+    background-color: #f6f4f5;
 
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
 
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
 
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--g-black);
     }
 
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
 
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
@@ -178,9 +190,9 @@ async function apiBankFinishPayHandel() {
   .v-recharge-kefu-container {
     flex: 1;
     overflow: auto;
-    background: #F0F1F5;
     padding-bottom: 15px;
     padding-top: 50px;
+
     .v-title {
       padding: 20px 15px 15px 15px;
       font-size: 22px;
@@ -193,25 +205,43 @@ async function apiBankFinishPayHandel() {
       padding: 10px 15px;
       border-radius: 10px;
 
-      .v-recharge-kefu-buy-coin {
-        margin: 10px 0px;
-        padding: 10px 12px;
-        font-size: 16px;
-        color: #000;
-        background: #fff;
-        border-radius: 5px;
-
-        span {
-          font-weight: 600;
+      .v-form-item {
+        .v-form-item-title {
+          padding-left: 10px;
+          padding-bottom: 4px;
+          font-size: 14px;
+          color: var(--g-black);
+          line-height: 20px;
         }
-
-        .van-cell {
-          background: transparent;
-          flex: 1;
-
+        .v-form-item-input {
+          position: relative;
+          padding: 4px 10px;
+          height: 34px;
+          background: var(--g-white);
+          border-radius: 4px;
+          border: 1px solid #e4e7ed;
           input {
+            height: 100%;
+            width: 100%;
+            background-color: transparent;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--g-black);
+            border: none;
+            outline: none;
             &::placeholder {
-              color: #333;
+              color: rgb(128, 127, 127);
+              font-size: 12px;
+            }
+          }
+          .v-form-item-input-icon {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            padding: 0 10px;
+            transform: translateY(-50%);
+            .iconfont {
+              font-size: 18px;
             }
           }
         }
@@ -219,27 +249,24 @@ async function apiBankFinishPayHandel() {
 
       .v-recharge-kefu-list {
         .v-recharge-kefu-item-box {
-          margin-top: 15px;
-          padding: 20px 15px;
-          background: var(--g-white);
+          padding: 10px 15px;
           border-radius: 5px;
         }
 
         .v-recharge-kefu-list-title {
-          font-size: 16px;
-          font-weight: bold;
-          color: #000;
+          font-size: 14px;
+          color: var(--g-black);
           line-height: 30px;
-          padding: 5px 0;
         }
 
         .v-recharge-kefu-list-title-kefu {
           padding: 5px;
-
+          color: var(--g-black);
           span {
             font-size: 14px;
             padding-left: 3px;
           }
+          
         }
 
         .v-recharge-kefu-item {
@@ -269,11 +296,8 @@ async function apiBankFinishPayHandel() {
         }
 
         .v-recharge-kefu-upload-box {
-          padding: 15px;
-          background: var(--g-white);
-          margin-top: 10px;
-          color: #000;
-
+          padding: 10px 15px;
+          color: var(--g-black);
           .v-recharge-kefu-upload-title {
             font-size: 14px;
           }
@@ -281,7 +305,7 @@ async function apiBankFinishPayHandel() {
           .v-recharge-kefu-upload {
             width: 100px;
             height: 100px;
-            border: 1px solid #ddd9d9;
+            border: 1px solid #959595;
             margin-top: 10px;
             position: relative;
             border-radius: 4px;
@@ -329,10 +353,10 @@ async function apiBankFinishPayHandel() {
 
     .v-recharge-kefu-pop-btn {
       color: var(--g-white);
-      // background-image: linear-gradient(-134deg, #2b94e6, #1882d4);
       background-color: var(--g-main_color);
+      // background-image: linear-gradient(-134deg, #2b94e6, #1882d4);
       padding: 10px 0;
-      border-radius: 5px;
+      border-radius: 50px;
       font-size: 16px;
       margin: 0 15px 0px 15px;
 

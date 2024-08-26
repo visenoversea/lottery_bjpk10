@@ -27,14 +27,21 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(response => {
   store.loadingShow = false
   if (response.data.code === -1 ) { //没登陆 或者token过期
-    store.logout()
+    if(store.token){
+      Toast(response.data.msg)
+      setTimeout(()=>{
+        store.logout()
+      },1500)
+    }else{
+      store.logout()
+    }
   }else if(response.data.code === -2 ) {
     Toast(response.data.msg)
   }
   return response
 },error => {
   store.loadingShow = false
-  Toast('网络异常:'+error.response.status)
+  //Toast('Network Err:'+error.response.status)
   return Promise.reject(error)
 })
 
@@ -47,7 +54,7 @@ const handleResponse = (data) => {
 export const apiFormPostData = async (url, params = {}) => handleResponse(await axios.post(url, qs.stringify(params),  { headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'}} ))
 
 // post 请求 json格式
-export const apiPostData = async (url, params = {}) => handleResponse(await axios.post(url, params))
+export const apiPostData = async (url, params = {},baseURL) => handleResponse(await axios.post(url, params,{baseURL: baseURL || (MODE == 'development' ? '/api' : '')}))
 
 // post 请求 上传文件
 export const apiPostFile = async (url, params ={}) => handleResponse(await axios.post(url, params, { headers: {'Content-Type': 'multipart/form-data' }}))
@@ -63,11 +70,6 @@ export const apiSendEmailCode = (params) => apiPostData('/main/send/getEmailCode
 
 // 注册 三合一
 export const apiRegister = (params) => apiPostData('/main/user/reg', params)
-
-
-// 图片验证码注册 
-export const apiImgCodeRegister = (params) => apiPostData('/main/user/emailCodeReg', params)
-
 
 // 发送手机验证码
 export const apiSendMobileCode = (params) => apiPostData('/main/send/getMobileCode', params)
@@ -116,25 +118,25 @@ export const apiAddBank = (params) => apiPostData('/home/userBank/add', params)
 export const apiDeleteBank = (params) => apiPostData('/home/userBank/del', params)
 
 // 根据id获取银行卡信息
-export const apiGetBankInfo = (params) => apiPostData('/home/userBank/getInfo', params) 
+export const apiGetBankInfo = (params) => apiPostData('/home/userBank/getInfo', params)
 
 // 编辑银行卡
 export const apiEditBank = (params) => apiPostData('/home/userBank/edit', params)
 
 // 添加钱包
-export const apiAddWalletAddress = (params) => apiPostData('/home/userWallet/add', params) 
+export const apiAddWalletAddress = (params) => apiPostData('/home/userWallet/add', params)
 
 // 编辑钱包
-export const apiEidtWalletAddress = (params) => apiPostData('/home/userWallet/edit', params) 
+export const apiEidtWalletAddress = (params) => apiPostData('/home/userWallet/edit', params)
 
 // 根据钱包id获取信息
-export const apiGetWalletAddressInfo = (params) => apiPostData('/home/userWallet/getInfo', params) 
+export const apiGetWalletAddressInfo = (params) => apiPostData('/home/userWallet/getInfo', params)
 
 // 删除钱包
-export const apiDelWalletAddress = (params) => apiPostData('/home/userWallet/del', params) 
+export const apiDelWalletAddress = (params) => apiPostData('/home/userWallet/del', params)
 
 // 获取钱包列表
-export const apiGetWalletAddressList = (params) => apiPostData('/home/userWallet/getList', params) 
+export const apiGetWalletAddressList = (params) => apiPostData('/home/userWallet/getList', params)
 
 // 获取钱包配置
 export const apiGetWalletConfig = (params) => apiPostData('/home/trade/getWalletConfig', params)
@@ -146,52 +148,52 @@ export const apiGetRechargeList = (params) => apiPostData('/home/trade/getRechar
 export const apiGetCashOutList = (params) => apiPostData('/home/trade/getWithdrawList', params)
 
 // 获取充值的信息
-export const apiGeRechargeInfo = (params) => apiPostData('/home/trade/getInfo', params) 
+export const apiGeRechargeInfo = (params) => apiPostData('/home/trade/getInfo', params)
 
 // 网银充值完成转账
-export const apiBankFinishPay = (params) => apiPostData('/home/userRecharge/add2', params) 
+export const apiBankFinishPay = (params) => apiPostData('/home/userRecharge/add2', params)
 
 // 获取提现信息
-export const apiGetCashoutInfo = (params) => apiPostData('/home/trade/getInfo', params) 
+export const apiGetCashoutInfo = (params) => apiPostData('/home/trade/getInfo', params)
 
 // 提现
-export const apiCashout = (params) => apiPostData('/home/userWithdraw/add2', params) 
+export const apiCashout = (params) => apiPostData('/home/userWithdraw/add2', params)
 
 // 充值记录
-export const apiGetRechargeHistory = (params) => apiPostData('/home/userRecharge/getList', params) 
+export const apiGetRechargeHistory = (params) => apiPostData('/home/userRecharge/getList', params)
 
 // 提现记录
-export const apiGetCashoutHistory = (params) => apiPostData('/home/userWithdraw/getList', params) 
+export const apiGetCashoutHistory = (params) => apiPostData('/home/userWithdraw/getList', params)
 
 // 获取公告列表
-export const apiGetNoticeList = (params) => apiPostData('/main/article/getNoticeList', params) 
+export const apiGetNoticeList = (params) => apiPostData('/main/article/getNoticeList', params)
 
 // 获取帮助中心
 export const apiGetHelpCenterList = (params) => apiPostData('/main/article/getHelpList', params)
 
 // 获取公告 新闻详情
-export const apiGetNoticeInfo = (params) => apiPostData('/main/article/getInfo', params) 
+export const apiGetNoticeInfo = (params) => apiPostData('/main/article/getInfo', params)
 
 // 获取新闻列表
-export const apiGetNewsList = (params) => apiPostData('/main/article/getNewsList', params) 
+export const apiGetNewsList = (params) => apiPostData('/main/article/getNewsList', params)
 
 // 站内信列表
-export const apiGetZhanNeiList = (params) => apiPostData('/home/userMsg/getList', params) 
+export const apiGetZhanNeiList = (params) => apiPostData('/home/userMsg/getList', params)
 
 // 站内信全部已读
-export const apiGetZhanNeiAllRead = (params) => apiPostData('/home/userMsg/setAllRead', params) 
+export const apiGetZhanNeiAllRead = (params) => apiPostData('/home/userMsg/setAllRead', params)
 
 // 站内信信息
-export const apiGetZhanNeiInfo = (params) => apiPostData('/home/userMsg/getInfo', params) 
+export const apiGetZhanNeiInfo = (params) => apiPostData('/home/userMsg/getInfo', params)
 
 // 单条删除站内信
-export const apiDelZhanNeiItem = (params) => apiPostData('/home/userMsg/del', params) 
+export const apiDelZhanNeiItem = (params) => apiPostData('/home/userMsg/del', params)
 
 // 全部删除站内信
-export const apiDelZhanNeiAll = (params) => apiPostData('/home/userMsg/delAll', params) 
+export const apiDelZhanNeiAll = (params) => apiPostData('/home/userMsg/delAll', params)
 
 // 获取未读消息数量
-export const apiGetWeiDuMsgNums = (params) => apiPostData('/home/userMsg/getReadNums', params) 
+export const apiGetWeiDuMsgNums = (params) => apiPostData('/home/userMsg/getReadNums', params)
 
 // 修改用户头像
 export const apiChangeAvatar =  (params) => apiPostData('/home/user/edit', params)
@@ -259,19 +261,23 @@ export const apiChangeBond = (params) => apiPostData('/home/userProductContract/
 export const apiZhiSunZhiYing = (params) => apiPostData('/home/userProductContract/setSellPrice', params)
 
 // 获取锁仓挖矿描述
-export const apiGetWaKuangDesInfo = (params) => apiPostData('/main/mining/getRule', params) 
+export const apiGetWaKuangDesInfo = (params) => apiPostData('/main/mining/getRule', params)
 
 // 获取锁仓挖矿余额
-export const apiGetWaKuangBalance = (params) => apiPostData('/home/userMining/getTotalInfo', params) 
+export const apiGetWaKuangBalance = (params) => apiPostData('/home/userMining/getTotalInfo', params)
 
 // 获取锁仓挖矿产品列表
-export const apiGetWaKuangProductList = (params) => apiPostData('/main/mining/getList', params) 
+export const apiGetWaKuangProductList = (params) => apiPostData('/main/mining/getList', params)
 
 // 获取锁仓挖矿产品列表
 export const apiGetWaKuangProductItem = (params) => apiPostData('/main/mining/getInfo', params)
 
 // 锁仓挖矿
 export const apiWaKuang = (params) => apiPostData('/home/userMining/add', params)
+
+// 挖矿申请认购
+export const apiShengQingRenGou = (params) => apiPostData('/home/userMining/apply', params)
+
 
 // 获取挖矿列表
 export const apiWaKuangOrderList = (params) => apiPostData('/home/userMining/getList', params)
@@ -335,7 +341,7 @@ export const apiGetUserRealTypeList = (params) => apiPostData('/main/map/getList
 export const apiGetLiangHuaRadomList = (params) => apiPostData('/main/index/getRandList', params)
 
 // 获取个人中心余额统计
-export const apiGetTotalInfo = (params) => apiPostData('/home/user/getTotalInfo', params)
+export const apiGetLiangHuaTotalInfo = (params) => apiPostData('/home/user/getQuantifyInfo', params)
 
 // 获取量化等级列表
 export const apiGetLiangHuaLevelList = (params) => apiPostData('/main/level/getList', params)
@@ -356,6 +362,42 @@ export const apiGetVip = (params) => apiPostData('/home/level/up', params)
 // 获取图片验证码
 export const apiGetImgCode = (params) => apiPostData('/main/index/getImgCode', params)
 
+// 申请团队账号
+export const apiApplyTeamAccount = (params) => apiPostData('/home/userTeam/add', params)
+
+// 获取任务列表
+export const apiGetTaskList = (params) => apiPostData('/home/task/getList', params)
+
+// 领取任务
+export const apiLingQuTask = (params) => apiPostData('/home/task/endTask', params)
+
+
+// 获取抽奖列表
+export const apiChouJiangList = (params) => apiPostData('/home/lottery/getList', params)
+
+// 抽奖
+export const apiChouJiang = (params) => apiPostData('/home/lottery/start', params)
+
+export const apiChouJiangHistoryList = (params) => apiPostData('/home/lottery/getUserLotteryList', params)
+
+// 撤回提现
+export const apiCeHuiCashOut = (params) => apiPostData('home/userWithdraw/cancel', params)
+
+
+export const apiGetInfo = (params)  => apiPostData('/main/article/getInfo', params)
+export const apiGetWallet = ()  => apiPostData('/main/wallet/getList')
+export const apiGetPie = (params)  => apiPostData('/main/config/getInfo', params)
+export const apiGetKline = (params)  => apiPostData('/main/product/getKline', params,'')
+export const apiGetDCPTGData = ()  => apiPostData('/main/product/getDCPTGData',null)
+export const apiGetQaList = ()  => apiPostData('/main/article/getQaList',null)
+
+//获取汇率
+export const apiGetDCPTGRate = ()  => apiPostData('/main/product/getDCPTGRate',null)
+//提交兑换
+export const apiExchangeDCPTG = (params)  => apiPostData('home/userExchange/exchangeDCPTG', params)
+//兑换列表
+export const apiExchangeList = (params)  => apiPostData('/home/userExchange/getList ',params)
+
 // 获取首页彩种列表
 export const apiGetLotteryList =  (params) => apiPostData('/main/lottery/getList', params)
 
@@ -365,6 +407,10 @@ export const apiGetLotteryRoomList =  (params) => apiPostData('/main/lottery/get
 
 // 获取房间信息
 export const apiGetRoomInfo =  (params) => apiPostData('/main/lottery/getRoomInfo', params)
+// 获取大厅列表
+export const apiGetRooms =  (params) => apiPostData('/main/lottery/rooms', params)
+//根据大厅id获取房间分组，房间彩种
+export const apiGetRoomGroup =  (params) => apiPostData('/main/lottery/roomGroup', params)
 
 // 获取开奖信息
 export const apiGetChipList =  (params) => apiPostData('/main/lottery/getDataList', params)
@@ -372,11 +418,28 @@ export const apiGetChipList =  (params) => apiPostData('/main/lottery/getDataLis
 // 下注
 export const apiChipDownOrder =  (params) => apiPostData('/home/userBet/add', params)
 
+//下注列表
+export const apiBetInfo =  (params) => apiPostData('/home/lotteryRoom/betInfo', params)
+
+//下注历史
+export const apiBetHistory =  (params) => apiPostData('/home/userBet/history', params)
+
+//开奖历史
+export const apilotteryHistory =  (params) => apiPostData('/main/lottery/getHistory', params)
 // 走势列表
 export const apiChipZouShiList =  (params) => apiPostData('/main/lotteryData/getList', params)
 
 // 获取已经下注的订单列表 
 export const apiAlreadyChipOrderList = (params) => apiPostData('/home/userBet/getList', params)
-
+// 获取已经下注的订单列表详情
+export const apiUserBetInfo = (params) => apiPostData('/home/userBet/getInfo', params)
 // 撤销订单 
 export const apiCancelOrder = (params) => apiPostData('/home/userBet/cancel', params)
+
+// 新团队获取团队数据
+export const apiNewTeamGetTeamInfo =  (params) => apiPostData('/home/userRebate/getTeamInfo', params)
+
+// 新团队获取三代团队数据
+export const apiNewTeamGetThreeLayerInfo =  (params) => apiPostData('/home/userRebate/getLayerInfo', params)
+
+

@@ -1,15 +1,20 @@
 <template>
-  <div class="v_foget_pwd g-flex-column">
-    <div class="v-foget-pwd-head g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-foget-pwd-head-back g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_foget_pwd g-flex-column  n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <img src="/images/back-icon.png" alt=""/>
       </div>
-      <div class="v-title g-flex-align-center g-flex-justify-center">
+      <!-- <div class="v-login-head-language g-flex-align-center">
         <span>{{ i18n.titleText }}</span>
-      </div>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
+    <img class="ch-bg" src="/images/ch-bg.png" />
     <div class="v-foget-pwd-container">
-      <div class="v-nav-list g-flex-align-center">
+      <div class="n-nav-list g-flex-align-center" style="margin:0 20px">
         <div @click="typeClick(1)" :class="form.type == 1 ? 'active' : ''" class="v-nav-item">
           <span>{{ i18n.mobileLookText }}</span>
         </div>
@@ -19,101 +24,118 @@
       </div>
       <div class="v-form">
         <!-- 手机 -->
-        <div v-show="form.type == 1"  class="v-form-item-box">
-          <div class="v-form-item-box-title">
-            <span>{{ i18n.mobileText }}</span>
-          </div>
-          <div class="v-form-item g-flex-align-center">
-            <div @click="selectAreaClick" class="v-form-item-left g-flex-align-center">
-              <span class="v-form-item-left-text">+{{ form.area_code }}</span>
-              <i class="iconfont icon-right-1-copy"></i>
-            </div>
-            <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.mobile" :placeholder="i18n.mobilePlaceholderText">
+        <div class="n-form-box" v-show="form.type == 1">
+          <div class="n-form-title">{{ i18n.mobileText }}</div>
+          <div class="v-form-item-box">
+            <!-- <div class="v-form-item-box-title">
+              <span>{{ i18n.mobileText }}</span>
+            </div> -->
+            <div class="v-form-item g-flex-align-center">
+              
+              <div @click="selectAreaClick" class="v-form-item-left g-flex-align-center" style="padding-left: 17px !important;">
+                <span class="v-form-item-left-text">+{{ form.area_code }}</span>
+                <i class="iconfont icon-right-1-copy"></i>
+              </div>
+              <div class="v-form-item-middle-input">
+                <input type="text" v-model="form.mobile" :placeholder="i18n.mobilePlaceholderText">
+              </div>
             </div>
           </div>
         </div>
         
 
         <!-- 邮箱 -->
-        <div v-show="form.type == 2"  class="v-form-item-box">
-          <div class="v-form-item-box-title">
-            <span>{{ i18n.emailText }}</span>
-          </div>
-          <div class="v-form-item g-flex-align-center">
-            <div class="v-form-item-left g-flex-align-center">
-              <i class="iconfont icon-youxiang"></i>
+        <div class="n-form-box" v-show="form.type == 2">
+          <div class="n-form-title">{{ i18n.emailText }}</div>
+
+            <div class="v-form-item-box">
+              <!-- < class="v-form-item-box-title">
+                <span>{{ i18n.emailText }}</span>
+              </div> -->
+              <div class="v-form-item g-flex-align-center">
+                <div class="v-form-item-middle-input">
+                  <input type="text" v-model="form.email" :placeholder="i18n.emailPlaceholderText">
+                </div>
+              </div>
             </div>
-            <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.email" :placeholder="i18n.emailPlaceholderText">
-            </div>
-          </div>
         </div>
-        
 
         <!-- 密码 -->
-        <div class="v-form-item-box">
-          <div class="v-form-item-box-title">
-            <span>{{ i18n.pwdText }}</span>
-          </div>
-          <div class="v-form-item g-flex-align-center">
-            <div class="v-form-item-left g-flex-align-center">
-              <i class="iconfont icon-ziyuanxhdpi"></i>
-            </div>
-            <div class="v-form-item-middle-input">
-              <input :type="pwdSeeeVal ? 'text' : 'password'" v-model="form.password" :placeholder="i18n.pwdPlaceholderText">
-            </div>
-            <div @click="pwdSeeeVal = !pwdSeeeVal" class="v-form-item-middle-right g-flex-align-center">
-              <i v-show="!pwdSeeeVal" class="iconfont icon-bukejian"></i>
-              <i v-show="pwdSeeeVal" class="iconfont icon-kejian"></i>
+        <div class="n-form-box">
+          <div class="n-form-title">{{ i18n.pwdText }}</div>
+          <div class="v-form-item-box">
+            <!-- <div class="v-form-item-box-title">
+              <span>{{ i18n.pwdText }}</span>
+            </div> -->
+            <div class="v-form-item g-flex-align-center">
+
+              <div class="v-form-item-middle-input">
+                <input :type="pwdSeeeVal ? 'text' : 'password'" v-model="form.password" :placeholder="i18n.pwdPlaceholderText">
+              </div>
+              <div @click="pwdSeeeVal = !pwdSeeeVal" class="v-form-item-middle-right g-flex-align-center">
+                <i v-show="!pwdSeeeVal" class="iconfont icon-bukejian"></i>
+                <i v-show="pwdSeeeVal" class="iconfont icon-kejian"></i>
+              </div>
             </div>
           </div>
         </div>
-        
 
         <!-- 确认密码 -->
-        <div class="v-form-item-box">
-          <div class="v-form-item-box-title">
+        <div class="n-form-box">
+          <!-- <div class="v-form-item-box-title">
             <span>{{ i18n.secondPwdText }}</span>
-          </div>
-          <div class="v-form-item g-flex-align-center">
-            <div class="v-form-item-left g-flex-align-center">
-              <i class="iconfont icon-ziyuanxhdpi"></i>
-            </div>
-            <div class="v-form-item-middle-input">
-              <input :type="pwdSecondSeeeVal ? 'text' : 'password'" v-model="form.password2" :placeholder="i18n.secondPwdPlaceholderText">
-            </div>
-            <div @click="pwdSecondSeeeVal = !pwdSecondSeeeVal" class="v-form-item-middle-right g-flex-align-center">
-              <i v-show="!pwdSecondSeeeVal" class="iconfont icon-bukejian"></i>
-              <i v-show="pwdSecondSeeeVal" class="iconfont icon-kejian"></i>
+          </div> -->
+          <div class="n-form-title">{{ i18n.secondPwdText }}</div>
+           <div class="v-form-item-box">
+            <div class="v-form-item g-flex-align-center">
+              <div class="v-form-item-left g-flex-align-center">
+                <!-- <i class="iconfont icon-ziyuanxhdpi"></i> -->
+              </div>
+              <div class="v-form-item-middle-input">
+                <input :type="pwdSecondSeeeVal ? 'text' : 'password'" v-model="form.password2" :placeholder="i18n.secondPwdPlaceholderText">
+              </div>
+              <div @click="pwdSecondSeeeVal = !pwdSecondSeeeVal" class="v-form-item-middle-right g-flex-align-center">
+                <i v-show="!pwdSecondSeeeVal" class="iconfont icon-bukejian"></i>
+                <i v-show="pwdSecondSeeeVal" class="iconfont icon-kejian"></i>
+              </div>
             </div>
           </div>
         </div>
         
 
         <!-- 验证码 -->
-        <div class="v-form-item-box">
-          <div class="v-form-item-box-title">
-            <span>{{ i18n.codeText }}</span>
-          </div>
-          <div class="v-form-item g-flex-align-center">
-            <div class="v-form-item-left g-flex-align-center">
-              <i class="iconfont icon-yanzhengma"></i>
-            </div>
-            <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.code" :placeholder="i18n.codePlaceholderText">
-            </div>
-            <div @click="getCode" class="v-form-item-middle-right g-flex-align-center">
-              <span class="v-form-item-middle-right-text">
-                {{ sendCodeText }}
-              </span>
+        <div class="n-form-box">
+          <div class="n-form-title">{{ i18n.codeText }}</div>
+          <div class="v-form-item-box">
+            <!-- <div class="v-form-item-box-title">
+              <span>{{ i18n.codeText }}</span>
+            </div> -->
+            <div class="v-form-item g-flex-align-center">
+              <div class="v-form-item-left g-flex-align-center">
+                <!-- <i class="iconfont icon-yanzhengma"></i> -->
+              </div>
+              <div class="v-form-item-middle-input">
+                <input type="text" v-model="form.code" :placeholder="i18n.codePlaceholderText">
+              </div>
+              <div @click="getCode" class="v-form-item-middle-right g-flex-align-center">
+                <span class="v-form-item-middle-right-text">
+                  {{ sendCodeText }}
+                </span>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div class="v-form-btn-box">
+        <!-- <div class="v-form-btn-box">
           <div @click="apiForgetPwdHandel" class="v-form-btn g-flex-align-center g-flex-justify-center">
             <span>{{ i18n.submitBtnText }}</span>
+          </div>
+        </div> -->
+        <div class="n-btn-list" style="padding: 30px 0px; position: fixed; bottom: 20px; right: 30px;">
+          <div></div>
+          <div class="v-form-btn-box">
+            <div @click="apiForgetPwdHandel" class="v-form-btn g-flex-align-center g-flex-justify-center">
+              <img src="/images/btn-right.png"/>
+            </div>
           </div>
         </div>
 
@@ -267,50 +289,45 @@ async function apiForgetPwdHandel() {
 .v_foget_pwd {
   height: 100%;
   overflow: auto;
-
-  .v-foget-pwd-head {
+ background-color: #202021;
+  .v-head {
+    height: 46px;
     position: fixed;
-    width: 100%;
-    padding: 0 15px;
-    height: 50px;
-    top: 0;
     left: 0;
-    background-color: var(--g-white);
+    top: 0;
     z-index: 9;
-
-    .v-foget-pwd-head-back {
+    width: 100%;
+    background-color: #f6f4f5;
+    .v-head-back-icon {
       position: absolute;
+      left: 0;
+      top: 0;
       height: 100%;
-
+      padding: 0 16px;
       .iconfont {
         font-size: 26px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-
-    .v-title {
-      height: 100%;
+    .v-head-title {
       flex: 1;
-      font-size: 16px;
+      height: 100%;
+      text-align: center;
       font-weight: 700;
+      font-size: 16px;
+      color: var(--g-black);
     }
-
-    .v-foget-pwd-head-language {
+    .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
-      .v-foget-pwd-head-language-img {
-        padding: 3px;
-        border-radius: 50%;
-        overflow: hidden;
-        background: #F5F7F9;
-
-        .iconfont {
-          font-size: 22px;
-          color: #333;
-          font-weight: 700;
-        }
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
+      .iconfont {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
@@ -319,13 +336,13 @@ async function apiForgetPwdHandel() {
     flex: 1;
     overflow: auto;
     padding-top: 50px;
+    z-index: 1;
     .v-nav-list {
       padding: 0 20px;
-      margin-top: 40px;
-
+      margin-top: 20px;
       .v-nav-item {
         font-weight: 600;
-        color: #333;
+        color: var(--g-black);
         font-size: 16px;
         line-height: 25px;
         margin-right: 15px;
@@ -337,39 +354,44 @@ async function apiForgetPwdHandel() {
     }
     .v-form {
       padding: 0 20px;
-      padding-top: 15px;
+      padding-top: 5px;
       .v-form-item-box {
         .v-form-item-box-title {
-          font-size: 16px;
-          font-weight: 700;
+          font-size: 14px;
           margin-top: 20px;
+          color: var(--g-black);
         }
         .v-form-item {
-          margin-top: 10px;
+        // margin-top: 10px;
           width: 100%;
-          height: 46px;
-          background: #f2f4f7;
-          border-radius: 4px;
+          height: 30px!important;
+          // background: var(--g-white);
+          // border-radius: 4px;
+          // border: 1px solid #e4e7ed;
+          color: #fff;
 
           &:nth-of-type(1) {
-            margin-top: 15px;
+            // margin-top: 15px;
           }
 
           .v-form-item-left {
             height: 100%;
-            padding: 0 10px 0 15px;
+            // padding: 0 10px 0 15px;
             .v-form-item-left-text {
-              font-size: 16px;
+              font-size: 14px;
+              font-weight: 700;
+              color: #fff;
             }
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: var(--g-black);
             }
           }
 
           .v-form-item-middle-input {
             height: 100%;
             flex: 1;
+            margin-left: 10px;
 
             input {
               height: 100%;
@@ -377,13 +399,12 @@ async function apiForgetPwdHandel() {
               background-color: transparent;
               font-size: 14px;
               font-weight: 400;
-              color: #333;
+              // color: var(--g-black);
               border: none;
               outline: none;
 
               &::placeholder {
-                color: #7D919D;
-                font-weight: 700;
+                // color: var(--g-black);
                 font-size: 14px;
               }
             }
@@ -395,7 +416,7 @@ async function apiForgetPwdHandel() {
 
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: #c0c4cc;
             }
 
             img {
@@ -435,7 +456,7 @@ async function apiForgetPwdHandel() {
           }
 
           .v-form-bottom-item-val {
-            color: var(--g-main_color);
+            color: #fff;
           }
         }
       }

@@ -5,6 +5,7 @@ import 'vant/lib/index.css'
 import '@/assets/css/reset.scss'
 import '@/assets/css/normalize.css'
 import '@/assets/css/style.scss'
+import "@/assets/css/vantvar.css";
 import '@/assets/iconfont/iconfont.css'
 import pinia from "@/store/store"
 import i18n from "@/utils/i18n.js"
@@ -12,10 +13,13 @@ import '@vant/touch-emulator'
 // import AudioPlay from '@/components/AudioPlay.vue'
 import NoList from '@/components/NoList.vue'
 import App from '../App.vue'
+// 完整加载
+import VueLuckyCanvas from '@lucky-canvas/vue'
 const app = createApp(App)
 app.use(i18n)
 app.use(pinia)
 app.use(vant)
+app.use(VueLuckyCanvas)
 // app.component('AudioPlay', AudioPlay)
 app.component('NoList', NoList)
 

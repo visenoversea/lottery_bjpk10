@@ -46,8 +46,8 @@ const emits = defineEmits(['emitUploadSuccess'])
 
 // 点击上传
 function onUploadClick() {
-  console.log('cccccccccccc', props.idString)
-  console.log('dom', document.getElementById(props.idString))
+  // console.log('cccccccccccc', props.idString)
+  // console.log('dom', document.getElementById(props.idString))
   document.getElementById(props.idString).getElementsByClassName('van-uploader__input')[0].click()
 }
 
@@ -114,7 +114,11 @@ async function afterRead(file) {
         console.log('res', res)
         // Toast('上传成功')
         var urlArr = res.res.requestUrls[0].split('?')
-        url.value = urlArr[0]
+        if(suffix.toLowerCase() == '.heic') {
+          url.value = urlArr[0]+ '?x-oss-process=image/format,jpg'
+        }else {
+          url.value = urlArr[0]
+        }
         emits('emitUploadSuccess', url.value)
       })
   } catch (e) {

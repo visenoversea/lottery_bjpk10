@@ -1,4 +1,5 @@
 import { defineStore } from "pinia"
+
 import enLocale from 'vant/es/locale/lang/en-US';
 
 import zhLocale from 'vant/es/locale/lang/zh-CN'
@@ -12,10 +13,15 @@ import frLocale from 'vant/es/locale/lang/fr-FR'
 import jaLocale from 'vant/es/locale/lang/ja-JP'
 
 import router from "@/router/index"
+import { Base64 } from 'js-base64';
 //导出
  const store  = defineStore('store', {
   state: () => {
     return {
+      isFirstNeedShow: 0,
+      
+      isClickTimeDownNotice: false,
+
       myWebMainUrl: (document.location.protocol == 'http:' ? 'http://': 'https://') + window.location.host + '/#/main',
       langObj: {
         'zh-CN': zhLocale,
@@ -52,7 +58,7 @@ import router from "@/router/index"
 
       loadingShow: false,
 
-      userInfo: { userReal: {} }, //用户信息
+      userInfo: { userReal: {}, level: {}, levelNext: {}, userTeam: {}, userQuantify: {} }, //用户信息
       
       banner: {
         logo: [],
@@ -129,6 +135,29 @@ import router from "@/router/index"
     setCurrency(obj) {
       this.currency = obj
     },
+    encodeString(str){
+      let newStr = Base64.encode(str)
+      const len = newStr.length
+      const str1 = newStr.substring(0, len / 2)
+      const str2 = newStr.substring(len / 2, len)
+      newStr = str2 + str1
+      const str3 = newStr.substring(0, 1)
+      const str4 = newStr.substring(1, len)
+      return str4+str3
+    },
+    changeToken(token){
+      let newStr =    this.encodeString(location.host)
+      // let newStr =    this.encodeString(location.host + '|' + new Date().getTime())
+
+      let result = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+      for (let i = 0; i < 5; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      console.log('newStr', newStr)
+      console.log('result', result)
+      return `${token}.${newStr}${result}`
+    },
     // 设置token
     setToken(token) {
       window.localStorage.setItem('appToken', token)
@@ -141,13 +170,18 @@ import router from "@/router/index"
       this.userInfo = obj
     },
 
+    setIsFirstNeedShow(val) {
+      this.isFirstNeedShow = val
+    },
+
     //退出登录
     logout() {
       localStorage.removeItem('appToken')
-      this.userInfo = { userReal: {} }
-      localStorage.removeItem('localSearchList')
+      this.userInfo = { userReal: {}, level: {} }
       localStorage.removeItem('cashoutBankInfo')
       this.token = ''
+      this.isFirstNeedShow = 0
+      this.isClickTimeDownNotice = true
       router.push('/login')
     },
   }

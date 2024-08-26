@@ -1,15 +1,20 @@
 <template>
-  <div class="v_recharge_bi g-flex-column">
-    <div class="v-head g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center g-flex-justify-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_recharge_bi g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <!-- <i class="iconfont icon-zuo"></i> -->
+        <img src="/images/back-icon.png" alt="" />
       </div>
-      <div class="v-title g-flex-align-center g-flex-justify-center">
-        {{ i18n.titleText }}
-      </div>
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-recharge-bi-container">
-      
+
       <div class="v-recharge-bi-top">
         <div class="v-recharge-bi-top-wangluo">
           <p class="v-recharge-coin-title">{{ i18n.selectBiText }}</p>
@@ -42,7 +47,7 @@
             </div>
             <div class="v-recharge-bi-qrcode-address-title">{{ i18n.saomaText }}</div>
           </div>
-          
+
 
           <div class="v-recharge-bi-qrcode-address-box g-flex-align-center">
             <div class="v-recharge-bi-qrcode-address-val">
@@ -51,8 +56,48 @@
             <div @click="copyClick(form.info.address)" class="v-recharge-bi-copy g-flex-justify-center">
               <i class="iconfont icon-ic_line_copy24px"></i>
             </div>
-            </div>
+          </div>
+
         </div>
+      </div>
+
+
+      <div v-if="false" class="v-recharge-bi-bottom">
+
+        <div class="v-recharge-bi-nums">
+          <div class="v-recharge-bi-nums-title">
+            <span>{{ i18n.rechargeAmountText }}(USDT):</span>
+          </div>
+          <div class="v-recharge-bi-nums-input">
+            <input @input="amountChange" type="text" v-model="form.amount" :placeholder="i18n.cunkuanPlaceholderText">
+          </div>
+        </div>
+        <div v-show="seletCoinItem.obj.currency != 'USDT' && form.amount"
+          class="v-recharge-bi-yuedengyu g-flex-align-center">
+          <span>≈</span>
+          <p>{{ form.money }} </p>
+          <span>{{ seletCoinItem.obj.currency }}</span>
+        </div>
+
+        <!-- <div class="v-recharge-bi-upload-box">
+        <p class="v-recharge-bi-upload-title">{{ i18n.uploadText }}:</p>
+        <div class="v-recharge-bi-upload g-flex-align-center g-flex-justify-center">
+          <img @click="imgPrviewClick(form.img)" v-show="form.img" :src="form.img" alt="">
+          <div v-show="form.img" class="v-real-name-delete g-flex-justify-center g-flex-align-center"
+            @click="form.img = ''">
+            <i class="iconfont icon-shanchu2"></i>
+          </div>
+          <div v-show="!form.img" @click="uploadClick"
+            class="v-recharge-bi-upload-tips g-flex-column g-flex-align-center g-flex-justify-center">
+            <i class="iconfont icon-jiahao1"></i>
+            <p>{{ i18n.selectImgText }}</p>
+          </div>
+        </div>
+      </div> -->
+
+        <div @click="apiBankFinishPayHandel" class="v-recharge-bi-btn g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.submitBtnText }}</span>
+      </div>
       </div>
     </div>
     <OssUpload MidrPath="/recharge/" idString="c-recharge-coin-upload-1" @emitUploadSuccess="emitUploadSuccess"
@@ -169,9 +214,7 @@ async function apiBankFinishPayHandel() {
   const { success, data } = await apiBankFinishPay(form)
   if (!success) return
   Toast.success(data.msg)
-  setTimeout(() => {
-    router.go(-1)
-  }, 500);
+  router.push({ name: 'rechargethirdsecond', query: { currency: form.info.currency, address: form.info.address, chain: form.info.chain, amount: form.amount }})
 }
 
 // 预览
@@ -194,40 +237,52 @@ function emitUploadSuccess(url) {
 .v_recharge_bi {
   height: 100%;
   overflow: auto;
-  background-color: #f7f9fb;
+  // background-color: #f6f4f5;
+
   .v-head {
-    background: var(--g-white);
-    height: 50px;
+    height: 46px;
     position: fixed;
-    width: 100%;
-    top: 0;
     left: 0;
     z-index: 9;
+    top: 0;
+    width: 100%;
+    background-color: #f6f4f5;
 
     .v-head-back-icon {
       position: absolute;
       left: 0;
+      top: 0;
       height: 100%;
-      img {
-        width: 22px;
-        height: 22px;
-        object-fit: contain;
-      }
+      padding: 0 16px;
 
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-    .v-title {
-      height: 100%;
+
+    .v-head-title {
       flex: 1;
-      font-size: 18px;
-      line-height: 26px;
-      color: var(--g-less-black);
+      height: 100%;
       font-weight: 700;
+      text-align: center;
+      font-size: 16px;
+      color: var(--g-black);
+    }
+
+    .v-head-right {
+      position: absolute;
+      height: 100%;
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
+
+      .iconfont {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
+      }
     }
   }
 
@@ -235,18 +290,20 @@ function emitUploadSuccess(url) {
     flex: 1;
     padding-top: 50px;
     overflow: auto;
-    background: #F0F1F5;
+    // background: #F0F1F5;
 
     .v-recharge-bi-top {
-      margin-top: 15px;
+      padding: 0 15px;
+
       .v-recharge-bi-top-wangluo {
-        background: var(--g-white);
-        padding: 0 15px 20px 15px;
+        // background: #203036;
+        padding: 0 15px 0px 15px;
 
         .v-recharge-coin-title {
-          padding: 20px 0px 10px 0;
+          padding: 15px 0px 10px 0;
           font-size: 14px;
           font-weight: 700;
+          color: #fff;
         }
 
         .v-recharge-bi-select-box {
@@ -257,10 +314,11 @@ function emitUploadSuccess(url) {
             user-select: none;
             cursor: pointer;
             position: relative;
-            border: 1px solid #c5cfd5;
             height: 40px;
             padding: 0 10px;
+            background: var(--g-white);
             border-radius: 4px;
+            border: 1px solid #e4e7ed;
 
             .v-recharge-bi-select-left {
               img {
@@ -271,7 +329,7 @@ function emitUploadSuccess(url) {
               }
 
               span {
-                color: rgba(0, 0, 0, .85);
+                color: var(--g-black);
                 font-size: 14px;
                 line-height: 20px;
                 margin-left: 8px;
@@ -283,7 +341,7 @@ function emitUploadSuccess(url) {
               right: 10px;
               position: absolute;
               margin-left: 10px;
-              color: #7b8293;
+              color: var(--g-black);
               font-size: 20px;
               transition: transform .2s linear, -webkit-transform .2s linear;
             }
@@ -292,19 +350,21 @@ function emitUploadSuccess(url) {
       }
 
       .v-cashout-coin-link-list {
-        background: var(--g-white);
-        padding: 10px;
+        // background: #203036;
+        padding: 0 10px 10px 10px;
         border-radius: 4px;
 
         .v-cashout-coin-link-item {
           padding: 6px;
           font-size: 14px;
-          color: #a09e9e;
-          background: #f8f8f8;
+          color: var(--g-black);
+          background: #a09e9e;
           margin-right: 30px;
+          border-radius: 2px;
 
           &.active {
-            color: #0685e6;
+            background: var(--g-main_color);
+            color: var(--g-white);
             // background: #f3f3f3;
           }
         }
@@ -312,114 +372,128 @@ function emitUploadSuccess(url) {
 
 
       .v-recharge-bi-code-box {
-        padding: 20px 15px 20px 15px;
-        background: var(--g-white);
-        margin-top: 15px;
+        padding: 0px 15px 20px 15px;
+        // background: #203036;
         border-radius: 5px;
-        
-        
 
-        .v-recharge-bi-qrcode-box  {
+        .v-recharge-bi-qrcode-box {
           .v-recharge-bi-qrcode {
+            padding: 6px;
+            border-radius: 2px;
             border: 1px solid var(--g-main_color);
+
             img {
-              width: 174px;
-              height: 174px;
+              width: 150px;
+              height: 150px;
               object-fit: contain;
             }
           }
         }
 
         .v-recharge-bi-qrcode-address-title {
-          color: #7d919d;
+          color: #fff;
           font-size: 16px;
           line-height: 22px;
           padding-top: 10px;
         }
-       
+
 
 
         .v-recharge-bi-qrcode-title {
           font-size: 14px;
-          color: #0685e6;
+          color: var(--g-white);
           padding-top: 15px;
         }
 
         .v-recharge-bi-qrcode-address-box {
-          padding: 15px;
-          background: #f7f7f8;
+          padding: 10px;
+          background: var(--g-main_color);
           flex-wrap: wrap;
-          margin-top: 20px;
+          margin-top: 10px;
+          border-radius: 2px;
+
           .v-recharge-bi-qrcode-address-val {
             flex: 1;
             word-break: break-all;
             text-decoration: underline;
-            color: var(--g-less-black);
+            color: var(--g-white);
             font-size: 14px;
-            line-height: 26px;
+            line-height: 20px;
           }
+
           .v-recharge-bi-copy {
             padding: 0 0 0 10px;
-            color: var(--g-main_color);
+            color: var(--g-white);
+
             .iconfont {
               font-size: 24px;
             }
           }
         }
-        
+
       }
     }
 
     .v-recharge-bi-bottom {
-      margin-top: 15px;
-      background: var(--g-white);
+      // background: #203036;
+      margin-left: 15px;
+      margin-right: 15px;
       padding-bottom: 15px;
+
       .v-recharge-bi-nums {
         border-radius: 5px;
         padding: 0 15px 0px 15px;
+
         .v-recharge-bi-nums-title {
           font-size: 14px;
           font-weight: 700;
-          color: var(--g-less-black);
-          padding: 15px 0 10px 0;
+          color: #fff;
+          padding: 10px 0 10px 0;
         }
+
         .v-recharge-bi-nums-input {
-          background: #f2f4f7;
-          height: 44px;
-          border-radius: 4px;
+          position: relative;
+          padding: 4px 10px;
+          height: 34px;
+          background: var(--g-white);
+          border: 1px solid #e4e7ed;
+
           input {
-            padding: 10px 12px;
             height: 100%;
             width: 100%;
             background-color: transparent;
             font-size: 14px;
             font-weight: 400;
-            color: #333;
+            color: var(--g-black);
             border: none;
             outline: none;
 
             &::placeholder {
-              color: #7D919D;
-              font-size: 14px;
+              color: rgb(128, 127, 127);
+              font-size: 12px;
             }
           }
         }
       }
+
       .v-recharge-bi-yuedengyu {
         padding: 10px 15px;
-        background: var(--g-white);
+        // background: #203036;
         font-size: 14px;
+
         p {
           color: red;
           padding-left: 10px;
           padding-right: 10px;
         }
       }
+
       .v-recharge-bi-upload-box {
-        padding: 15px;
-        background: var(--g-white);
+        // background: #203036;
+        padding: 10px 15px;
+
         .v-recharge-bi-upload-title {
-          font-size: #000;
+          color: var(--g-black);
           font-size: 14px;
           font-weight: 700;
         }
@@ -427,8 +501,9 @@ function emitUploadSuccess(url) {
         .v-recharge-bi-upload {
           width: 100px;
           height: 100px;
-          border: 1px solid #ddd9d9;
+          border: 1px solid var(--g-black);
           margin-top: 10px;
+          border-radius: 2px;
           position: relative;
 
           img {
@@ -456,6 +531,7 @@ function emitUploadSuccess(url) {
           .v-recharge-bi-upload-tips {
             width: 100%;
             height: 100%;
+            color: var(--g-black);
 
             .iconfont {
               font-size: 30px;
@@ -481,7 +557,6 @@ function emitUploadSuccess(url) {
         border-radius: 5px;
       }
     }
-    
+
   }
-}
-</style>
+}</style>

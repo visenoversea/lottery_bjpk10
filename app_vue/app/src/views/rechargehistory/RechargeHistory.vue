@@ -1,18 +1,21 @@
 <template>
-  <div class="v_recharge_history g-flex-column">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_recharge_history g-flex-column n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <img src="/images/back-icon.png" alt="" />
       </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <!-- <div @click="$router.push({ name: 'rechargehistory'})" class="v-head-right g-flex-align-center">
-      <i class="iconfont icon-datijilu"></i>
-    </div> -->
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
+
     <div class="v-history-container g-flex-column">
-      <van-tabs line-height="2px" :background="'#f5f6f7'" color="#FF2742" :title-inactive-color="'#7f8aa1'"
-        :title-active-color="'#FF2742'" class="v-history-nav-list g-flex-align-center" @change="headNavItemClick"
+      <van-tabs line-height="2px" color="#fff" title-inactive-color="#fff" title-active-color="#fff"
+          background="#202021" class="v-history-nav-list g-flex-align-center" @change="headNavItemClick"
         :ellipsis="false" v-model:active="form.status">
         <van-tab title-class="v-history-nav-list-item-title" :name="''" :title="i18n.statusAllText">
         </van-tab>
@@ -35,34 +38,34 @@
               </div>
               <div class="v-item-top-status g-flex-align-center">
                 <span :class="filtersRealStatusClass(item.status)">{{ filtersRealStatus(item.status ) }}</span>
-                <img src="/img/icon/user_icon_enter.png" alt="">
+                <i class="iconfont icon-you"></i>
               </div>
             </div>
-            <div class="v-item-bottom-list g-flex-align-center">
-              <!-- <div class="v-bottom-list-item">
+            <div class="v-item-bottom-list">
+              <div class="v-bottom-list-item">
                 <div class="v-bottom-list-item-title">
                   {{ i18n.rechargeBiZhongText }}
                 </div>
                 <div class="v-bottom-list-item-val">
                   {{ item.currency }}
                 </div>
-              </div> -->
+              </div>
 
               <div class="v-bottom-list-item">
                 <div class="v-bottom-list-item-title">
                   {{ i18n.moneyText }}
                 </div>
                 <div class="v-bottom-list-item-val">
-                  +{{ item.amount }}
+                  {{ item.amount }} 
                 </div>
               </div>
 
-              <div class="v-bottom-list-item g-flex-column g-flex-align-end">
+              <div class="v-bottom-list-item ">
                 <div class="v-bottom-list-item-title">
                   {{ i18n.timeText }}
                 </div>
                 <div class="v-bottom-list-item-val">
-                  {{ formatDate(item.create_time, 'MM/dd hh:mm') }}
+                  {{ formatDate(item.create_time, 'MM/DD HH:mm') }}
                 </div>
               </div>
             </div>
@@ -160,47 +163,45 @@ function filtersRealStatus(status) {
 .v_recharge_history {
   height: 100%;
   overflow: auto;
-  background-color: #f5f6f7;
-
+  // background-color: var(--g-white);
+  padding-bottom: 10px;
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
+    z-index: 9;
+    width: 100%;
     background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
-
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
-
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
-
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
+      text-align: center;
+      font-size: 16px;
       font-weight: 700;
+      color: var(--g-black);
     }
-
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
-
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
       .iconfont {
         font-size: 22px;
+        color: var(--g-black);
       }
     }
   }
@@ -210,9 +211,15 @@ function filtersRealStatus(status) {
     overflow: auto;
     padding-top: 50px;
 
+    .tablist {
+       background: rgba(255, 255, 255, 0);
+    }
+    .van-tabs__nav {
+      background: none!important;
+    }
+
     .v-history-nav-list {
       width: 100%;
-      background-color: #f5f6f7;
       overflow: auto;
 
       .van-tabs__wrap {
@@ -226,23 +233,28 @@ function filtersRealStatus(status) {
     .v-finance-list-box {
       flex: 1;
       overflow: auto;
-      background: var(--g-white);
       color: #111;
 
       .v-list {
         .v-list-item {
           padding: 15px;
-          border-bottom: 1px solid #f2f2f2;
+          border-bottom: 1px solid #e4e7ed;
+          background: #fff;
+          margin: 2px 10px;
 
           .v-item-top {
             .v-item-top-title {
               font-size: 16px;
+              color: var(--g-black);
             }
 
             .v-item-top-status {
-              color: #878F94;
+              color: #474e5d;
               font-size: 14px;
-
+              .iconfont {
+                font-weight: 700;
+                font-size: 20px;
+              }
               img {
                 margin-left: 5px;
                 width: 10px;
@@ -256,14 +268,17 @@ function filtersRealStatus(status) {
             .v-bottom-list-item {
               font-size: 14px;
               flex: 1;
+              display: flex;
 
               .v-bottom-list-item-title {
-                color: #878F94;
+                color: #ccc;
+                width: 50%;
               }
 
               .v-bottom-list-item-val {
                 padding-top: 8px;
-                color: #111;
+                width: 50%;
+                color: #000;
               }
             }
 

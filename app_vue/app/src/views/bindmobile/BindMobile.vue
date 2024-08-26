@@ -1,19 +1,22 @@
 <template>
-  <div class="v_bind_mobile">
-    <div class="v-head g-flex-justify-center g-flex-align-center">
-      <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
-        <i class="iconfont icon-zuojiantou"></i>
+  <div class="v_bind_mobile n-bg">
+    <div class="new-head">
+      <div @click="$router.go(-1)" class="new-head-back">
+        <!-- <i class="iconfont icon-zuo"></i> -->
+        <img src="/images/back-icon.png" alt="" />
       </div>
-      <span class="v-title g-flex-align-center g-flex-justify-center">{{ i18n.titleText }}</span>
-
-      <!-- <div @click="$router.push({ name: 'rechargehistory'})" class="v-head-right g-flex-align-center">
-     <i class="iconfont icon-datijilu"></i>
-   </div> -->
+      <!-- <div class="v-head-title g-flex-align-center g-flex-justify-center">
+        <span>{{ i18n.titleText }}</span>
+      </div> -->
+      <!-- <div class="v-head-right g-flex-align-center">
+        <i class="iconfont icon-datijilu"></i>
+      </div> -->
     </div>
+    <div class="new-head_title_text">{{ i18n.titleText }}</div>
     <div class="v-bind-mobile-container">
       <div class="v-form">
         <!-- 旧手机 -->
-        <div v-show="userInfo.mobile"  class="v-form-item-box">
+        <div v-show="userInfo.mobile" class="v-form-item-box">
           <div class="v-form-item-box-title">
             <span>{{ i18n.oldMobileText }}</span>
           </div>
@@ -23,11 +26,11 @@
               <i class="iconfont icon-right-1-copy"></i>
             </div>
             <div class="v-form-item-middle-input">
-              <input type="text" readonly v-model="userInfo.mobile" :placeholder="i18n.mobilePlaceholderText"/>
+              <input type="text" readonly v-model="userInfo.mobile" :placeholder="i18n.mobilePlaceholderText" />
             </div>
           </div>
         </div>
-        
+
         <!-- 验证码 -->
         <div v-show="userInfo.mobile" class="v-form-item-box">
           <div class="v-form-item-box-title">
@@ -35,7 +38,8 @@
           </div>
           <div class="v-form-item g-flex-align-center">
             <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.oldCode" label="" label-width="0" :placeholder="i18n.codePlaceholderText"/>
+              <input type="text" v-model="form.oldCode" label="" label-width="0"
+                :placeholder="i18n.codePlaceholderText" />
             </div>
             <div @click="apiSendOldMobileCodeHandel" class="v-form-item-middle-right g-flex-align-center">
               <span class="v-form-item-middle-right-text">
@@ -46,7 +50,7 @@
         </div>
 
         <!-- 新手机 -->
-        <div  class="v-form-item-box">
+        <div class="v-form-item-box">
           <div class="v-form-item-box-title">
             <span>{{ i18n.mobileText }}</span>
           </div>
@@ -56,19 +60,19 @@
               <i class="iconfont icon-right-1-copy"></i>
             </div>
             <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.mobile"  :placeholder="i18n.mobilePlaceholderText"/>
+              <input type="text" v-model="form.mobile" :placeholder="i18n.mobilePlaceholderText" />
             </div>
           </div>
         </div>
 
-         <!-- 验证码 -->
+        <!-- 验证码 -->
         <div class="v-form-item-box">
           <div class="v-form-item-box-title">
             <span>{{ i18n.codeText }}</span>
           </div>
           <div class="v-form-item g-flex-align-center">
             <div class="v-form-item-middle-input">
-              <input type="text" v-model="form.code" label="" label-width="0" :placeholder="i18n.codePlaceholderText"/>
+              <input type="text" v-model="form.code" label="" label-width="0" :placeholder="i18n.codePlaceholderText" />
             </div>
             <div @click="apiSendMobileCodeHandel" class="v-form-item-middle-right g-flex-align-center">
               <span class="v-form-item-middle-right-text">
@@ -215,46 +219,51 @@ async function apiBindMobileHandel() {
 .v_bind_mobile {
   height: 100%;
   overflow: auto;
+ background-color: #f6f4f5;
 
   .v-head {
-    height: 50px;
-    width: 100%;
-    line-height: 50px;
+    height: 46px;
     position: fixed;
+    left: 0;
     top: 0;
-    background-color: var(--g-white);
-    font-size: 14px;
-    color: var(--g-less-black);
-    z-index: 999;
+    width: 100%;
+    background-color: #f6f4f5;
 
     .v-head-back-icon {
       position: absolute;
-      height: 100%;
       left: 0;
-      padding: 15px;
+      z-index: 9;
+      top: 0;
+      height: 100%;
+      padding: 0 16px;
 
       .iconfont {
-        position: absolute;
         font-size: 26px;
-        left: 10px;
         font-weight: 700;
+        color: var(--g-black);
       }
     }
 
-    .v-title {
-      font-size: 18px;
+    .v-head-title {
       flex: 1;
       height: 100%;
-      font-weight: 600;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--g-black);
     }
 
     .v-head-right {
       position: absolute;
       height: 100%;
-      right: 15px;
+      right: 0;
+      top: 0;
+      padding: 0 0 0 10px;
 
       .iconfont {
         font-size: 22px;
+        font-weight: 700;
+        color: var(--g-black);
       }
     }
   }
@@ -268,7 +277,7 @@ async function apiBindMobileHandel() {
       padding: 20px 15px 15px 15px;
       font-size: 22px;
       line-height: 26px;
-      color: #333;
+      color: var(--g-black);
       font-weight: 600;
     }
 
@@ -276,19 +285,22 @@ async function apiBindMobileHandel() {
       padding: 15px;
 
       .v-form-item-box {
+        margin-bottom: 15px;
         .v-form-item-box-title {
-          font-size: 16px;
-          font-weight: 700;
-          margin-top: 20px;
+          padding-left: 10px;
+          padding-bottom: 4px;
+          font-size: 14px;
+          color: var(--g-black);
+          line-height: 20px;
         }
-        .v-form-item {
-          padding: 0 15px;
-          margin-top: 10px;
-          width: 100%;
-          height: 46px;
-          background: #f2f4f7;
-          border-radius: 4px;
 
+        .v-form-item {
+          position: relative;
+          padding: 4px 10px;
+          height: 34px;
+          background:var(--g-white);
+          border: 1px solid #e4e7ed;
+          border-radius: 4px;
           &:nth-of-type(1) {
             margin-top: 15px;
           }
@@ -296,12 +308,14 @@ async function apiBindMobileHandel() {
           .v-form-item-left {
             height: 100%;
             padding: 0 10px 0 0px;
+
             .v-form-item-left-text {
-              font-size: 16px;
+              font-size: 14px;
             }
+
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: #c0c4cc;
             }
           }
 
@@ -315,14 +329,12 @@ async function apiBindMobileHandel() {
               background-color: transparent;
               font-size: 14px;
               font-weight: 400;
-              color: #333;
+              color: var(--g-black);
               border: none;
               outline: none;
-
               &::placeholder {
-                color: #7D919D;
-                font-weight: 700;
-                font-size: 14px;
+                color: rgb(128, 127, 127);
+                font-size: 12px;
               }
             }
           }
@@ -333,7 +345,7 @@ async function apiBindMobileHandel() {
 
             .iconfont {
               font-size: 18px;
-              color: #7B869E;
+              color: #c0c4cc;
             }
 
             img {
@@ -360,7 +372,7 @@ async function apiBindMobileHandel() {
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      border-radius: 4px;
+      border-radius: 50px;
     }
   }
 }

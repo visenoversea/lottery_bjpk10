@@ -2,258 +2,256 @@
   <div class="v_chip g-flex-column">
     <div class="v-chip-head">
       <div class="v-chip-head-top g-flex-align-center">
-        <div @click="$router.go(-1)" class="v-chip-head-top-left g-flex-align-center">
+        <div
+          @click="$router.go(-1)"
+          class="v-chip-head-top-left g-flex-align-center"
+        >
           <i class="iconfont icon-zuojiantou"></i>
         </div>
-        <div class="v-chip-head-top-title g-flex-align-center g-flex-justify-center">
+        <div
+          class="v-chip-head-top-title g-flex-align-center g-flex-justify-center"
+        >
+          <span> {{ roomObj.obj.lottery.name }} {{ roomObj.obj.name }} </span>
+        </div> 
+        <div class="head-icon g-flex-align-center">
+          <van-icon
+            @click="apiGetChipListHandel()"
+            color="#fff"
+            name="replay"
+            size="1.5rem"
+          />
+        </div>
+        <div
+          class="v-head-right g-flex-align-center"
+          @click="$router.push('/betsrecord')"
+        >
+          <i class="iconfont icon-datijilu"></i>
+        </div>
+      </div>
+      <div
+        class="lottery-select-wrap g-flex-align-center g-flex-justify-between"
+      >
+        <div class="lottery-select g-flex" @click="chipQuickClick">
+          <div class="label g-flex-align-center">{{ i18n.switch }}</div>
+          <div class="v-content-right-icon g-flex-align-center">
+            <i class="iconfont icon-you"></i>
+          </div>
+        </div>
+        <div class="bet-info g-flex">
+          <div class="bet-info-item">
+            <label>{{ i18n.balance }}</label>
+            <p>{{ betsInfo.balance }}</p>
+          </div>
+          <div class="bet-info-item">
+            <label>{{ i18n.betAmount }}</label>
+            <p>{{ betsInfo.betAmount }}</p>
+          </div>
+          <div class="bet-info-item">
+            <label>{{ i18n.todayWin }}</label>
+            <p>{{ betsInfo.todayWin }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="v-chip-info">
+        <div class="lottery-data g-flex-align-center">
+          <img src="/img/chip/clock.png" alt="" />
+          <div class="period">
+            {{ lotteryObjInfo.obj.next.open_expect }}&nbsp;{{ i18n.expect }}
+          </div>
+          {{ i18n.close }}
+          <span>{{ dealWithHourMinsSec(stopPhurchaseStamp) }}</span>
+          {{ i18n.open }}
           <span>
-            {{ roomObj.obj.lottery.name }} {{ roomObj.obj.name }}
+            {{ dealWithHourMinsSec(openLotteryStamp) }}
           </span>
         </div>
-        <div class="v-chip-head-top-right g-flex-align-center">
-          <div @click="headPopShow = !headPopShow" class="v-chip-head-top-right-img g-flex-align-center">
-            <img src="/img/icon/menu.png" alt="" />
+        <div
+          class="lottery-data g-flex-align-center"
+          @click="
+            $router.push({
+              path: '/lotteryHistory',
+              query: { id: roomObj.obj.lottery_id },
+            })
+          "
+        >
+          <img src="/img/chip/bell.png" alt="" />
+          <div class="period">{{ prevObj.open_expect }}&nbsp;{{ i18n.expect }}</div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[0]}`"
+          >
+            {{ prevObj.open_code.split(",")[0] }}
           </div>
-          <div class="v-head-right-pop-overlay" @click="headPopShow = !headPopShow" v-show="headPopShow"></div>
-          <!-- 右侧弹窗 -->
-          <div v-show="headPopShow" class="v-head-right-pop-box">
-            <div class="v-head-right-pop">
-              <div @click="$router.push({ name: 'zoushi', query: { id: roomObj.obj.lottery_id } })"
-                class="v-head-right-pop-item">
-                <span>{{ i18n.zoushiText }}</span>
-              </div>
-              <div @click="$router.push({ name: 'mybill' })" class="v-head-right-pop-item">
-                <span>{{ i18n.jiaoyiJiLuText }}</span>
-              </div>
-              <div @click="kefuClick" class="v-head-right-pop-item ">
-                <span>{{ i18n.zaixiankefuText }}</span>
-              </div>
-              <div @click="descClick" class="v-head-right-pop-item">
-                <span>{{ i18n.jiaoyiShuoMingText }}</span>
-              </div>
-            </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[1]}`"
+          >
+            {{ prevObj.open_code.split(",")[1] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[2]}`"
+          >
+            {{ prevObj.open_code.split(",")[2] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[3]}`"
+          >
+            {{ prevObj.open_code.split(",")[3] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[4]}`"
+          >
+            {{ prevObj.open_code.split(",")[4] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[5]}`"
+          >
+            {{ prevObj.open_code.split(",")[5] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[6]}`"
+          >
+            {{ prevObj.open_code.split(",")[6] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[7]}`"
+          >
+            {{ prevObj.open_code.split(",")[7] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[8]}`"
+          >
+            {{ prevObj.open_code.split(",")[8] }}
+          </div>
+          <div
+            class="number g-flex-align-center g-flex-justify-center"
+            :class="`number${prevObj.open_code.split(',')[9]}`"
+          >
+            {{ prevObj.open_code.split(",")[9] }}
           </div>
         </div>
       </div>
-      <div class="v-chip-head-middle g-flex-align-center">
-        <div class="v-chip-head-middle-left g-flex-column g-flex-align-center">
-          <div class="v-chip-head-middle-left-title">
-            <span>{{ i18n.juliText }}{{ lotteryObjInfo.obj.next.open_expect }}{{ i18n.qiFengpanText }}</span>
-          </div>
-          <div v-show="chazhi > 0" class="v-chip-head-middle-left-time g-flex-align-center">
-            <div class="v-chip-head-middle-left-time-item">
-              <span>{{ nowTime ? hour : '-' }}</span>
-            </div>
-            :
-            <div class="v-chip-head-middle-left-time-item">
-              <span>{{ nowTime ? min : '-' }}</span>
-            </div>
-            :
-            <div class="v-chip-head-middle-left-time-item">
-              <span>{{ nowTime ? sec : '-' }}</span>
-            </div>
-          </div>
-          <div v-show="chazhi <= 0" class="v-chip-head-middle-left-time-jiezhi g-flex-align-center">
-            {{ nowTime ? i18n.yifengpanText : '---' }}
-          </div>
-        </div>
-
-        <div class="v-chip-head-middle-right g-flex-column g-flex-align-center">
-          <div class="v-chip-head-middle-right-title">
-            {{ i18n.yuerText }}
-          </div>
-          <div class="v-chip-head-middle-right-val">
-            {{ userInfo.balance }}
-          </div>
+    </div>
+    <div class="v-chip-content g-flex">
+      <div class="play-type">
+        <div
+          class="type-item g-flex-align-center g-flex-justify-center"
+          :class="tabIndex === index ? 'active' : ''"
+          v-for="(item, index) in roomObj.obj.lotteryGroupList"
+          :key="`room${item.id}`"
+          @click="tabIndex = index"
+        >
+          {{ item.name }}
         </div>
       </div>
-
-      <div class="v-chip-head-bottom">
-        <div @click="historyPopShow = !historyPopShow" class="v-chip-head-bottom-content g-flex-align-center">
-          <div class="v-chip-head-bottom-left">
-            {{ i18n.diText }}<span>{{ prevObj.open_expect }}</span>{{ i18n.qiText }}
+      <div class="type-content">
+        <div
+          class="content-item"
+          v-for="(el, index) in roomObj.obj.lotteryGroupList"
+          v-show="tabIndex === index"
+          :key="`type${el.id}`"
+        >
+          <div class="content-title g-flex-align-center g-flex-justify-center">
+            {{ el.name }}
           </div>
-          <!--  v-show="prevObj.open_code_arr.length" -->
-          <div class="v-chip-head-bottom-right g-flex-align-center">
-            <div class="v-chip-head-bottom-right-item g-flex-align-center g-flex-justify-center">
-              {{ prevObj.open_code_arr[0] }}
-            </div>
-            +
-            <div class="v-chip-head-bottom-right-item g-flex-align-center g-flex-justify-center">
-              {{ prevObj.open_code_arr[1] }}
-            </div>
-            +
-            <div class="v-chip-head-bottom-right-item  g-flex-align-center g-flex-justify-center">
-              {{ prevObj.open_code_arr[2] }}
-            </div>
-            =
+          <div class="nums-wrap">
             <div
-              class="v-chip-head-bottom-right-item  g-flex-align-center g-flex-justify-center v-chip-head-bottom-right-item-total">
-              {{ prevObj.total }}
-            </div>
-            <div class="v-chip-head-bottom-right-item-text">
-              ({{ filterBigSmall(prevObj.total) }}{{ filterDanShuang(prevObj.total) }})
-            </div>
-          </div>
-        </div>
-        <!-- 历史期 -->
-        <div v-show="historyPopShow" class="v-chip-head-bottom-pop">
-          <div class="v-chip-head-bottom-pop-title-list g-flex-align-center">
-            <div class="v-chip-head-bottom-pop-title-item g-flex-align-center g-flex-justify-center">
-              {{ i18n.qishuText }}
-            </div>
-            <div class="v-chip-head-bottom-pop-title-item g-flex-align-center g-flex-justify-center">
-              {{ i18n.zongheText }}
-            </div>
-            <div class="v-chip-head-bottom-pop-title-item g-flex-align-center g-flex-justify-center">
-              {{ i18n.jieguoText }}
-            </div>
-          </div>
-          <div class="v-chip-head-bottom-pop-list">
-            <div class="v-chip-head-bottom-pop-item g-flex-align-center"
-              v-for="(item, index) in historyLotteryDataList.list" :key="index">
-              <div class="v-chip-head-bottom-pop-item-one g-flex-justify-center g-flex-align-center">
-                {{ i18n.diText }} <span>{{ item.open_expect }}</span> {{ i18n.qiText }}
+              class="num-item g-flex-align-center g-flex-justify-center"
+              :class="isActice(num) ? 'active' : ''"
+              v-for="num in el.lotteryPlayedList"
+              :key="`num${num.id}`"
+              @click="betsClick(num)"
+            >
+              <div
+                class="num g-flex-align-center g-flex-justify-center"
+                :class="`number${num.name}`"
+              >
+                {{ num.name }}
               </div>
-              <div class="v-chip-head-bottom-pop-item-two g-flex-justify-center g-flex-align-center">
-                <div class="v-two-item g-flex-align-center g-flex-justify-center">{{ item.open_code_arr[0] }}</div>+
-                <div class="v-two-item g-flex-align-center g-flex-justify-center">{{ item.open_code_arr[1] }}</div>+
-                <div class="v-two-item g-flex-align-center g-flex-justify-center">{{ item.open_code_arr[2] }}</div>=
-                <div class="v-two-item v-two-item-result g-flex-align-center g-flex-justify-center">{{ item.total }}</div>
-              </div>
-              <div class="v-chip-head-bottom-pop-item-three g-flex-justify-center g-flex-align-center">
-                ({{ filterBigSmall(item.total) }}{{ filterDanShuang(item.total) }})
-              </div>
+              <div class="rate">{{ num.odds }}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="v-chip-container g-flex-column">
-      <div id="chip-order-list" class="v-chip-order-list">
-        <div v-show="orderRadomList.list.length > 3" @click="scrollToBottom" class="v-chip-order-list-tobottom">
-          <img src="/img/icon/down.png" alt="" />
-        </div>
-        <div class="v-chip-order-item-box" v-for="(item, index) in orderRadomList.list" :key="index">
-          <div class="v-chip-order-item-card" v-if="item.type == 1">
-            <div class="v-order-item-card-top" :class="item.userId == userInfo.id ? 'g-flex-justify-end': ''">
-              <span>{{ formatDate(item.time, 'hh:mm:ss') }}</span>
-            </div>
-            <div class="v-order-item-card-bottom g-flex">
-              <div v-show="item.userId != userInfo.id" class="v-order-item-card-bottom-img">
-                <img :src="item.avatar" alt="" />
-              </div>
-              <div :class="item.userId == userInfo.id ? 'v-order-item-card-bottom-right-self': ''" class="v-order-item-card-bottom-right">
-                <div :class="item.userId == userInfo.id ? 'g-flex-justify-end': ''" class="v-card-bottom-right-username">
-                  {{ item.userName }}
-                </div>
-                <div class="v-card-bottom-right-info">
-                  <div class="v-card-bottom-right-info-qi">
-                    {{ item.openExpect }}{{ i18n.qiText }}
-                  </div>
-
-                  <div class="v-card-bottom-right-info-leixing g-flex-align-center g-flex-justify-between">
-                    <div class="v-card-bottom-right-info-leixing-item">
-                      {{ i18n.busTypeText }}
-                    </div>
-                    <div class="v-card-bottom-right-info-leixing-item">
-                      {{ i18n.busAmountText }}
-                    </div>
-                  </div>
-
-                  <div class="v-card-bottom-right-info-leixing-val g-flex-align-center g-flex-justify-between">
-                    <div class="v-card-bottom-right-info-leixing-val-item">
-                      {{ item.targetObj.name }}
-                    </div>
-                    <div class="v-card-bottom-right-info-leixing-val-item">
-                      {{ Number(item.targetObj.amount).toFixed(2) }}{{ i18n.jinerText }}
-                    </div>
-                  </div>
-
-                  <div class="v-card-bottom-right-info-total g-flex-align-center">
-                    <div class="v-card-bottom-right-info-total-item">{{ i18n.totalText }},</div>
-                    <div class="v-card-bottom-right-info-total-item">{{ Number(item.targetObj.amount).toFixed(2) }}{{ i18n.jinerText }}</div>
-                  </div>
-                </div>
-              </div>
-              <div v-show="item.userId == userInfo.id" class="v-order-item-card-bottom-img">
-                <img :src="item.avatar" alt="" />
-              </div>
-            </div>
-          </div>
-
-          <div v-if="item.type == 2" class="v-chip-order-item-msg-box g-flex-column g-flex-align-center">
-            <div class="v-chip-order-item-msg g-flex-column g-flex-align-center">
-              <div class="v-chip-order-item-msg-title">
-                【NO.{{ item.open_expect }}】
-              </div>
-              <div class="v-chip-order-item-msg-content">
-                <span>{{ item.content }}</span>
-              </div>
-              <div v-if="item.content2" class="v-chip-order-item-msg-content">
-                <span>{{ item.content2 }}</span>
-              </div>
-            </div>
-          </div>
-
-          <div v-if="item.type == 3" class="v-chip-order-item-msg-box g-flex-column g-flex-align-center">
-            <div class="v-chip-order-item-msg g-flex-column g-flex-align-center">
-              <div class="v-chip-order-item-msg-title">
-                【NO.{{ item.open_expect }}】
-              </div>
-              <div class="v-chip-order-item-msg-content">
-                <span>{{ item.content }}</span>
-              </div>
-              <div v-if="item.content2" class="v-chip-order-item-msg-content">
-                <span>{{ item.content2 }}</span>
-              </div>
-            </div>
-
-          </div>
+    <div class="v-chip-footer g-flex-align-center">
+      <div class="quick-list g-flex-align-center" v-show="quickShow">
+        <div
+          :class="getClass(index)"
+          class="quick-item g-flex-align-center g-flex-justify-center"
+          v-for="(item, index) in roomObj.obj.quickList"
+          :key="`chips${item}`"
+          @click="betAmount = item"
+        >
+          {{ calculateChips(item) }}
         </div>
       </div>
-    </div>
-
-    <div class="v-chip-btn-list-box">
-      <div class="v-chip-btn-list g-flex-align-center g-flex-justify-between">
-        <div @click="chipQuickClick"
-          class="v-chip-btn-item g-flex-align-center g-flex-justify-center v-chip-btn-item-yellow">
-          <span>{{ i18n.quickBusText }}</span>
-        </div>
-        <div @click="canCelClick" class="v-chip-btn-item g-flex-align-center g-flex-justify-center v-chip-btn-item-black">
-          <span>{{ i18n.cancelBusText }}</span>
-        </div>
+      <div class="amount">
+        <p>
+          {{ $t("chip.betedText", { num: betNums }) }}
+        </p>
+        <van-field
+          class="chip-amount"
+          v-model="betAmount"
+          label=""
+          label-width="0"
+          :placeholder="i18n.betAmount"
+        />
+      </div>
+      <div
+        class="foot-btn btn-green g-flex-align-center g-flex-justify-center"
+        @click="apiChipDownOrderHandel"
+      >
+        {{ i18n.betText }}
+      </div>
+      <div
+        class="foot-btn btn-red g-flex-align-center g-flex-justify-center"
+        @click="quickShow = !quickShow"
+      >
+        {{ i18n.chips }}
+      </div>
+      <div
+        class="foot-btn btn-blue g-flex-align-center g-flex-justify-center"
+        @click="betsList = []"
+      >
+        {{ i18n.reset }}
+      </div>
+      <div
+        class="close g-flex-align-center g-flex-justify-center"
+        v-show="stopPhurchaseStamp < 1"
+      >
+        {{ i18n.closed }}
       </div>
     </div>
-
-    <ChipDescPop ref="refChipDescPop" />
-
-    <ChipPop @emitDownOrderSuccess="apiGetUserInfoHandel" :openExpectVal="lotteryObjInfo.obj.next.open_expect"
-      ref="refChipPop" />
-
-      <ChipCancelPop @emitCancelSuccess="apiGetUserInfoHandel" ref="refChipCancelPop"/>
+    <ChipPop ref="refChipPop" @lotterySelected="lotterySelected" />
   </div>
 </template>
 
 <script setup>
-import ChipCancelPop from './ChipCancelPop.vue'
-import { apiGetUserInfo, apiGetRoomInfo, apiGetChipList } from '@/utils/api.js'
-import { formatDate, kefuClick, filterDanShuangBgColorClass, filterBigSmallBgColorClass, filterDanShuang, filterBigSmall } from '@/utils/index.js'
-import ChipPop from './ChipPop.vue'
-import ChipDescPop from './ChipDescPop.vue'
+import ChipCancelPop from "./ChipCancelPop.vue";
+import ChipPop from "./ChipPop.vue";
 import {
-  reactive,
-  ref,
-  computed,
-  onMounted,
-  onUnmounted,
-  nextTick,
-} from "vue";
+  apiGetUserInfo,
+  apiGetRoomInfo,
+  apiGetChipList,
+  apiChipDownOrder,
+  apiGetRoomGroup,
+  apiBetInfo,
+} from "@/utils/api.js";
+import { reactive, ref, computed, onMounted, onUnmounted } from "vue";
 import { useI18n } from "vue-i18n";
 import useStore from "@/store/index.js";
-import ws from "@/utils/ws.js";
+import { WebSocketInstance } from "@/utils/web_socket.js";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
+import { dealWithHourMinsSec } from "@/utils/index";
 const router = useRouter();
 const route = useRoute();
 // pinia状态管理仓库
@@ -263,78 +261,70 @@ const i18nObj = useI18n();
 const i18n = computed(() => {
   return i18nObj.tm("chip");
 });
-
+const quickShow = ref(false);
 let roomObj = reactive({
   obj: {
-    lottery: {}
-  }
-})
+    lottery: {},
+  },
+});
+const refIframe = ref();
+const betAmount = ref();
 
-let userInfo = computed(() => {
-  return store.userInfo
-})
-
-// 用户信息
-async function apiGetUserInfoHandel() {
-  const { success, data } = await apiGetUserInfo()
-  if (!success) return
-  store.setUserInfo(data.info)
-}
-
-apiGetUserInfoHandel()
-
-
+const tabIndex = ref(0);
 let form = reactive({
-  id: route.query.id
-})
+  id: route.query.id,
+  room: route.query.room,
+});
 
 // type 1卡片 2是文字 3封盘
 let orderRadomList = reactive({
-  list: []
-})
-
+  list: [],
+});
+function lotterySelected(id) {
+  form.id = id;
+  apiGetRoomInfoHandel();
+}
 function scrollToBottom() {
   nextTick(() => {
-    let scrollDom = document.getElementById('chip-order-list')
-    scrollDom.scrollTo({ top: scrollDom.scrollHeight, behavior: 'smooth' });
-  })
+    let scrollDom = document.getElementById("chip-order-list");
+    scrollDom.scrollTo({ top: scrollDom.scrollHeight, behavior: "smooth" });
+  });
 }
 
 // 获取房间信息
 async function apiGetRoomInfoHandel() {
-  store.loadingShow = true
-  const { success, data } = await apiGetRoomInfo({ id: form.id })
-  if (!success) return
-  roomObj.obj = data.info
-  store.loadingShow = true
+  store.loadingShow = true;
+  const { success, data } = await apiGetRoomInfo({ id: form.id });
+  if (!success) return;
+  roomObj.obj = data.info;
+  store.loadingShow = true;
   if (data.info.next.lottery_id) {
     let template1Data = {
       type: 2,
       open_expect: data.info.next.open_expect,
-      content:'',
+      content: "",
       // content: `${i18n.value.danbiText}${roomObj.obj.min}${i18n.value.startText}，${i18n.value.zongjinerFengtingText}`,
-      content2: '',
-    }
-    orderRadomList.list.unshift(template1Data)
+      content2: "",
+    };
+    orderRadomList.list.unshift(template1Data);
   }
-  wsJoinGroupHandel()
-  apiGetChipListHandel()
+  wsJoinGroupHandel();
+  apiGetChipListHandel();
 }
 
-apiGetRoomInfoHandel()
-
+apiGetRoomInfoHandel();
 
 // 订阅推送 type 1卡片 2是文字 3封盘
 function wsJoinGroupHandel() {
-  ws.joinGroup('lotteryRoom' + form.id, (data) => {
+  WebSocketInstance.joinGroup("lotteryRoom" + form.id, (data) => {
     // console.log('lotteryRoom', data)
     let template1Data = {
       type: 2,
       open_expect: data.openExpect,
-      content:'',
+      content: "",
       // content: `${i18n.value.danbiText}${roomObj.obj.min}${i18n.value.startText}，${i18n.value.zongjinerFengtingText}`,
-      content2: '',
-    }
+      content2: "",
+    };
     // let template2Data = reactive({
     //   type: 3,
     //   open_expect: data.openExpect,
@@ -346,187 +336,249 @@ function wsJoinGroupHandel() {
       type: 3,
       open_expect: data.openExpect,
       content: `${i18n.value.yifengpanText}:`,
-      content2: '',
-    })
+      content2: "",
+    });
     // 卡片
     if (data.type == 1) {
-      let templateCardData = data
-      // console.log('xxxx', findWsDownOrderTypeText(data.lotteryPlayed)) 
+      let templateCardData = data;
+      // console.log('xxxx', findWsDownOrderTypeText(data.lotteryPlayed))
       // 找到对应的下单类型 语言文字
-      let target = findWsDownOrderTypeText(data.lotteryPlayed)
-      templateCardData.targetObj = target
-      orderRadomList.list.unshift(templateCardData)
+      let target = findWsDownOrderTypeText(data.lotteryPlayed);
+      templateCardData.targetObj = target;
+      orderRadomList.list.unshift(templateCardData);
     } else if (data.type == 2) {
-      orderRadomList.list.unshift(template1Data)
+      orderRadomList.list.unshift(template1Data);
     } else if (data.type == 3) {
       // orderRadomList.list.unshift(template2Data)
-      orderRadomList.list.unshift(template3Data)
+      orderRadomList.list.unshift(template3Data);
     }
     // 数组长度最长到1000 超出需要清除
-    if(orderRadomList.list.length >= 1000) {
-      orderRadomList.list = orderRadomList.list.slice(0,1000)
+    if (orderRadomList.list.length >= 1000) {
+      orderRadomList.list = orderRadomList.list.slice(0, 1000);
     }
-  })
+  });
 }
 
 // 离开取消订阅
 function wsLeaveGroupHandel() {
-  ws.leaveGroup('lotteryRoom' + form.id)
+  WebSocketInstance.leaveGroup("lotteryRoom" + form.id);
 }
 
 // websocket找到对应的下单类型 文字
 function findWsDownOrderTypeText(paramsTarget) {
-  let oneArrrayList = []
-  roomObj.obj.lotteryGroupList.forEach(item => {
-    oneArrrayList = oneArrrayList.concat(item.lotteryPlayedList)
+  let oneArrrayList = [];
+  roomObj.obj.lotteryGroupList.forEach((item) => {
+    oneArrrayList = oneArrrayList.concat(item.lotteryPlayedList);
   });
-  let target = oneArrrayList.find(item => {
-    return paramsTarget.id == item.id
-  })
+  let target = oneArrrayList.find((item) => {
+    return paramsTarget.id == item.id;
+  });
   if (target) {
-    return Object.assign(target, paramsTarget)
+    return Object.assign(target, paramsTarget);
   } else {
-    return { id: '', name: '', amount: '' }
+    return { id: "", name: "", amount: "" };
   }
 }
 
 // 右边的弹窗
-let headPopShow = ref(false)
+let headPopShow = ref(false);
 
 // 往期弹窗
-let historyPopShow = ref(false)
+let historyPopShow = ref(false);
 
-let timer = ref(0)
-let stopTime = ref(0)
-let endTime = ref(0)
-let nowTime = ref(0)
-let chazhi = ref(0)
-let hour = ref('')
-let min = ref('')
-let sec = ref('')
+let timer = ref(0);
 
 let historyLotteryDataList = reactive({
-  list: []
-})
+  list: [],
+});
 
 let lotteryObjInfo = reactive({
   obj: {
     next: {
-      open_expect: '-'
-    }
-  }
-})
+      open_expect: "-",
+    },
+  },
+});
 
 // 上一期的信息
 const prevObj = computed(() => {
   if (!historyLotteryDataList.list.length) {
     return {
-      "open_expect": "-",
-      "open_code": "",
-      "open_code_arr": [],
-      "open_time": '',
-      "total": 0
-    }
+      open_expect: "-",
+      open_code: "",
+      open_code_arr: [],
+      open_time: "",
+      total: 0,
+    };
   } else {
-    let lastObj = historyLotteryDataList.list[0]
-    lastObj.open_code_arr = lastObj.open_code.split(',').map(item => {
-      return Number(item)
-    })
+    let lastObj = historyLotteryDataList.list[0];
+    lastObj.open_code_arr = lastObj.open_code.split(",").map((item) => {
+      return Number(item);
+    });
     lastObj.total = lastObj.open_code_arr.reduce((current, next) => {
-      return current + next
-    })
-    return lastObj
+      return current + next;
+    });
+    return lastObj;
   }
 });
-
+//封盘时间戳
+const stopPhurchaseStamp = ref(0);
+//开奖时间戳
+const openLotteryStamp = ref(0);
 // 获取开奖信息
 async function apiGetChipListHandel() {
-  const { success, data } = await apiGetChipList({ id: roomObj.obj.lottery_id })
-  if (!success) return
+  const { success, data } = await apiGetChipList({
+    id: roomObj.obj.lottery_id,
+  });
+  if (!success) return;
   // 处理历史数据
   historyLotteryDataList.list = data.lotteryDataList.map((item) => {
-    item.open_code_arr = item.open_code.split(',').map(item => {
-      return Number(item)
-    })
+    item.open_code_arr = item.open_code.split(",").map((item) => {
+      return Number(item);
+    });
     item.total = item.open_code_arr.reduce((current, next) => {
-      return current + next
-    })
-    return item
-  })
-  lotteryObjInfo.obj = data.lottery
-  stopTime.value = data.lottery.stop_time * 1000
-  nowTime.value = data.nowTime * 1000
-  endTime.value = Number(data.lottery.next.open_time * 1000) - Number(stopTime.value)
-  // 处理1秒后才显示数据的问题
-  chazhi.value = endTime.value - nowTime.value
-  dealWithHourMinsSec()
-  endTime.value = endTime.value - 1000
-  timeDown()
-  apiGetUserInfoHandel()
-}
-
-function dealWithHourMinsSec() {
-  hour.value = Math.floor((chazhi.value / 3600000) % 24)
-  min.value = Math.floor((chazhi.value / 60000) % 60)
-  sec.value = Math.floor((chazhi.value / 1000) % 60)
-  hour.value = hour.value < 10 ? "0" + hour.value : hour.value
-  min.value = min.value < 10 ? "0" + min.value : min.value
-  sec.value = sec.value < 10 ? "0" + sec.value : sec.value
+      return current + next;
+    });
+    return item;
+  });
+  if (
+    lotteryObjInfo.obj.next.open_expect === "-" ||
+    lotteryObjInfo.obj.next.open_expect !== data.lottery.next.open_expect
+  ) {
+    getBetInfo(data.lottery.next.open_expect);
+  }
+  lotteryObjInfo.obj = data.lottery;
+  stopPhurchaseStamp.value =
+    data.lottery.next.open_time - data.nowTime - data.lottery.stop_time;
+  openLotteryStamp.value = data.lottery.next.open_time - data.nowTime;
+  timeDown();
 }
 
 // 校准数据 5秒一次
-let jiaoZhunNums = ref(1)
+let jiaoZhunNums = ref(1);
 
 function timeDown() {
-  if (timer.value) clearInterval(timer.value)
+  if (timer.value) clearInterval(timer.value);
   timer.value = setInterval(() => {
-    jiaoZhunNums.value++
+    jiaoZhunNums.value++;
     if (jiaoZhunNums.value % 5 == 0) {
-      apiGetChipListHandel()
+      apiGetChipListHandel();
     }
-    if (endTime.value) {
-      chazhi.value = endTime.value - nowTime.value
-      if (chazhi.value > 0) {
-        dealWithHourMinsSec()
-        endTime.value = endTime.value - 1000
-      } else {
-        hour.value = min.value = sec.value = '-'
-        clearInterval(timer.value)
-        setTimeout(() => {
-          // store.loadingShow = true
-          apiGetChipListHandel()
-        }, stopTime.value);
-      }
+    if (stopPhurchaseStamp.value > 0) {
+      stopPhurchaseStamp.value--;
+    }
+    if (openLotteryStamp.value > 0) {
+      openLotteryStamp.value--;
     } else {
-      hour.value = min.value = sec.value = '-'
-      clearInterval(timer.value)
+      apiGetChipListHandel();
     }
-  }, 1000)
+  }, 1000);
 }
 
-
-
-let refChipDescPop = ref(null)
-function descClick() {
-  refChipDescPop.value.onShow(lotteryObjInfo.obj.description)
-  headPopShow.value = false
-}
-
-
-let refChipPop = ref(null)
+let refChipPop = ref(null);
 // 快速交易
 function chipQuickClick() {
-  refChipPop.value.onShow()
-}
-let refChipCancelPop = ref('ChipCancelPop')
-// 交易取消
-function canCelClick() {
-  refChipCancelPop.value.onShow(roomObj.obj)
+  refChipPop.value.onShow(lotteryList.value);
 }
 
+let refChipCancelPop = ref("ChipCancelPop");
+// 交易取消
+function canCelClick() {
+  refChipCancelPop.value.onShow(roomObj.obj);
+}
+
+const betNums = computed(() => betsList.value.length);
+const betsList = ref([]);
+const getClass = (index) => {
+  if (index === 0 || index === 3 || index === 6) {
+    return "chip-red";
+  } else if (index === 1 || index === 4 || index === 7) {
+    return "chip-blue";
+  } else if (index === 2 || index === 5 || index === 8) {
+    return "chip-green";
+  }
+};
+const calculateChips = (chip) => {
+  if (chip < 1000) {
+    return chip;
+  } else if (chip < 1000000) {
+    return chip / 1000 + "K";
+  } else {
+    return chip / 1000000 + "M";
+  }
+};
+// 是否active
+const isActice = (item) => {
+  let findIndex = betsList.value.findIndex((item2) => {
+    return item.id == item2.id;
+  });
+  if (findIndex == -1) {
+    return false;
+  } else {
+    return true;
+  }
+};
+const betsClick = (item) => {
+  let findIndex = betsList.value.findIndex((item2) => {
+    return item.id == item2.id;
+  });
+  if (findIndex == -1) {
+    betsList.value.push(item);
+  } else {
+    betsList.value.splice(findIndex, 1);
+  }
+  console.log(betsList.value);
+};
+// 下单请求
+const apiChipDownOrderHandel = async () => {
+  if (!betAmount.value) {
+    Toast.fail(i18n.value.amountPlaceholder);
+    return;
+  }
+  if (!betsList.value.length) {
+    Toast.fail(i18n.value.betsPlaceholder);
+    return;
+  }
+  if (betsList.value.length) {
+    betsList.value.forEach((item) => {
+      item.amount = betAmount.value;
+    });
+  }
+  store.loadingShow = true;
+  const { success, data } = await apiChipDownOrder({
+    amount: betAmount.value,
+    betList: betsList.value,
+    id: form.id,
+    openExpect: lotteryObjInfo.obj.next.open_expect,
+  });
+  if (!success) return;
+  Toast.success(data.msg);
+  getBetInfo();
+  betAmount.value = "";
+  betsList.value = [];
+  resetData();
+  emits("emitDownOrderSuccess");
+  onClose();
+};
+const lotteryList = ref();
+async function getLotterys() {
+  const { success, data } = await apiGetRoomGroup({ id: form.room });
+  if (!success) return;
+  lotteryList.value = data.info;
+}
+getLotterys();
+const betsInfo = ref({});
+const getBetInfo = async (expect) => {
+  const { success, data } = await apiBetInfo({
+    id: form.id,
+    lottery_expect: expect ? expect : lotteryObjInfo.obj.next.open_expect,
+  });
+  if (!success) return;
+  betsInfo.value = data.info;
+};
 onUnmounted(() => {
-  clearInterval(timer.value)
-  wsLeaveGroupHandel()
+  clearInterval(timer.value);
+  wsLeaveGroupHandel();
 });
 </script>
 
@@ -537,17 +589,11 @@ onUnmounted(() => {
   background: #f3f3f3;
 
   .v-chip-head {
-    position: fixed;
     width: 100%;
-    top: 0;
-    z-index: 9;
-    background: #1E1C38;
-    height: 175px;
-
     .v-chip-head-top {
       height: 50px;
       position: relative;
-
+      background: #1e1c38;
       .v-chip-head-top-left {
         position: absolute;
         height: 100%;
@@ -569,434 +615,248 @@ onUnmounted(() => {
         flex: 1;
         text-align: center;
       }
-
-      .v-chip-head-top-right {
+      .head-icon {
+        position: absolute;
+        right: 44px;
+      }
+      .v-head-right {
         position: absolute;
         height: 100%;
-        right: 0;
-        padding: 15px;
+        right: 5px;
+        top: 0;
+        padding: 0 0 0 10px;
 
-        .v-head-right-pop-overlay {
-          position: fixed;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          z-index: 8;
-          background-color: rgba(0, 0, 0, .3);
+        .iconfont {
+          font-size: 22px;
+          font-weight: 700;
+          color: #fff;
         }
-
-        .v-head-right-pop-box {
-          width: 140px;
-          position: absolute;
-          z-index: 26;
-          top: 55px;
-          border-radius: 7px;
-          right: 10px;
-
-          .v-head-right-pop {
-            border-radius: 7px;
-            max-height: 300px;
-            overflow: auto;
-            margin-bottom: 0;
-            background-color: #f7f7f7;
-
-            .v-head-right-pop-item {
-              padding: 12px 15px;
-              width: 100%;
-              text-align: center;
-              color: #333333;
-              font-size: 15px;
-              @include textEllipsis(1);
-            }
-          }
-
-          &::after {
-            z-index: 999;
-            top: -6px;
-            position: absolute;
-            right: 5px;
-            width: 26px;
-            height: 26px;
-            content: ' ';
-            -webkit-transform: rotate(45deg);
-            transform: rotate(45deg);
-            border-radius: 3px;
-            background: #f7f7f7;
-          }
-        }
-
-        .v-chip-head-top-right-img {
-          img {
-            width: 22px;
-            object-fit: contain;
-            height: 22px;
-          }
-        }
-
       }
     }
-
-    .v-chip-head-middle {
-      padding-top: 10px;
-
-      .v-chip-head-middle-left {
+    .lottery-select-wrap {
+      padding: 5px 10px;
+      .lottery-select {
         padding: 0 15px;
-        position: relative;
-
-        &::after {
-          content: " ";
-          position: absolute;
-          top: 0;
-          width: 1px;
-          bottom: 0;
-          color: #c7c7c7;
-          height: 80%;
-          right: -10px;
-          border-right: 1px solid #c7c7c7;
-          -webkit-transform-origin: 100% 0;
-          transform-origin: 100% 0;
-          -webkit-transform: scaleX(0.5);
-          transform: scaleX(0.5);
-        }
-
-        .v-chip-head-middle-left-title {
-          color: var(--g-white);
-          font-size: 14px;
-        }
-
-        .v-chip-head-middle-left-time {
-          padding: 10px;
-
-          // color: var(--g-white);
-          .v-chip-head-middle-left-time-item {
-            background: var(--g-white);
-            width: 27px;
-            height: 24px;
-            margin: 0 5px;
-            color: #424242;
-            font-weight: 600;
-            line-height: 24px;
-            text-align: center;
-            border-radius: 2px;
-            font-size: 14px;
-          }
-        }
-
-        .v-chip-head-middle-left-time-jiezhi {
-          color: var(--g-white);
-          padding: 10px;
-          font-size: 14px;
-        }
-      }
-
-      .v-chip-head-middle-right {
-        flex: 1;
-        color: var(--g-white);
-        padding: 0 15px;
+        height: 34px;
         font-size: 14px;
-        padding-bottom: 10px;
+        background: rgb(79, 117, 188);
         color: #fff;
-
-        .v-chip-head-middle-right-title {
-          color: #2aa7f6;
-          line-height: 22px;
-        }
-
-        .v-chip-head-middle-right-val {
-          font-size: 20px;
-          line-height: 26px;
+        border-radius: 8px;
+        &.lottery-video {
+          background: rgb(197, 94, 71);
         }
       }
-    }
-
-    .v-chip-head-bottom {
-      padding: 0px 16px 5px 16px;
-      margin: 15px 0;
-      position: relative;
-
-      &::after {
-        bottom: 0;
-        border-bottom: 1px solid #c7c7c7;
-        -webkit-transform-origin: 0 100%;
-        transform-origin: 0 100%;
-        -webkit-transform: scaleY(0.5);
-        transform: scaleY(0.5);
-        content: "";
-        position: absolute;
-        left: 0;
-        right: 0;
-        height: 1px;
-        color: var(--g-white);
-      }
-
-      .v-chip-head-bottom-content {
-        .v-chip-head-bottom-left {
-          padding-right: 15px;
-          color: var(--g-white);
-          font-size: 12px;
-
-          span {
-            padding: 0 5px;
-          }
-        }
-
-        .v-chip-head-bottom-right {
-          color: var(--g-white);
-          font-size: 12px;
-
-          .v-chip-head-bottom-right-item {
-            margin: 3px;
-            width: 22px;
-            height: 22px;
-            border-radius: 50%;
-            border: 0.8px solid var(--g-white);
-            color: var(--g-white);
-            font-size: 12px;
-
-            &.v-chip-head-bottom-right-item-total {
-              background-color: rgb(42, 167, 246);
-              border-color: rgb(42, 167, 246);
-            }
-          }
-
-          .v-chip-head-bottom-right-item-text {
-            padding-left: 5px;
-            font-size: 14px;
-          }
-        }
-      }
-
-      .v-chip-head-bottom-pop {
-        border-radius: 15px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100%);
-        bottom: -10px;
-        z-index: 1;
-        position: absolute;
-        width: 93%;
-        background: var(--g-white);
-
-        .v-chip-head-bottom-pop-title-list {
-          gap: 4px;
-          padding: 5px 0;
-          border-bottom: 1px solid #E5E5E5;
-
-          .v-chip-head-bottom-pop-title-item {
-            padding: 0 4px;
-            flex: 1;
-            font-size: 15px;
-            height: 30px;
-          }
-        }
-
-        .v-chip-head-bottom-pop-list {
-          height: 360px;
-          overflow: auto;
-
-          .v-chip-head-bottom-pop-item {
-            height: 36px;
-            border-bottom: 1px solid #c7c7c7;
-            gap: 4px;
-
-            .v-chip-head-bottom-pop-item-one {
-              flex: 1;
-              padding: 0 4px;
-              font-size: 15px;
-
-              span {
-                font-size: 12px;
-                color: #2aa7f6;
-                padding: 0 5px;
-              }
-            }
-
-            .v-chip-head-bottom-pop-item-two {
-              flex: 1;
-              padding: 0 4px;
-              font-size: 14px;
-
-              .v-two-item {
-                margin: 0 1px;
-                width: 22px;
-                height: 22px;
-                border: 1px solid #2aa7f6;
-                border-radius: 50%;
-                color: #2aa7f6;
-                font-size: 14px;
-                background-color: var(--g-white);
-
-                &.v-two-item-result {
-                  background: #2aa7f6;
-                  color: var(--g-white);
-                }
-              }
-            }
-
-            .v-chip-head-bottom-pop-item-three {
-              padding: 0 4px;
-              flex: 1;
-              font-size: 15px;
-              color: #2aa7f6;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .v-chip-container {
-    flex: 1;
-    overflow: auto;
-    padding-top: 175px;
-    padding-bottom: 15px;
-
-    .v-chip-order-list {
-      flex: 1;
-      overflow: auto;
-
-      .v-chip-order-list-tobottom {
-        position: fixed;
-        z-index: 2;
-        left: 10px;
-        bottom: calc(82px + constant(safe-area-inset-bottom));
-        bottom: calc(82px + env(safe-area-inset-bottom));
-
-        img {
-          width: 48px;
-          height: 48px;
-          object-fit: contain;
-        }
-      }
-
-      .v-chip-order-item-box {
-        .v-chip-order-item-card {
-          padding: 12px;
-
-          .v-order-item-card-top {
-            padding: 5px 16px;
-            border-radius: 7px;
-            font-size: 14px;
-            color: rgb(192, 192, 192);
-          }
-
-          .v-order-item-card-bottom {
-            .v-order-item-card-bottom-img {
-              width: 46px;
-              height: 46px;
-              border-radius: 50%;
-              margin: 0px 11px;
-
-              img {
-                width: 100%;
-                height: 100%;
-                border-radius: 50%;
-                object-fit: cover;
-              }
-            }
-
-            .v-order-item-card-bottom-right {
-              flex: 1;
-              padding-right: 36px;
-              &.v-order-item-card-bottom-right-self {
-                padding-right: 0px;
-                padding-left: 30px;
-              }
-              .v-card-bottom-right-username {
-                font-size: 17px;
-                color: #333333;
-                line-height: 32px;
-              }
-
-              .v-card-bottom-right-info {
-                background-color: var(--g-white);
-                color: #676767;
-                font-size: 15px;
-                box-shadow: 0 1px 3px rgba(35, 24, 21, 0.27);
-                padding: 5px;
-                border-radius: 3px;
-
-                .v-card-bottom-right-info-qi {
-                  color: #676767;
-                  font-size: 15px;
-                  line-height: 30px;
-                }
-
-                .v-card-bottom-right-info-leixing {
-                  color: #8f8f94;
-                  border-bottom: 1px solid #dadada;
-                  font-size: 15px;
-                  line-height: 26px;
-                }
-
-                .v-card-bottom-right-info-leixing-val {
-                  color: #8f8f94;
-                  font-size: 15px;
-                  line-height: 26px;
-                }
-
-                .v-card-bottom-right-info-total {
-                  color: #8f8f94;
-                  font-size: 14px;
-                  line-height: 1.8;
-                }
-              }
-            }
-          }
-        }
-
-        .v-chip-order-item-msg-box {
-          padding: 12px;
-
-          .v-chip-order-item-msg {
-            background: #c9c8cd;
-            max-width: 80%;
-            padding: 5px 11px;
-            font-size: 13px;
-            border-radius: 8px;
-
-            .v-chip-order-item-msg-title {
-              font-size: 13px;
-              color: #FF2742;
-              line-height: 1.8;
-            }
-
-            .v-chip-order-item-msg-content {
-              color: rgb(68, 121, 199);
-              font-size: 13px;
-              line-height: 1.8;
-            }
-          }
-        }
-      }
-    }
-  }
-
-  .v-chip-btn-list-box {
-    padding: 12px 15px;
-
-    .v-chip-btn-list {
-      gap: 10px;
-
-      .v-chip-btn-item {
+      .bet-info {
         flex: 1;
-        height: 44px;
-        border-radius: 20px;
-        color: #fff;
-        font-size: 17px;
-
-        &.v-chip-btn-item-yellow {
-          background: linear-gradient(90deg, #D4B38F 0%, #B88964 100%);
+        .bet-info-item {
+          flex: 1;
+          text-align: center;
+          font-size: 12px;
+          padding-top: 3px;
+          p {
+            margin-top: 3px;
+          }
         }
-
-        &.v-chip-btn-item-black {
-          background: linear-gradient(90deg, #1E1C38, #1E1C38);
+      }
+    }
+    .v-chip-info {
+      background: #fff;
+      .lottery-data {
+        padding: 10px 0 10px 10px;
+        font-size: 12px;
+        border-bottom: 1px solid #f2f2f2;
+        img {
+          width: 20px;
+          margin-right: 6px;
         }
-
-        &.v-chip-btn-item-grey {
-          background: linear-gradient(90deg, rgb(53, 53, 53), rgb(200, 199, 204));
+        .period {
+          margin-right: 5px;
+        }
+        span {
+          color: red;
+          margin: 0 6px;
+        }
+        .number {
+          width: 18px;
+          height: 18px;
+          color: #fff;
+          border-radius: 4px;
+          margin-right: 3px;
         }
       }
     }
   }
-}</style>
+  .v-chip-content {
+    width: 100%;
+    height: calc(100vh - 257px);
+    .play-type {
+      width: 100px;
+      height: 100%;
+      overflow-y: scroll;
+      border-right: 1px solid rgb(7, 7, 7);
+      .type-item {
+        height: 35px;
+        font-size: 12px;
+        background: #fff;
+        border-bottom: 1px solid #f2f2f2;
+        &.active {
+          background: rgb(7, 7, 7);
+          color: #fff;
+          font-weight: 600;
+        }
+      }
+    }
+    .type-content {
+      flex: 1;
+      height: 100%;
+      overflow-y: scroll;
+      .content-item {
+        .content-title {
+          height: 35px;
+          color: rgb(183, 66, 69);
+          font-size: 16px;
+          font-weight: 600;
+        }
+        .nums-wrap {
+          display: flex;
+          flex-wrap: wrap;
+          background: #fff;
+          position: relative;
+          .num-item {
+            width: 50%;
+            height: 45px;
+            border-bottom: 1px solid #f2f2f2;
+            &.active {
+              background: rgb(192, 192, 192);
+            }
+            .num {
+              width: 25px;
+              height: 25px;
+              border-radius: 4px;
+              color: #c5bdbd;
+              margin-right: 10px;
+            }
+          }
+          &::after {
+            content: "";
+            width: 2px;
+            height: 100%;
+            background: #f2f2f2;
+            position: absolute;
+            left: 50%;
+            top: 0;
+            transform: translateX(-50%);
+          }
+        }
+      }
+    }
+  }
+  .v-chip-footer {
+    height: 80px;
+    width: 100%;
+    background: rgb(102, 102, 102);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    .amount {
+      width: 140px;
+      margin: 0 10px;
+      p {
+        color: #fff;
+        font-size: 18px;
+      }
+      .chip-amount {
+        margin-top: 10px;
+        height: 30px;
+        border-radius: 8px;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+      }
+    }
+    .foot-btn {
+      width: 60px;
+      height: 60px;
+      margin-right: 10px;
+      color: #fff;
+      border-radius: 8px;
+      text-align: center;
+      &.btn-green {
+        background: rgb(153, 189, 123);
+      }
+      &.btn-red {
+        background: rgb(197, 94, 71);
+      }
+      &.btn-blue {
+        background: rgb(79, 117, 188);
+      }
+    }
+    .quick-list {
+      position: absolute;
+      left: 0;
+      top: -46px;
+      height: 44px;
+      .quick-item {
+        color: #000;
+        width: 44px;
+        height: 44px;
+        margin: 0 5px;
+        font-size: 12px;
+        &.chip-red {
+          background: url(/img/chip/betRed.png) no-repeat;
+          background-size: 100% 100%;
+        }
+        &.chip-blue {
+          background: url(/img/chip/betBlue.png) no-repeat;
+          background-size: 100% 100%;
+        }
+        &.chip-green {
+          background: url(/img/chip/betGreen.png) no-repeat;
+          background-size: 100% 100%;
+        }
+      }
+    }
+    .close {
+      background: rgba(217, 162, 162, 0.6);
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: #111;
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+}
+.number01 {
+  background: #fff401;
+}
+.number02 {
+  background: #0b99e1;
+}
+.number03 {
+  background: #4b4b4b;
+}
+.number04 {
+  background: #ff7000;
+}
+.number05 {
+  background: #7ff9f9;
+}
+.number06 {
+  background: #5135fc;
+}
+.number07 {
+  background: #bb6d6d;
+}
+.number08 {
+  background: #d80404;
+}
+.number09 {
+  background: #770700;
+}
+.number10 {
+  background: #13980e;
+}
+</style>

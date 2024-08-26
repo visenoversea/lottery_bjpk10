@@ -26,7 +26,7 @@
 <script setup>
 import Swiper, { Pagination, Navigation, Autoplay } from 'swiper';
 import 'swiper/swiper-bundle.css';
-import { onMounted, reactive, ref } from 'vue';
+import { nextTick, onMounted, reactive, ref } from 'vue';
 
 const swiperInstance = ref(null);
 
@@ -57,28 +57,39 @@ const newsList = reactive([
     info: 'News Info 5'
   }
 ]);
-
+let show = ref(false)
 onMounted(() => {
-  Swiper.use([Pagination, Navigation, Autoplay]);
-  swiperInstance.value = new Swiper('.news-swiper', {
-    loop: true,
-    // direction: 'vertical',
-    slidesPerView: 1,
-    spaceBetween: 20,
-    autoplay: {
-      delay: 3000
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      clickable: true
-    },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev',
-    },
-    speed: 800
-  });
+  
 });
+
+function onShow() {
+  nextTick(() => {
+    Swiper.use([Pagination, Navigation, Autoplay]);
+    swiperInstance.value = new Swiper('.news-swiper', {
+      loop: true,
+      direction: 'vertical',
+      slidesPerView: 1,
+      spaceBetween: 0,
+      autoplay: {
+        delay: 3000
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      speed: 800
+    });
+  })
+  
+}
+
+defineExpose({
+  onShow
+})
 
 const prev = () => {
   swiperInstance.value.slidePrev();

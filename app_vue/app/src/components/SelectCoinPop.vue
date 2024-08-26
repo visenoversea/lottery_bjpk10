@@ -46,55 +46,19 @@ function itemClick(item, index) {
 </script>
 
 <style lang='scss'>
-.v_theme_dark {
-  .c-coin-pop {
-    background: var(--g-theme_most_less_dark_bgColor);
-
-    .c-coin-pop-item {
-      color: var(--g-theme_dark_white_color);
-
-      &.c-coin-pop-item-active {
-        background: var(--g-theme_dark_bgColor);
-
-        .c-coin-pop-item-right {
-          .c-coin-pop-item-title {
-            color: var(--g-white);
-          }
-
-          .c-coin-pop-item-name {
-            color: var(--g-white);
-          }
-        }
-      }
-
-      .c-coin-pop-item-right {
-        .c-coin-pop-item-title {
-          color: var(--g-theme_dark_white_color);
-        }
-
-        .c-coin-pop-item-name {
-          color: var(--g-theme_dark_more_white_color);
-        }
-      }
-    }
-  }
-}
-
 .c-coin-pop {
   width: 100%;
   position: absolute;
   max-height: 248px;
-  border: 1px solid #c5cfd5;
+  background: var(--g-white);
+  border: 1px solid #e4e7ed;
   border-radius: 4px;
-  -webkit-box-shadow: 0 8px 12px 0 rgb(14 18 27 / 6%);
   box-shadow: 0 8px 12px 0 rgb(14 18 27 / 6%);
   right: -1px;
   z-index: 99;
   overflow: auto;
   bottom: -1px;
-  background: var(--g-white);
   transform: translateY(100%);
-
   .c-coin-pop-item {
     cursor: pointer;
     margin: 0;
@@ -103,11 +67,27 @@ function itemClick(item, index) {
     line-height: 20px;
 
     &.c-coin-pop-item-active {
-      background: rgba(245, 246, 250, .5);
+      background: var(--g-white);
+      .c-coin-pop-item-right {
+        .c-coin-pop-item-title {
+          color: var(--g-main_color);
+        }
+        .c-coin-pop-item-name {
+          color: var(--g-main_color);
+        }
+      }
     }
 
     &:hover {
-      background: rgba(245, 246, 250, .5);
+      background: var(--g-white);
+      .c-coin-pop-item-right {
+        .c-coin-pop-item-title {
+          color: var(--g-main_color);
+        }
+        .c-coin-pop-item-name {
+          color: var(--g-main_color);
+        }
+      }
     }
 
     img {
@@ -122,14 +102,13 @@ function itemClick(item, index) {
       .c-coin-pop-item-title {
         font-size: 14px;
         line-height: 20px;
-        color: rgba(0, 0, 0, .85);
-        ;
+        color: var(--g-black);
       }
 
       .c-coin-pop-item-name {
         font-size: 12px;
         line-height: 20px;
-        color: #959dad;
+        color: var(--g-black);
       }
     }
 

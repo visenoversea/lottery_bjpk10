@@ -1,6 +1,7 @@
 <template>
   <div class="c_bind_phone_pop">
-    <van-popup class="c-pop" safe-area-inset-bottom position="right" :style="{ height: '100%', width: '90%' }" v-model:show="show">
+    <van-popup class="c-pop" safe-area-inset-bottom position="right" :style="{ height: '100%', width: '90%' }"
+      v-model:show="show">
       <div class="c-bind-phone-container g-flex-column">
         <div class="c-pop-close" @click="onClose">
           <i class="iconfont icon-guanbi"></i>
@@ -13,10 +14,10 @@
           </template>
         </van-search>
         <ul class="c-bind-phone-list" v-show="!targetListObj.list.length && !seachContent">
-          <li @click="itemClick(item)" class="c-bind-phone-item g-flex-align-center g-flex-justify-between" v-for="(item, index) in props.list"
-            :key="index">
+          <li @click="itemClick(item)" class="c-bind-phone-item g-flex-align-center g-flex-justify-between"
+            v-for="(item, index) in props.list" :key="index">
             <div class="c-bind-phone-item-left g-flex-align-center">
-              <img :src="item.icon" alt=""/>
+              <img :src="item.icon" alt="" />
               <span>{{ item.country }}</span>
             </div>
             <div class="c-bind-phone-item-right">
@@ -28,7 +29,7 @@
           <li @click="itemClick(item)" class="c-bind-phone-item g-flex-align-center g-flex-justify-between"
             v-for="(item, index) in targetListObj.list" :key="index">
             <div class="c-bind-phone-item-left g-flex-align-center">
-              <img :src="item.icon" alt=""/>
+              <img :src="item.icon" alt="" />
               <span>{{ item.country }}</span>
             </div>
             <div class="c-bind-phone-item-right">
@@ -38,7 +39,7 @@
         </ul>
       </div>
     </van-popup>
-</div>
+  </div>
 </template>
  
 <script setup>
@@ -113,35 +114,45 @@ defineExpose({
       right: 0;
       top: 0;
       padding: 10px;
+
       .iconfont {
         font-size: 22px;
-        color: #3d3d56;
+        color: var(--g-black);
       }
     }
+
     .c-bind-phone-pop-title {
       padding: 15px 10px 8px 8px;
-      color: #3d3d56;
+      color: var(--g-black);
       font-size: 16px;
     }
 
+    .c-bind-phone-pop-search {
+      .van-search__action {
+        color: var(--g-black);
+      }
+    }
     .c-bind-phone-list {
       flex: 1;
       overflow: auto;
       padding-left: 15px;
 
       .c-bind-phone-item {
-        color: #75799e;
+        color: var(--g-less-most-white);
         padding: 8px 10px;
         font-size: 14px;
-        border-bottom: 1px solid #ced1e4;
+        border-bottom: 1px solid #e4e7ed;
         line-height: 20px;
+
         .c-bind-phone-item-left {
-          color: #333;
+          color: var(--g-black);
+
           img {
             margin-right: 10px;
             width: 20px;
           }
         }
+
         .c-bind-phone-item-right {
           padding-left: 5px;
         }
