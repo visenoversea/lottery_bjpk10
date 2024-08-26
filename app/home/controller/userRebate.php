@@ -224,6 +224,7 @@ class userRebate extends base
         ];
         $where['balance'] = ['>' => 0];
 
+
         $list = $user_model->field('id,level_id,user_name,email,layer,create_time')
             ->where($where)
             ->order('create_time DESC')
@@ -251,12 +252,18 @@ class userRebate extends base
             $v['rebateAmountSum'] = $user_rebate_model->getRebateAmount($user['id'], $v['id']);//返佣
             $betAmount = DB::table('user_bet')->where(
                           ['user_id'=>$v['id']]
-                           )->sum('bet_amount_mop');
+                           )->sum('bet_amount');
             $v['betAmountSum'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
             $list[$k] = $v;
-            $data['totalBet']+=$v['rebateAmountSum'];
-            $data['totalRebate']+=$v['betAmountSum'];
+//            $data['totalBet']+=$v['betAmountSum'];
         }
+
+//        $userWhere['pid'] = ['LIKE' => $user['pid'] . '%'];
+        $where['`virtual`'] = 0;
+        $user_bet_model = user_bet_model::getInstance();
+        $data['totalBet']=$user_bet_model->sumUserAgentInfo($where,['status' => 1])['betAmount'];
+
+        $data['totalRebate']=$user_rebate_model->getSumAmount($user['id'], [], ['layer' => $where['layer']]);
         $data['list']=$list;
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
     }
