@@ -1,44 +1,21 @@
 <template>
   <div class="v_my_team_member_list g-flex-column">
-    <div class="v-head g-flex-align-center">
+    <div class="v-head g-flex-align-center new-header">
       <div @click="$router.go(-1)" class="v-head-back-icon g-flex-align-center">
         <i class="iconfont icon-zuo"></i>
       </div>
-      <div class="v-head-title g-flex-align-center g-flex-justify-center">
-        <span>{{ i18n.title2Text }}</span>
-      </div>
-      <!-- <div class="v-head-right g-flex-align-center">
-      <i class="iconfont icon-datijilu"></i>
-    </div> -->
     </div>
+    <div class="gltitlexs">{{ i18n.chakanliushuixiangqing }}</div>
     <div class="v-my-team-member-list-container">
-      <div class="v-my-team-member-list-nav-box g-flex-align-center">
-        <van-tabs @change="headNavItemClick" color="#644FDC" title-inactive-color="#000" title-active-color="#644FDC"
-          background="transparent" class="v-msg-nav-list" v-model:active="form.type">
-          <van-tab class="v-my-team-member-list-nav-item" :title="i18n.tuanduiRenYuanText" :name="1"></van-tab>
-          <van-tab class="v-my-team-member-list-nav-item" :title="i18n.tuanduigongxianText" :name="2"></van-tab>
-        </van-tabs>
-        <!-- <div @click="applyTeamAccountClick" v-show="!userInfo.userTeam.id || userInfo.userTeam.status == 0" class="v-my-team-member-list-apply g-flex-align-center">
-          <span>{{ i18n.tobeTeamAccountText }}</span>
-        </div> -->
-        <!-- <div v-show="userInfo.userTeam.id && userInfo.userTeam.status == 1" class="v-my-team-member-list-apply g-flex-align-center">
-          <span>{{ i18n.teamAccountText }}</span>
-        </div>
-        <div v-show="userInfo.userTeam.id && userInfo.userTeam.status == 2" class="v-my-team-member-list-apply g-flex-align-center">
-          <span>{{ i18n.shenghezhongText }}</span>
-        </div> -->
-      </div>
-
-      <div v-show="form.type == 1" class="v-my-team-member-list-list-one">
-        <div class="v-my-team-member-list-list-one-title g-flex-align-center">
+      <div class="v-my-team-member-list-list-one">
+        <div class="v-my-team-member-list-list-one-title g-flex g-flex-column">
           <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
-            <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.jinriZhuceNumsText }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-val">{{ totalInfo.obj.todayRegNums }}</span>
+            <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongtouzhujine }}:</span>
+            <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalBet }}</span>
           </div>
-          <div class="v-my-team-member-list-list-one-title-right">
-            <van-dropdown-menu>
-              <van-dropdown-item @change="layerChange" v-model="form.layer" :options="option1" />
-            </van-dropdown-menu>
+          <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
+            <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongfanyongjine }}:</span>
+            <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalRebate }}</span>
           </div>
         </div>
 
@@ -47,131 +24,51 @@
             <span>{{ i18n.zhanghaoText }}</span>
           </div>
           <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.cengjiText }}</span>
+            <span>{{ i18n.touzhujine }}</span>
           </div>
           <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.levelText }}</span>
-          </div>
-          <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.zhuceTimeText }}</span>
+            <span>{{ i18n.fanyongjine }}</span>
           </div>
         </div>
 
         <div class="v-list-box">
-          <van-list v-show="list.list.length" class="v-list" v-model:loading="loading" :finished="finished" :loading-text="i18n2.loadingText"
-            :finished-text="i18n2.finishText" @load="onLoad" :immediate-check="false">
+          <van-list class="v-list" v-model:loading="loading" :finished="finished"
+            :loading-text="i18n2.loadingText" :finished-text="i18n2.finishText" @load="onLoad" :immediate-check="false">
             <div class="v-list-item" v-for="(item, index) in list.list" :key="index">
               <div class="v-list-item-content g-flex-align-center">
                 <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
                   <span>{{ item.account }}</span>
                 </div>
-                <div v-show="item.layer == 1" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.yijiText }}</span>
-                </div>
-                <div v-show="item.layer == 2" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.erjiText }}</span>
-                </div>
-                <div v-show="item.layer == 3" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.sanjiText }}</span>
+                <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
+                  <span>{{ item.betAmountSum }}</span>
                 </div>
                 <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ item.level.title }}</span>
-                </div>
-                <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ formatDate(item.create_time, 'MM/DD HH:mm')}}</span>
+                  <span>{{ item.rebateAmountSum }}</span>
                 </div>
               </div>
             </div>
           </van-list>
         </div>
-
-        <NoList v-show="!list.list.length"/>
-      </div>
-
-
-
-      <div v-show="form.type == 2" class="v-my-team-member-list-list-one v-my-team-member-list-list-two">
-        <div class="v-my-team-member-list-list-one-title g-flex-align-center">
-          <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
-            <span class="v-my-team-member-list-list-one-title-left-title" v-show="form.day == 1">{{ i18n.oneDayShouYiText }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-title" v-show="form.day == 3">{{ i18n.threeDayShouYiText }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-title" v-show="form.day == 7">{{ i18n.sevenDayShouYiText }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-title" v-show="form.day == 15">{{ i18n.fifteenDayShouYiText }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-title" v-show="form.day == 30">{{ i18n.thirdtyDayShouYiText }}:</span>
-
-            <span class="v-my-team-member-list-list-one-title-left-val">{{ shouyiTotalAmount }}</span>
-          </div>
-          <div class="v-my-team-member-list-list-one-title-right">
-            <van-dropdown-menu>
-              <van-dropdown-item @change="dayChange" v-model="form.day" :options="option2" />
-            </van-dropdown-menu>
-          </div>
-        </div>
-
-        <div class="v-my-team-member-list-list-one-head g-flex-align-center">
-          <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.zhanghaoText }}</span>
-          </div>
-          <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.cengjiText }}</span>
-          </div>
-          <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.timeText }}</span>
-          </div>
-          <div class="v-my-team-member-list-list-one-head-item v-my-team-member-list-list-one-head-item-money g-flex-align-center g-flex-justify-center">
-            <span>{{ i18n.shouyiText }}</span>
-          </div>
-        </div>
-
-        <div class="v-list-box">
-          <van-list v-show="shouyiList.list.length"  class="v-list" v-model:loading="loading" :finished="finished" :loading-text="i18n2.loadingText"
-            :finished-text="i18n2.finishText" @load="onLoad2" :immediate-check="false">
-            <div class="v-list-item" v-for="(item, index) in shouyiList.list" :key="index">
-              <div class="v-list-item-content g-flex-align-center">
-                <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ item.rebate.account }}</span>
-                </div>
-                <div v-show="item.layer == 1" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.yijiText }}</span>
-                </div>
-                <div v-show="item.layer == 2" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.erjiText }}</span>
-                </div>
-                <div v-show="item.layer == 3" class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ i18n.sanjiText }}</span>
-                </div>
-                <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
-                  <span>{{ formatDate(item.create_time, 'MM/DD HH:mm')}}</span>
-                </div>
-                <div class="v-list-item-content-val v-list-item-content-val-money g-flex-align-center g-flex-justify-center">
-                  <span>+{{item.amount}}{{ item.currency }}</span>
-                </div>
-              </div>
-            </div>
-          </van-list>
-        </div>
-
-        <NoList v-show="! shouyiList.list.length"  />
+      <NoList v-show="!list.list.length" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { apiApplyTeamAccount, apiGetTuiGuangList, apiGetUserInfo, apiGetTotalTuiGuang, apiGetTuiGuangDetailList } from '@/utils/api.js'
-import { dotDealWith, formatDate, copyClick, upDownClass, upDownBgClass, filtersZhangfu, kefuClick, upDownBgFontColorClass } from "@/utils/index.js";
 import {
-  reactive,
-  ref,
-  computed,
-  onMounted,
-  onUnmounted,
-  nextTick,
-} from "vue";
+  apiApplyTeamAccount,
+  apiGetTuiGuangList,
+  apiGetUserInfo,
+  apiGetTotalTuiGuang,
+  apiGetTuiGuangDetailList,
+  apiGetTeamBetInfo,
+} from "@/utils/api.js";
+import { reactive, ref, computed, onMounted, onUnmounted, nextTick } from "vue";
 import { useI18n } from "vue-i18n";
 import useStore from "@/store/index.js";
 import { useRouter, useRoute } from "vue-router";
-import { Dialog, ImagePreview, Toast } from 'vant';
+import { Dialog, ImagePreview, Toast } from "vant";
 const router = useRouter();
 const route = useRoute();
 // pinia状态管理仓库
@@ -182,157 +79,49 @@ const i18n = computed(() => {
 });
 
 const i18n2 = computed(() => {
-  return i18nObj.tm('gongyong')
-})
-let loading = ref(false)
-let finished = ref(false)
+  return i18nObj.tm("gongyong");
+});
+const loading = ref(false);
+const finished = ref(false);
 
-let form = reactive({
-  type: 1,
+const form = reactive({
   layer: 1,
-  day: 1,
   page: 1,
   limit: 30,
 })
 
-const option1 = reactive([
-  { text: i18n.value.yicengText, value: 1 },
-  { text: i18n.value.ercengText, value: 2 },
-  { text: i18n.value.sancengText, value: 3 },
-])
+const list = reactive({
+  list: [],
+  totalBet:"",
+  totalRebate:"",
+});
 
-const option2 = reactive([
-  { text: i18n.value.oneDayText, value: 1 },
-  { text: i18n.value.threeDayText, value: 3 },
-  { text: i18n.value.sevenDayText, value: 7 },
-  { text: i18n.value.fifteenDayText, value: 15 },
-  { text: i18n.value.thirdtyDayText, value: 30 },
-])
-
-if(form.type == 1) {
-  apiGetListHandel()
-}else {
-  apiGetTuiGuangDetailListHandel()
+const onLoad = () => {
+  form.page++;
+  init();
 }
+onLoad()
 
-let list = reactive({
-  list: []
-})
-
-function onLoad() {
-  form.page++
-  apiGetListHandel()
+// 获取团队投注流水和返佣
+async function init() {
+  store.loadingShow = true;
+  const { success, data } = await apiGetTeamBetInfo(form);
+  if (!success) return;
+  list.list = list.list.concat(data.data.list);
+  list.totalBet = data.data.totalBet || 0
+  list.totalRebate = data.data.totalRebate || 0
+  loading.value = false;
+  finished.value = data.data.list.length ? false : true;
 }
-
-function layerChange() {
-  form.page = 1
-  list.list = []
-  loading.value = true
-  finished.value = false
-  apiGetListHandel()
-}
-
-// 获取团队人员
-async function apiGetListHandel() {
-  store.loadingShow = true
-  const { success, data } = await apiGetTuiGuangList(form)
-  if (!success) return
-  list.list = list.list.concat(data.list)
-  loading.value = false
-  finished.value = data.list.length ? false : true
-  console.log(data)
-}
-
-let totalInfo = reactive({
-  obj: {
-  "agent1": 0,
-  "agent2": 0,
-  "agent3": 0,
-  "agentNums": 0,
-  "totalAmount": 0,
-  "todayRegNums": 0,
-  "todayAmount": 0
-  }
-})
-
-// 获取统计
-async function apiGetTotalTuiGuangHandel() {
-  store.loadingShow = true
-  const { success, data } = await apiGetTotalTuiGuang()
-  if(!success) return
-  totalInfo.obj = data.info
-}
-
-apiGetTotalTuiGuangHandel()
-
-function headNavItemClick() {
-  form.page = 1
-  list.list = []
-  shouyiList.list = []
-  loading.value = true
-  finished.value = false
-  if(form.type == 1) {
-    apiGetListHandel()
-  }else {
-    apiGetTuiGuangDetailListHandel()
-  }
-}
-
-
-function onLoad2() {
-  form.page++
-  apiGetTuiGuangDetailListHandel()
-}
-
-function dayChange() {
-  form.page = 1
-  shouyiList.list = []
-  loading.value = true
-  finished.value = false
-  apiGetTuiGuangDetailListHandel()
-}
-
-let shouyiTotalAmount = ref(0)
-let shouyiList = reactive({
-  list: []
-})
-
-// 获取团队收益列表
-async function apiGetTuiGuangDetailListHandel() {
-  const { success, data } = await apiGetTuiGuangDetailList(form)
-  if(!success) return
-  shouyiList.list = shouyiList.list.concat(data.list)
-  loading.value = false
-  finished.value = data.list.length ? false : true
-  shouyiTotalAmount.value = data.todayAmount
-  console.log(data)
-}
-
-
-
-let userInfo = computed(() => {
-  return store.userInfo
-})
 
 async function apiGetUserInfoHandel() {
-  store.loadingShow = true
-  const { success, data } = await apiGetUserInfo()
-  if (!success) return
-  store.setUserInfo(data.info)
+  store.loadingShow = true;
+  const { success, data } = await apiGetUserInfo();
+  if (!success) return;
+  store.setUserInfo(data.info);
 }
 
-apiGetUserInfoHandel()
-
-
-// 申请团队账号
-async function applyTeamAccountClick() {
-  store.loadingShow = true
-  const { success, data } = await apiApplyTeamAccount()
-  if(!success) return
-  Toast(data.msg)
-  apiGetUserInfoHandel()
-}
-
+apiGetUserInfoHandel();
 </script>
 
 <style lang='scss'>
@@ -371,7 +160,6 @@ async function applyTeamAccountClick() {
       font-size: 16px;
       color: var(--g-black);
       font-weight: 700;
-
     }
 
     .v-head-right {
@@ -389,18 +177,33 @@ async function applyTeamAccountClick() {
     }
   }
 
+  .gltitlexs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 46px;
+    padding: 10px 0;
+  }
+
   .v-my-team-member-list-container {
-    flex: 1;
-    flex-shrink: 0;
-    padding-top: 46px;
-    overflow: auto;
-    background: var(--g-white);
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #fff;
+    width: calc(100% - 40px);
+    display: block;
+    padding-bottom: 80px;
+    border-radius: 15px;
+    -webkit-box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc;
+    padding: 10px 0;
+    padding-bottom: 5px;
+
     .v-my-team-member-list-top-card {
       margin: 0 10px 10px 10px;
       padding: 15px 10px;
       border-radius: 6px;
       background: var(--g-white);
-      box-shadow: 0 4px 3px 0 rgba(0,0,0,.3);
+      box-shadow: 0 4px 3px 0 rgba(0, 0, 0, 0.3);
 
       .v-my-team-member-list-top-card-list {
         height: 50px;
@@ -443,31 +246,52 @@ async function applyTeamAccountClick() {
       }
     }
 
-    .v-my-team-member-list-nav-box {
-      .v-msg-nav-list {
-        padding: 0 8px 0px 8px;
+    .v-msg-nav-list {
+      width: 100%;
+      overflow: auto;
 
-        .van-tabs__wrap {
-          .van-tab {
-            flex: none;
-            padding: 0 8px;
-            font-size: 14px;
-          }
+      .van-tabs__wrap {
+        height: 32px;
+        // .van-tab {
+        //   flex: none;
+        //   padding: 0 8px;
+        //   font-size: 14px;
+        // }
+      }
+
+      .van-tabs__nav--card {
+        margin: 0 4px;
+        border-radius: 4px;
+        padding: 2px 2px;
+        border-color: #000;
+        border-radius: 10px;
+      }
+
+      .van-tab--card {
+        border-radius: 6px;
+        background-color: #adc1ff;
+        margin: 0 6px;
+        border: none;
+
+        .van-tab__text {
+          color: #fff;
         }
       }
-      .v-my-team-member-list-apply  {
-        margin-left: 5px;
-        background-color: var(--g-main_color);
-        padding: 5px 10px;
-        border-radius: 20px;
-        color: var(--g-white);
-        font-size: 13px;
-      }
+    }
+
+    .v-my-team-member-list-apply {
+      margin-left: 5px;
+      background-color: var(--g-main_color);
+      padding: 5px 10px;
+      border-radius: 20px;
+      color: var(--g-white);
+      font-size: 13px;
     }
 
     .v-my-team-member-list-list-one {
       position: relative;
       min-height: 350px;
+
       &.v-my-team-member-list-list-two {
         .v-my-team-member-list-list-one-title {
           .v-my-team-member-list-list-one-title-left {
@@ -476,12 +300,15 @@ async function applyTeamAccountClick() {
             }
           }
         }
+
         .v-list-item-content-val-money {
-          color: var(--g-red)!important;
+          color: var(--g-red) !important;
         }
       }
+
       .v-my-team-member-list-list-one-title {
         padding: 10px;
+
         .v-my-team-member-list-list-one-title-left {
           flex: 1;
           font-size: 13px;
@@ -513,10 +340,8 @@ async function applyTeamAccountClick() {
               .van-dropdown-item__content {
                 background: var(--g-white);
 
-
                 .van-dropdown-item__option {
                   background: var(--g-white);
-
 
                   &::after {
                     border-color: #c5c5c5;
@@ -545,10 +370,12 @@ async function applyTeamAccountClick() {
       }
 
       .v-my-team-member-list-list-one-head {
-        background: var(--g-main_color);
-        height: 36px;
+        // background: var(--g-main_color);
+        background: #0a96fe;
+        height: 26px;
         margin: 0 10px;
         border-radius: 4px;
+
         .v-my-team-member-list-list-one-head-item {
           flex: 1;
           flex-shrink: 0;
@@ -562,13 +389,16 @@ async function applyTeamAccountClick() {
         padding: 10px;
         height: 400px;
         overflow: auto;
+
         .v-list {
           .v-list-item {
             height: 36px;
+
             .v-list-item-content {
               height: 100%;
               padding: 10px 0;
               border-bottom: 1px solid #dbdada;
+
               .v-list-item-content-val {
                 flex: 1;
                 flex-shrink: 0;
@@ -581,4 +411,5 @@ async function applyTeamAccountClick() {
       }
     }
   }
-}</style>
+}
+</style>

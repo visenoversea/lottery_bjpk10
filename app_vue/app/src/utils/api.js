@@ -331,6 +331,9 @@ export const apiGetTuiGuangList = (params) => apiPostData('/home/userRebate/getU
 // 获取推广佣金详情列表
 export const apiGetTuiGuangDetailList = (params) => apiPostData('/home/userRebate/getList', params)
 
+// 获取团队投注流水和返佣
+export const apiGetTeamBetInfo = (params) => apiPostData('/home/userRebate/getTeamBetInfo', params)
+
 // 钱包登录
 export const apiWalletLogin = (params) => apiPostData('/main/user/walletLogin', params)
 

@@ -22,6 +22,8 @@ const router = createRouter({
         { path: '/mycenter', name: 'mycenter', component: () => import(/* webpackChunkName: "main" */'@/views/mycenter/MyCenter.vue'), meta: { index: 0, name: '我的' } },
       ]
     },
+    // 团队成员列表
+    { path: '/myteammemberlist', name: 'myteammemberlist', component: () => import('@/views/myteammemberlist/MyTeamMemberList.vue'), meta: { index: 50, name: '团队成员列表' } },
      // 下单
      { path: '/chip', name: 'chip', component: () => import(/* webpackChunkName: "main" */'@/views/chip/Chip.vue'), meta: { index: 40, name: '下注' } },
      //历史开奖
