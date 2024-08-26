@@ -6,9 +6,11 @@
 namespace home\controller;
 
 use asura\Common;
+use asura\Illuminate\DB;
 use home\classes\base;
 use model\config_model;
 use model\level_model;
+use model\user_bet_model;
 use model\user_model;
 use model\user_rebate_model;
 
@@ -205,6 +207,58 @@ class userRebate extends base
         }
         $todayAmount = $user_rebate_model->getSumAmount($user['id'], $timeWhere);
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'list' => $list, 'todayAmount' => $todayAmount]);
+    }
+
+    //获取团队投注流水和返佣
+    public function getTeamBetInfo($layer = 1, $page = 1, $limit = 20)
+    {
+        //返回   用户名、等级信息、返佣金额、返佣总金额、投注流水、投注总流水
+        //筛选条件： 团队层级
+        $user = $this->GlobalService->getUser();
+        $user_model = user_model::getInstance();
+        $where = [
+            'pid' => ['LIKE' => $user['pid'] . $user['id'] . '%'],
+            'layer' => $user['layer']+$layer,
+            'type' => ['<' => 10],
+            'status' => ['>=' => 0]
+        ];
+        $where['balance'] = ['>' => 0];
+
+        $list = $user_model->field('id,level_id,user_name,email,layer,create_time')
+            ->where($where)
+            ->order('create_time DESC')
+            ->limit($limit, $page)->select();;
+        $level_model = level_model::getInstance();
+        $user_rebate_model = user_rebate_model::getInstance();
+        $data=[
+            'totalBet'=>0,//投注总流水
+            'totalRebate'=>0,//返佣总金额
+            'list'=>[]
+        ];
+        if(!array($list)){
+            $this->GlobalService->json(['code' => 1, 'msg' => '暂无数据', 'data' => $data]);
+        }
+        foreach ($list as $k => $v) {
+            if (!empty($v['user_name'])) {
+                //加密
+                $v['account'] = substr($v['user_name'], 0, 3) . '***' . substr($v['user_name'], -2);
+            } else {
+                $v['account'] = substr($v['email'], 0, 3) . '***' . strrchr($v['email'], '@');
+            }
+            $v['level'] = $level_model->getData($v['level_id'],[],'id,title');
+            unset($v['user_name']);
+            unset($v['email']);
+            $v['rebateAmountSum'] = $user_rebate_model->getRebateAmount($user['id'], $v['id']);//返佣
+            $betAmount = DB::table('user_bet')->where(
+                          ['user_id'=>$v['id']]
+                           )->sum('bet_amount_mop');
+            $v['betAmountSum'] = $betAmount ? Common::formatAmount($betAmount,2) : "0.00";
+            $list[$k] = $v;
+            $data['totalBet']+=$v['rebateAmountSum'];
+            $data['totalRebate']+=$v['betAmountSum'];
+        }
+        $data['list']=$list;
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
     }
 
 
