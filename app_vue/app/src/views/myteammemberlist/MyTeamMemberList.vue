@@ -5,23 +5,33 @@
         <i class="iconfont icon-zuo"></i>
       </div>
     </div>
-    <div class="gltitlexs">{{ i18n.chakanliushuixiangqing }}</div>
+    <div class="gltitlexs">{{ i18n.chakanliushuixiangqing4 }}</div>
     <div class="v-my-team-member-list-container">
       <div class="v-my-team-member-list-list-one">
-        <div class="v-my-team-member-list-list-one-title g-flex g-flex-column">
-          <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
-            <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongtouzhujine }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalBet }}</span>
+        <div class="v-my-team-member-list-list-one-title g-flex">
+          <div class="v-my-team-member-list-list-one-title-left g-flex g-flex-column">
+            <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
+              <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongtouzhujine }}:</span>
+              <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalBet }}</span>
+            </div>
+            <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
+              <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongfanyongjine }}:</span>
+              <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalRebate }}</span>
+            </div>
           </div>
-          <div class="v-my-team-member-list-list-one-title-left g-flex-align-center">
-            <span class="v-my-team-member-list-list-one-title-left-title">{{ i18n.zongfanyongjine }}:</span>
-            <span class="v-my-team-member-list-list-one-title-left-val">{{ list.totalRebate }}</span>
+          <div class="v-my-team-member-list-list-one-title-right">
+            <van-dropdown-menu>
+              <van-dropdown-item @change="layerChange" v-model="form.layer" :options="option1" />
+            </van-dropdown-menu>
           </div>
         </div>
 
-        <div class="v-my-team-member-list-list-one-head g-flex-align-center">
+        <div class="v-my-team-member-list-list-one-head g-flex g-flex-align-center">
           <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
             <span>{{ i18n.zhanghaoText }}</span>
+          </div>
+          <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
+            <span>{{ i18n.levelText }}</span>
           </div>
           <div class="v-my-team-member-list-list-one-head-item g-flex-align-center g-flex-justify-center">
             <span>{{ i18n.touzhujine }}</span>
@@ -32,12 +42,15 @@
         </div>
 
         <div class="v-list-box">
-          <van-list class="v-list" v-model:loading="loading" :finished="finished"
-            :loading-text="i18n2.loadingText" :finished-text="i18n2.finishText" @load="onLoad" :immediate-check="false">
+          <van-list class="v-list" v-model:loading="loading" :finished="finished" :loading-text="i18n2.loadingText"
+            :finished-text="i18n2.finishText" @load="onLoad" :immediate-check="false">
             <div class="v-list-item" v-for="(item, index) in list.list" :key="index">
               <div class="v-list-item-content g-flex-align-center">
                 <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
                   <span>{{ item.account }}</span>
+                </div>
+                <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
+                  <span>{{ item.level.title }}</span>
                 </div>
                 <div class="v-list-item-content-val g-flex-align-center g-flex-justify-center">
                   <span>{{ item.betAmountSum }}</span>
@@ -49,7 +62,7 @@
             </div>
           </van-list>
         </div>
-      <NoList v-show="!list.list.length" />
+        <NoList v-show="!list.list.length" />
       </div>
     </div>
   </div>
@@ -85,6 +98,8 @@ const loading = ref(false);
 const finished = ref(false);
 
 const form = reactive({
+  type: 1,
+  day: 1,
   layer: 1,
   page: 1,
   limit: 30,
@@ -92,36 +107,55 @@ const form = reactive({
 
 const list = reactive({
   list: [],
-  totalBet:"",
-  totalRebate:"",
+  totalBet: "",
+  totalRebate: "",
 });
 
+onMounted(() => {
+  onLoad()
+  apiGetUserInfoHandel();
+})
+
 const onLoad = () => {
-  form.page++;
   init();
 }
-onLoad()
 
 // 获取团队投注流水和返佣
-async function init() {
+const init = async () => {
   store.loadingShow = true;
   const { success, data } = await apiGetTeamBetInfo(form);
   if (!success) return;
   list.list = list.list.concat(data.data.list);
   list.totalBet = data.data.totalBet || 0
   list.totalRebate = data.data.totalRebate || 0
+  form.page++
   loading.value = false;
   finished.value = data.data.list.length ? false : true;
 }
 
-async function apiGetUserInfoHandel() {
+const apiGetUserInfoHandel = async () => {
   store.loadingShow = true;
   const { success, data } = await apiGetUserInfo();
   if (!success) return;
   store.setUserInfo(data.info);
 }
 
-apiGetUserInfoHandel();
+const layerChange = () => {
+  form.page = 1;
+  list.list = [];
+  list.totalBet = '';
+  list.totalRebate = '';
+  loading.value = true;
+  finished.value = false;
+  init();
+}
+
+const option1 = reactive([
+  { text: i18n.value.yicengText, value: 1 },
+  { text: i18n.value.ercengText2, value: 2 },
+  { text: i18n.value.sancengText, value: 3 },
+]);
+
 </script>
 
 <style lang='scss'>
@@ -382,6 +416,12 @@ apiGetUserInfoHandel();
           height: 100%;
           font-size: 13px;
           color: var(--g-white);
+
+          >span {
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
 
