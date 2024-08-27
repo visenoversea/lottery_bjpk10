@@ -71,7 +71,7 @@
           </div>
           <div @click="$router.push({ name: 'myteammemberlist' })"
             class="v-my-team-card-one-bottom-right g-flex-align-center">
-            <span class="v-my-team-card-one-bottom-right-val">{{ i18n.chakanliushuixiangqing2}}</span>
+            <span class="v-my-team-card-one-bottom-right-val">{{ i18n.chakanliushuixiangqing3}}</span>
           </div>
         </div>
       </div>
