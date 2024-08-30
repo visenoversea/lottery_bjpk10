@@ -11,6 +11,7 @@ use model\lottery_data_model;
 use model\lottery_group_model;
 use model\lottery_model;
 use model\lottery_room_model;
+use asura\Request;
 
 class lottery extends base
 {
@@ -129,7 +130,10 @@ class lottery extends base
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'lottery' => $lottery, 'lotteryDataList' => $lotteryDataList, 'nowTime' => SYS_TIME]);
     }
 
-    public function getHistory($id = 0,$page=1,$limit=15){
+    public function getHistory($id = 0,$page=0,$limit=0){
+        $id = $id ? $id : Request::get('id') ?? 0  ;
+        $page = $page ? $page : Request::get('page') ?? 1;
+        $limit = $limit ? $limit : Request::get('limit') ?? 20;
         $lottery_model = lottery_model::getInstance();
         $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
         if (!$lottery) {
