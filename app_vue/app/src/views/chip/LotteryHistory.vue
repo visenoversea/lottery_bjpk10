@@ -449,7 +449,7 @@ onMounted(() => {
       height: 40px;
     }
     .tab {
-      width: 80%;
+      width: 90%;
       height: 36px;
       margin: 0 auto;
       border-color: #fff #fff transparent #fff;
@@ -459,8 +459,10 @@ onMounted(() => {
         border-radius: 8px;
         background: grey;
         text-align: center;
+        font-size: 14px;
         &.active {
           background: var(--g-black);
+          font-size: 16px;
         }
       }
     }
