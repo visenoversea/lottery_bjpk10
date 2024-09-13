@@ -176,7 +176,7 @@ class lottery extends base
             ->order('open_time DESC')
             ->limit($limit,$page)
             ->select();
-        var_dump($lotteryDataList);exit;
+        //var_dump($lotteryDataList);exit;
         ///下一期号
         $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
         $res = call_user_func('\\service\\lottery\\' . $lottery['class_name'] . '::getNextExpect', $lottery);
@@ -199,9 +199,9 @@ class lottery extends base
         $data['drawIssue']=$lottery['next']['open_expect'];
         $data['drawTime']=$lottery['next']['open_time'];
         $data['preDrawCode']=$lotteryDataList['open_code'];
-        $data['preDrawDate']=$lotteryDataList['open_time'];
+        $data['preDrawDate']=date('Y-m-d',$lotteryDataList['open_time']);
         $data['preDrawIssue']=$lotteryDataList['open_expect'];
-        $data['preDrawTime']=$lotteryDataList['open_time'];
+        $data['preDrawTime']=date('Y-m-d H:i:s',$lotteryDataList['open_time']);
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
     }
 }
