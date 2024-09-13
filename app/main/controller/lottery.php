@@ -195,13 +195,16 @@ class lottery extends base
         //preDrawIssue：当期期号(示例:20240910100)
         //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
         $data['totalCount']=288;
-        $data['drawCount']=intval($lotteryDataList['open_expect']);
+        $data['drawCount']=$lotteryDataList[0]['open_expect'];
         $data['drawIssue']=$lottery['next']['open_expect'];
         $data['drawTime']=$lottery['next']['open_time'];
-        $data['preDrawCode']=$lotteryDataList['open_code'];
+        $data['preDrawCode']=$lotteryDataList[0]['open_code'];
         $data['preDrawDate']=date('Y-m-d',$lotteryDataList['open_time']);
-        $data['preDrawIssue']=$lotteryDataList['open_expect'];
-        $data['preDrawTime']=date('Y-m-d H:i:s',$lotteryDataList['open_time']);
+        $data['preDrawIssue']=$lotteryDataList[0]['open_expect'];
+        $data['preDrawTime']=date('Y-m-d H:i:s',$lotteryDataList[0]['open_time']);
+
+
+
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
     }
 }
