@@ -176,6 +176,7 @@ class lottery extends base
             ->order('open_time DESC')
             ->limit($limit,$page)
             ->select();
+        var_dump($lotteryDataList);exit;
         ///下一期号
         $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
         $res = call_user_func('\\service\\lottery\\' . $lottery['class_name'] . '::getNextExpect', $lottery);
