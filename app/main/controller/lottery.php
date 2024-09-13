@@ -195,6 +195,7 @@ class lottery extends base
         //preDrawIssue：当期期号(示例:20240910100)
         //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
         $data['totalCount']=288;
+        $data['kaishi']=intval(date('Ymd',$lotteryDataList[0]['open_time'].'000'));
         $data['drawCount']= $lotteryDataList[0]['open_expect']-intval(date('Ymd',$lotteryDataList[0]['open_time'].'000'));
         $data['drawIssue']=$lottery['next']['open_expect'];
         $data['drawTime']=date('Y-m-d H:i:s',$lottery['next']['open_time']);
