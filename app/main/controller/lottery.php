@@ -150,4 +150,58 @@ class lottery extends base
         $total = $lottery_data_model->where(['lottery_id' => $lottery['id'], 'status' => 1])->count();
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'lottery' => $lottery, 'lotteryDataList' => $lotteryDataList, 'total' => $total]);
     }
+    ///kkk
+    /// totalCount：当日全部总期数（数字,示例180）
+    //drawCount：当日已开期数（数字,示例：80）
+    //drawIssue：下一期期号(示例:20240910101)
+    //drawTime: 下一期开奖时间(示例:2024-09-10 21:29:00)
+    //preDrawCode：当期开奖号码(01,05,10,04,08,03,09,02,06,07)
+    //preDrawDate：当期开奖日期（示例:2024-09-10）
+    //preDrawIssue：当期期号(示例:20240910100)
+    //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
+    public function getbjinfo($id = 4,$page=0,$limit=1){
+        $id = $id ? $id : Request::get('id') ?? 4  ;
+        $page = $page ? $page : Request::get('page') ?? 1;
+        $limit = $limit ? $limit : Request::get('limit') ?? 1;
+        $lottery_model = lottery_model::getInstance();
+        $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
+        if (!$lottery) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '彩种不存在']);
+        }
+        
+        $lottery['name'] = $this->GlobalService->translate($lottery['name']);
+        $lottery_data_model = lottery_data_model::getInstance();
+        $lotteryDataList = $lottery_data_model
+            ->where(['lottery_id' => $lottery['id'], 'open_time' => ['<' => SYS_TIME], 'status' => 1])
+            ->whereRaw("open_code != '' ")
+            ->order('open_time DESC')
+            ->limit($limit,$page)
+            ->select();
+        ///下一期号
+        $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
+        $res = call_user_func('\\service\\lottery\\' . $lottery['class_name'] . '::getNextExpect', $lottery);
+        if ($res['code'] == 1) {
+            $lottery['next'] = $res['next'];
+        } else {
+            $lottery['next'] = (object)[];
+        }
+        $data=[];
+        /// totalCount：当日全部总期数（数字,示例180）
+        //drawCount：当日已开期数（数字,示例：80）
+        //drawIssue：下一期期号(示例:20240910101)
+        //drawTime: 下一期开奖时间(示例:2024-09-10 21:29:00)
+        //preDrawCode：当期开奖号码(01,05,10,04,08,03,09,02,06,07)
+        //preDrawDate：当期开奖日期（示例:2024-09-10）
+        //preDrawIssue：当期期号(示例:20240910100)
+        //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
+        $data['totalCount']=288;
+        $data['drawCount']=intval($lotteryDataList['open_expect']);
+        $data['drawIssue']=$lottery['next']['open_expect'];
+        $data['drawTime']=$lottery['next']['open_time'];
+        $data['preDrawCode']=$lotteryDataList['open_code'];
+        $data['preDrawDate']=$lotteryDataList['open_time'];
+        $data['preDrawIssue']=$lotteryDataList['open_expect'];
+        $data['preDrawTime']=$lotteryDataList['open_time'];
+        $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
+    }
 }
