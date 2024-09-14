@@ -12,7 +12,7 @@
           class="v-chip-head-top-title g-flex-align-center g-flex-justify-center"
         >
           <span> {{ roomObj.obj.lottery.name }} {{ roomObj.obj.name }} </span>
-        </div> 
+        </div>
         <div class="head-icon g-flex-align-center">
           <van-icon
             @click="apiGetChipListHandel()"
@@ -37,19 +37,22 @@
             <i class="iconfont icon-you"></i>
           </div>
         </div>
-        <div class="bet-info g-flex">
-          <div class="bet-info-item">
-            <label>{{ i18n.balance }}</label>
-            <p>{{ betsInfo.balance }}</p>
-          </div>
-          <div class="bet-info-item">
-            <label>{{ i18n.betAmount }}</label>
-            <p>{{ betsInfo.betAmount }}</p>
-          </div>
-          <div class="bet-info-item">
-            <label>{{ i18n.todayWin }}</label>
-            <p>{{ betsInfo.todayWin }}</p>
-          </div>
+        <div class="lottery-select lottery-video g-flex" @click="openVideo">
+          <div class="label g-flex-align-center">{{ i18n.lotteryVideo }}</div>
+        </div>
+      </div>
+      <div class="bet-info g-flex">
+        <div class="bet-info-item">
+          <label>{{ i18n.balance }}</label>
+          <p>{{ betsInfo.balance }}</p>
+        </div>
+        <div class="bet-info-item">
+          <label>{{ i18n.todayWin }}</label>
+          <p>{{ betsInfo.todayWin }}</p>
+        </div>
+        <div class="bet-info-item">
+          <label>{{ i18n.betAmount }}</label>
+          <p>{{ betsInfo.betAmount }}</p>
         </div>
       </div>
       <div class="v-chip-info">
@@ -75,7 +78,9 @@
           "
         >
           <img src="/img/chip/bell.png" alt="" />
-          <div class="period">{{ prevObj.open_expect }}&nbsp;{{ i18n.expect }}</div>
+          <div class="period">
+            {{ prevObj.open_expect }}&nbsp;{{ i18n.expect }}
+          </div>
           <div
             class="number g-flex-align-center g-flex-justify-center"
             :class="`number${prevObj.open_code.split(',')[0]}`"
@@ -576,6 +581,9 @@ const getBetInfo = async (expect) => {
   if (!success) return;
   betsInfo.value = data.info;
 };
+const openVideo = () => {
+  window.open('https://xashop.epepe.cn/lottery/')
+}
 onUnmounted(() => {
   clearInterval(timer.value);
   wsLeaveGroupHandel();
@@ -646,16 +654,18 @@ onUnmounted(() => {
           background: rgb(197, 94, 71);
         }
       }
-      .bet-info {
+    }
+
+    .bet-info {
+      width: 100%;
+      .bet-info-item {
         flex: 1;
-        .bet-info-item {
-          flex: 1;
-          text-align: center;
-          font-size: 12px;
-          padding-top: 3px;
-          p {
-            margin-top: 3px;
-          }
+        text-align: center;
+        font-size: 12px;
+        padding-top: 3px;
+        p {
+          margin-top: 3px;
+          font-weight: 600;
         }
       }
     }

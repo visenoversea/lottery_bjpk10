@@ -5,7 +5,7 @@ import postcsspxtoviewport8plugin from 'postcss-px-to-viewport-8-plugin'
 // const url = 'https://dc-dev.sv56.com/'
 // const url = 'https://app.wetify.net/'  //第二套
 
-const url = 'https://www.venetiannailspaco.com/'
+const url = 'https://venetiannailspaco.com/'
  
 export default defineConfig({
   base: './', //开发或生产环境服务的公共基础路径 index.html 引用css js的方式
