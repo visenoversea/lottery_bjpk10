@@ -159,7 +159,12 @@ class lottery extends base
     //preDrawDate：当期开奖日期（示例:2024-09-10）
     //preDrawIssue：当期期号(示例:20240910100)
     //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
-    public function getbjinfo($id = 4,$page=0,$limit=1){
+    public function getbjinfo($id = 4,$page=0,$limit=1,$issue=""){
+		
+		$issue = $issue ? $issue : Request::get('issue') ?? "";
+		
+
+		
         $id = $id ? $id : Request::get('id') ?? 4  ;
         $page = $page ? $page : Request::get('page') ?? 1;
         $limit = $limit ? $limit : Request::get('limit') ?? 1;
@@ -170,12 +175,25 @@ class lottery extends base
         }
         $lottery['name'] = $this->GlobalService->translate($lottery['name']);
         $lottery_data_model = lottery_data_model::getInstance();
+		if(!empty($issue)){
+		sleep(15);
+		$where = "open_expect='".$issue."'";
+		$lotteryDataList = $lottery_data_model
+		 ->where(['lottery_id' => $lottery['id'],'status' => 1])
+		 ->whereRaw($where)
+
+		 ->order('open_time DESC')
+         ->limit($limit,$page)
+		 ->select();
+		
+		}else{
         $lotteryDataList = $lottery_data_model
             ->where(['lottery_id' => $lottery['id'], 'open_time' => ['<' => SYS_TIME], 'status' => 1])
             ->whereRaw("open_code != '' ")
             ->order('open_time DESC')
             ->limit($limit,$page)
             ->select();
+		}
         //var_dump($lotteryDataList);exit;
         ///下一期号
         $lottery = $lottery_model->where(['id' => intval($id)])->getOne();
@@ -186,24 +204,61 @@ class lottery extends base
             $lottery['next'] = (object)[];
         }
         $data=[];
-        /// totalCount：当日全部总期数（数字,示例180）
-        //drawCount：当日已开期数（数字,示例：80）
-        //drawIssue：下一期期号(示例:20240910101)
-        //drawTime: 下一期开奖时间(示例:2024-09-10 21:29:00)
-        //preDrawCode：当期开奖号码(01,05,10,04,08,03,09,02,06,07)
-        //preDrawDate：当期开奖日期（示例:2024-09-10）
-        //preDrawIssue：当期期号(示例:20240910100)
-        //preDrawTime：当期开奖时间（示例:2024-09-10 21:24:00）
+        
         $data['totalCount']=288;
         $data['kaishi']=strval(date('Ymd',$lotteryDataList[0]['open_time'])).'000';
         $data['dangqian']=$lotteryDataList[0]['open_expect'];
         $data['drawCount']= intval($data['dangqian'])-intval($data['kaishi']);
         $data['drawIssue']=$lottery['next']['open_expect'];
-        $data['drawTime']=date('Y-m-d H:i:s',$lottery['next']['open_time']);
+		$data['drawTime']=date('Y-m-d H:i:s',$lottery['next']['open_time']);
+		
         $data['preDrawCode']=$lotteryDataList[0]['open_code'];
         $data['preDrawDate']=date('Y-m-d',$lotteryDataList[0]['open_time']);
         $data['preDrawIssue']=$lotteryDataList[0]['open_expect'];
         $data['preDrawTime']=date('Y-m-d H:i:s',$lotteryDataList[0]['open_time']);
+		$data['serverTime']=date('Y-m-d H:i:s',time());
+
+		//开奖号码拆分
+		
+		$data['firstNum'] = 1;
+		$data['firstDT'] = 0;
+		
+		
+		$data['secondNum'] = 1;
+		$data['secondDT'] = 1;
+		
+		$data['thirdNum'] = 1;
+		$data['thirdDT'] = 1;
+		
+		$data['fourthNum'] = 1;
+		$data['fourthDT'] = 1;
+		
+		$data['fifthNum'] = 1;
+		$data['fifthDT'] = 1;
+		
+		$data['sixthNum'] = 1;
+		
+		$data['seventhNum'] = 1;
+		$data['eighthNum'] = 1;
+		$data['ninthNum'] = 1;
+		$data['tenthNum'] = 1;
+		
+		
+		
+		$data['category'] ="";
+		$data['frequency'] ="";
+		$data['groupCode'] =1;
+		$data['hot'] =0;
+		$data['iconUrl'] ="";
+		$data['index'] =100;
+		$data['lotCode'] =10057;
+		$data['lotName'] ="幸运飞艇";
+		$data['lotteryStatus'] =0;
+		$data['shelves'] =0;
+		$data['sumBigSamll'] =0;
+		$data['sumFS'] =12;
+		$data['sumSingleDouble'] =1;
+
         $this->GlobalService->json(['code' => 1, 'msg' => '成功', 'data' => $data]);
     }
 }

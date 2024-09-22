@@ -28,7 +28,11 @@ class demo extends base
 {
 
     public function test(){
+<<<<<<< Updated upstream
         echo 456456;exit;
+=======
+        echo 123123;exit;
+>>>>>>> Stashed changes
         WorkerService::test();exit;
         DB::table('user')->orderBy('id','asc')->chunk(100, function ($records) {
 
