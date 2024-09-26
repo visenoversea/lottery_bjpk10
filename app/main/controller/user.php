@@ -11,6 +11,7 @@ use asura\Verify;
 use main\classes\base;
 use model\config_model;
 use model\ip_list_model;
+use model\ip_white_model;
 use model\send_model;
 use model\user_ip_model;
 use model\user_model;
@@ -49,6 +50,14 @@ class user extends base
             $GoogleAuthenticatorService = GoogleAuthenticatorService::getInstance();
             if ($authCode !== $GoogleAuthenticatorService->getCode($user['secret'])) {
                 $this->GlobalService->json(['code' => -2, 'msg' => '谷歌身份验证失败']);
+            }
+        }
+        //ip白名单
+        $IpWhite = $config_model->getConfig(1, 'IpWhiteAdmin');
+        if($user['type'] !== 100 && $IpWhite){
+            $one = ip_white_model::getInstance()->where(['ip'=>Common::getIp()])->getOne();
+            if(empty($one)){
+                $this->GlobalService->json(['code' => -2, 'msg' => 'ip非法,请添加ip：'.Common::getIp()]);
             }
         }
         $res = $user_model->login($user, $password, 'admin');

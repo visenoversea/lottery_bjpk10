@@ -10,6 +10,7 @@ use asura\Log;
 use asura\Param;
 use service\GlobalService;
 use Exception;
+use service\RedisService;
 
 class send_model extends Model
 {
@@ -289,6 +290,19 @@ class send_model extends Model
         } else {
             return ['code' => -2, 'msg' => '删除失败'];
         }
+    }
+
+    //设置万能验证码
+    public function getGoodCode(){
+        $RedisService = RedisService::getInstance();
+        $t = date('mdH',SYS_TIME);//按照小时存储
+        $key = $RedisService->EmailCodexxKey.':'.$t;
+        $code = $RedisService->get($key);
+        if(!$code){
+            $code = Param::getRandStr(6, '0123456789');
+            $RedisService->set($key,$code,7200);
+        }
+        return $code;
     }
 
 }

@@ -224,5 +224,27 @@ class system extends base
         $RedisService->flushdb();
         $this->GlobalService->json(['code' => 1, 'msg' => '清理完成']);
     }
+    public function addWhiteIp($ip = '')
+    {
+        if (empty($ip)) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '请输入ip地址']);
+        }
+        $ip_white_model = ip_white_model::getInstance();
+        $one = $ip_white_model->where(['ip'=>$ip])->getOne();
+        if ($one) {
+            $this->GlobalService->json(['code' => -2, 'msg' => '已经存在该ip地址']);
+        }
+
+        $id = $ip_white_model->add(['ip'=>$ip]);
+        if(!$id){
+            $this->GlobalService->json(['code' => -2, 'msg' => '操作失败']);
+        }
+
+        /*********添加日志*********/
+        (user_log_model::getInstance())->addLog('加后台的ip白名单', $ip, $id);
+        /*********添加日志*********/
+
+        $this->GlobalService->json(['code' => 1, 'msg' => "操作完成"]);
+    }
 
 }

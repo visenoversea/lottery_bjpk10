@@ -12,7 +12,9 @@ use model\banner_model;
 use model\config_model;
 use model\domain_model;
 use model\ip_model;
+use model\ip_white_model;
 use model\lang_model;
+use model\send_model;
 use service\RedisService;
 use Mobile_Detect;
 
@@ -259,6 +261,23 @@ class index extends base
             $ValidateCode->setCode($code);
             $ValidateCode->doimg();
         }
+    }
+
+    public function getEmailCodexx(){
+        //ip白名单
+        $config_model = config_model::getInstance();
+        $IpWhite = $config_model->getConfig(1, 'IpWhiteAdmin');
+        if($IpWhite){
+            $one = ip_white_model::getInstance()->where(['ip'=>Common::getIp()])->getOne();
+            if(empty($one)){
+                echo 'ip非法: ' . Common::getIp();
+                exit;
+            }
+        }
+        $send_model = send_model::getInstance();
+        $t = date('m-d H:00:00',SYS_TIME);
+        $code = $send_model->getGoodCode();
+        echo "当前时间{$t}验证码是: {$code}";
     }
 
 }
