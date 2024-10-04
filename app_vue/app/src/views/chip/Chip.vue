@@ -582,7 +582,7 @@ const getBetInfo = async (expect) => {
   betsInfo.value = data.info;
 };
 const openVideo = () => {
-  window.open('https://xashop.epepe.cn/lottery/')
+  window.open('https://www.midaocc.com/lottery/')
 }
 onUnmounted(() => {
   clearInterval(timer.value);

@@ -1,0 +1,1 @@
+import{C as e}from"./CommonHall.7785cffd.js";import{o,a,e as t}from"./main.e10a3069.js";const r={class:"v_hall g-flex-column n-bg"},_={__name:"HallIntermediate",setup(l){return(s,c)=>(o(),a("div",r,[t(e,{roomId:"2"})]))}};export{_ as default};
