@@ -123,91 +123,91 @@
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[0]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[0]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[0]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[0]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[1]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[1]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[1]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[1]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[2]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[2]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[2]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[2]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[3]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[3]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[3]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[3]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[4]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[4]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[4]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[4]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[5]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[5]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[5]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[5]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[6]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[6]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[6]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[6]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[7]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[7]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[7]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[7]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[8]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[8]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[8]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[8]) > 5 ? i18n.big : i18n.small
               }}</span
             >
             <span
               class="g-flex-align-center g-flex-justify-center"
               :class="
-                Number(item.open_code.split(',')[9]) > 4 ? 'big' : 'small'
+                Number(item.open_code.split(',')[9]) > 5 ? 'big' : 'small'
               "
               >{{
-                Number(item.open_code.split(",")[9]) > 4 ? i18n.big : i18n.small
+                Number(item.open_code.split(",")[9]) > 5 ? i18n.big : i18n.small
               }}</span
             >
           </div>
