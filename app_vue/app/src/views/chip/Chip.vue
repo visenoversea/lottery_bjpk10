@@ -582,7 +582,7 @@ const getBetInfo = async (expect) => {
   betsInfo.value = data.info;
 };
 const openVideo = () => {
-  window.open('https://www.midaocc.com/lottery/')
+  store.system.SGLotteryVideo && window.open(store.system.SGLotteryVideo)
 }
 onUnmounted(() => {
   clearInterval(timer.value);
